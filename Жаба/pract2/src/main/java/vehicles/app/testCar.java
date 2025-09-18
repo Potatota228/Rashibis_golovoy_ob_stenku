@@ -2,7 +2,7 @@ package vehicles.app;
 import vehicles.Vehicle;
 import vehicles.Car;
 import vehicles.ElectricCar;
-public class testCar{
+public class TestCar{
     public static void main(String[] args) {
         Vehicle car = new Car("Toyota Camry", "ABC123", "Red", 2020, 
                              "John Doe", 12345, "Gasoline");
