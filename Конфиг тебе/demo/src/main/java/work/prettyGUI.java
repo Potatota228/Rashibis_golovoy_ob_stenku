@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import work.Environment;
 
 public class prettyGUI {
     private JFrame frame;
@@ -19,7 +18,9 @@ public class prettyGUI {
     private JTextField inputField;
     private CommandProcessor processor;
     String result;
-    public void CreateGUI() {
+    int noUN;
+    public void CreateGUI(int noUN) {
+        this.noUN= noUN;
         processor = new CommandProcessor();
         frame = new JFrame("MAJESTIC_12 // TERMINAL v1.7 // SECURITY CLEARANCE: DELTA");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Убивает приложение когда мы его закрываем
@@ -43,23 +44,38 @@ public class prettyGUI {
         frame.add(panel);
         frame.setSize(800, 600);
         frame.setVisible(true);
-    }
-    public void textInput(String input, int code ){
-        if (input.equals("C42") && code == 1){
+        inputField.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) { //Если нажали на enter
                 String inputText = inputField.getText(); // Получаем введенный текст
                 appendText("> " + inputText); // Выводим в текстовую область
-                Environment env = new Environment();
-                appendText("");
+                if (noUN==0){
+                    inputText = "name " + inputText;
+                    result = processor.process(inputText);
+                    setnoUN(1);
                 }
-        }
-        if (input.isEmpty() || input.equals(null)){
+                else {
+                    result = processor.process(inputText);
+                }
+                if (result != null && !result.isEmpty()) {
+                    // Разбиваем на строки и добавляем по-строчно, чтобы скролл корректно работал
+                    String[] lines = result.split("\\n");
+                    for (String line : lines) {
+                        appendText(line);
+                    }
+                }
 
-        }
+                inputField.setText(""); // Очищаем поле ввода
+            }
+        });
+    }
+    public void setnoUN(int noUN){
+    this.noUN = noUN;
     }
     public void appendText(String text) { //Добавить потом медленный вывод для красоты?
         textArea.append(text + "\n");
     }
+
 }
 
 

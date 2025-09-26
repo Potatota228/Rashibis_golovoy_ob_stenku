@@ -8,7 +8,7 @@ public class CommandProcessor {
         LsCommand ls = new LsCommand();
         CdCommand cd = new CdCommand();
         ExitCommand exit = new ExitCommand();
-        
+        Environment env = new Environment();
         if (input == null || input.trim().isEmpty()) {
             return "ERROR";
         }
@@ -45,9 +45,16 @@ public class CommandProcessor {
                 return "ERROR: cd command requires an argument";
             }
         }
+        if (command.equals("name")) {
+            if (parts.length > 1) {
+                return env.setUN(parts[1]);
+            }
+            }
+            
         if (command.equals("exit")) {
             exit.exitProgram();
             return "Exiting...";
+
         }
         
         // Если команда не распознана, но содержит переменные окружения
