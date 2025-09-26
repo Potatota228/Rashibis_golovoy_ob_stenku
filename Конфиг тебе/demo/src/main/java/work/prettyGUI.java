@@ -2,13 +2,16 @@ package work;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import work.CommandProcessor;
-
-import java.awt.event.*;
-import java.util.*;
-import java.util.regex.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import work.Environment;
 
 public class prettyGUI {
     private JFrame frame;
@@ -17,6 +20,7 @@ public class prettyGUI {
     private CommandProcessor processor;
     String result;
     public void CreateGUI() {
+        processor = new CommandProcessor();
         frame = new JFrame("MAJESTIC_12 // TERMINAL v1.7 // SECURITY CLEARANCE: DELTA");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Убивает приложение когда мы его закрываем
         Font monoFont = new Font("Monospaced", Font.PLAIN, 14); //Спавним шрифт
@@ -39,25 +43,20 @@ public class prettyGUI {
         frame.add(panel);
         frame.setSize(800, 600);
         frame.setVisible(true);
-        inputField.addActionListener(new ActionListener() {
-            @Override
+    }
+    public void textInput(String input, int code ){
+        if (input.equals("C42") && code == 1){
             public void actionPerformed(ActionEvent e) { //Если нажали на enter
                 String inputText = inputField.getText(); // Получаем введенный текст
                 appendText("> " + inputText); // Выводим в текстовую область
-                result = processor.process(inputText);
-                if (result != null && !result.isEmpty()) {
-                    // Разбиваем на строки и добавляем по-строчно, чтобы скролл корректно работал
-                    String[] lines = result.split("\\n");
-                    for (String line : lines) {
-                        appendText(line);
-                    }
+                Environment env = new Environment();
+                appendText("");
                 }
+        }
+        if (input.isEmpty() || input.equals(null)){
 
-                inputField.setText(""); // Очищаем поле ввода
-            }
-        });
+        }
     }
-
     public void appendText(String text) { //Добавить потом медленный вывод для красоты?
         textArea.append(text + "\n");
     }

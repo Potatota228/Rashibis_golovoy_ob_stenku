@@ -1,18 +1,12 @@
 package work.com;
-import files.*;
-import verysecret.*;
-import work.*;
-public class CdCommand implements Command{
-    private Environment env;
-public CdCommand(Environment env) {
-        this.env = env;
+public class CdCommand {
+    public CdCommand(){
+        
     }
-    @Override
-    public String execute(String [] args){
-        if (env.curDir.getName() == args[-1]){
-            return ;
+    public String main(String newDir) {
+        if (newDir.equals("1") && !newDir.isEmpty()){
+            return "The Directory is sucsessfully changed to " + newDir;
         }
-        env.curDir.list();
-        return "Sucsess";
+        return "ERROR, Directory " + newDir + "doesn't exist.";
     }
 }

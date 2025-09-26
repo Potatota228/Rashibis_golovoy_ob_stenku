@@ -1,20 +1,20 @@
 package work;
-
-import files.Directory;
-
 public class Environment {
-    public String username;
-    public Directory curDir;
-    public Environment(String username, Directory curDir){
+    private String username;
+    // public Directory curDir;
+    public Environment(String username){
         this.username = username;
-        this.curDir = curDir;
+        // this.curDir = curDir;
     }
-    void setCurDir(Directory curDir){
-        this.curDir=curDir;
-    }
-     public Directory getCurDir() {
-        return curDir;
-    }
+     public static void main(String[] args) {
+
+     }
+    // void setCurDir(Directory curDir){
+    //     this.curDir=curDir;
+    // }
+    //  public Directory getCurDir() {
+    //     return curDir;
+    //}
     void setUN(String username){
         this.username=username;
     }

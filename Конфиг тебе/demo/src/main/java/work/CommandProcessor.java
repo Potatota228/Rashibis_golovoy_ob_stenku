@@ -1,30 +1,60 @@
 package work;
-import work.*;
-import work.com.LsCommand;
 import work.com.CdCommand;
-import verysecret.*;
+import work.com.ExitCommand;
+import work.com.LsCommand;
+
 public class CommandProcessor {
-    private Environment env;
-    public CommandProcessor(Environment env) {
-        this.env = env;
-    }
     public String process(String input) {
-        if (input == null) {
+        LsCommand ls = new LsCommand();
+        CdCommand cd = new CdCommand();
+        ExitCommand exit = new ExitCommand();
+        
+        if (input == null || input.trim().isEmpty()) {
             return "ERROR";
         }
+        
+        // Обрабатываем переменные окружения
         if (input.contains("$HOME")) {
-            input.replace("$HOME", "/home/" + env.getUN());
+           input = input.replace("$HOME", "/home/Username");
         }
         if (input.contains("$USER")) {
-            input.replace("$USER", env.username);
+            input = input.replace("$USER", "Username");
         }
         if (input.contains("$PATH")) {
-            input.replace("$PATH", "/home/" + env.username + "/secretDocs/");
+            input = input.replace("$PATH", "/home/Username/secretDocs/");
         }
         if (input.contains("$SHELL")) {
-            input.replace("$SHELL", "/bin/bash");
+            input = input.replace("$SHELL", "/bin/bash");
         }
 
-        if (input.substring(0,3) == "lc"){
-            lc.execute(input.substring(0,3) == "lc");
-            
+        // Разбираем команды
+        String[] parts = input.trim().split("\\s+");
+        String command = parts[0];
+        
+        if (command.equals("ls")) {
+            if (parts.length > 1) {
+                return ls.main(parts[1]);
+            } else {
+                return "ERROR: ls command requires an argument";
+            }
+        }
+        if (command.equals("cd")) {
+            if (parts.length > 1) {
+                return cd.main(parts[1]);
+            } else {
+                return "ERROR: cd command requires an argument";
+            }
+        }
+        if (command.equals("exit")) {
+            exit.exitProgram();
+            return "Exiting...";
+        }
+        
+        // Если команда не распознана, но содержит переменные окружения
+        if (!command.equals(input.trim())) {
+            return input; // Возвращаем обработанную строку с замененными переменными
+        }
+        
+        return "Command not found: " + command;
+    }
+}
