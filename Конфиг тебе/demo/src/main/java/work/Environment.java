@@ -1,9 +1,24 @@
 package work;
-import work.com.ExitCommand;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 public class Environment {
-    ExitCommand exit = new ExitCommand();
     private String username;
     private String VFS;
+    private List<String> sslist;
+    public boolean ss(String input) {
+        Path filePath = Paths.get(input);
+        try{
+            setSS(Files.readAllLines(filePath));
+            return true;
+        }
+        catch (IOException e){
+            return false;
+        }
+        
+    }
     public String setUN (String name){
         if (!name.equals(null) &&!name.isEmpty()){
             this.username=name;
@@ -20,6 +35,12 @@ public class Environment {
             return true;
         }
         return false;
+    }
+    public void setSS(List<String> sslist){
+        this.sslist = sslist;
+    }
+    public List<String> getSS() {
+        return sslist;
     }
     public String getVFS() {
         return VFS;

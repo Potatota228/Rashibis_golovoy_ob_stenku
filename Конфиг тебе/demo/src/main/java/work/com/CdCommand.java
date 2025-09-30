@@ -7,6 +7,6 @@ public class CdCommand {
         if (newDir.equals("1") && !newDir.isEmpty()){
             return "The Directory is sucsessfully changed to " + newDir;
         }
-        return "ERROR, Directory " + newDir + "doesn't exist.";
+        return "ERROR, Directory " + newDir + " doesn't exist.";
     }
 }

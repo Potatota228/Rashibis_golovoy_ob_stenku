@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.util.List;
 
 public class prettyGUI {
     private JFrame frame;
@@ -18,9 +19,8 @@ public class prettyGUI {
     private JTextField inputField;
     private CommandProcessor processor;
     String result;
-    int noUN;
-    public void CreateGUI(int noUN) {
-        this.noUN= noUN;
+    private boolean UN = false;
+    public void CreateGUI() {
         processor = new CommandProcessor();
         frame = new JFrame("MAJESTIC_12 // TERMINAL v1.7 // SECURITY CLEARANCE: DELTA");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Убивает приложение когда мы его закрываем
@@ -47,31 +47,50 @@ public class prettyGUI {
         inputField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //Если нажали на enter
-                String inputText = inputField.getText(); // Получаем введенный текст
+                processingText();
+                if (result.equals("!")){
+                    scriptExe(processor.getSS());
+                }
+            }
+        });
+        //Сюда пихать скрипт
+    }
+public void scriptExe(List<String> script){
+    appendText("TESTING SCRIPT\n--------------------------------------");
+    inputField.setEnabled(false);
+    for (String line : script){
+        inputField.setText(line);
+        processingText();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        inputField.setEnabled(true);
+        inputField.setText("");
+    }
+    
+    public void processingText(){
+        String inputText = inputField.getText(); // Получаем введенный текст
                 appendText("> " + inputText); // Выводим в текстовую область
-                if (noUN==0){
+                if (!UN){
                     inputText = "name " + inputText;
                     result = processor.process(inputText);
-                    setnoUN(1);
-                }
-                else {
+                    UN = true;
+                } else 
+                {
                     result = processor.process(inputText);
                 }
                 if (result != null && !result.isEmpty()) {
-                    // Разбиваем на строки и добавляем по-строчно, чтобы скролл корректно работал
                     String[] lines = result.split("\\n");
                     for (String line : lines) {
                         appendText(line);
                     }
                 }
-
                 inputField.setText(""); // Очищаем поле ввода
-            }
-        });
     }
-    public void setnoUN(int noUN){
-    this.noUN = noUN;
-    }
+    
     public void appendText(String text) { //Добавить потом медленный вывод для красоты?
         textArea.append(text + "\n");
     }
