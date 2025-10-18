@@ -1,0 +1,9 @@
+@import "style.css";
+main {
+  align-items: center;
+  flex-wrap: wrap;
+}
+main img {
+  width:30%;
+  height: 30%;
+}
