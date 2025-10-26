@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Птицы Москвы и Подмосковья</title>
   <!-- Подключение шрифта Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kablammo&family=Pangolin&display=swap" rel="stylesheet">
-<link href="gallery.css" rel="stylesheet">
-<link href="style_phone.css" rel="stylesheet" media="screen and (max-width: 800px)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kablammo&family=Pangolin&display=swap"
+    rel="stylesheet">
+  <link href="gallery.css" rel="stylesheet">
+  <link href="style_phone.css" rel="stylesheet" media="screen and (max-width: 800px)">
   <!-- Фавиконка -->
   <link rel="icon" type="image/png" href="favicon.png" />
 </head>
@@ -18,13 +21,13 @@
   <!-- Шапка сайта с логотипом и меню -->
   <header>
     <div class="left-elem">
-    <div class="logo">
-      <img src="free-icon-bird-2565924.png" alt="Логотип сайта" />
-    </div>
-    <div class="name">
-      <h1 id="top">Птицы</h1>
-      <p id="top">Москвы и Подмосковья</p>
-    </div>
+      <div class="logo">
+        <img src="free-icon-bird-2565924.png" alt="Логотип сайта" />
+      </div>
+      <div class="name">
+        <h1 id="top">Птицы</h1>
+        <p id="top">Москвы и Подмосковья</p>
+      </div>
     </div>
     <div class="right-elem">
       <a href="#">Домой</a>
@@ -32,40 +35,85 @@
       <a href="#">Справочник</a>
       <a href="#">Галерея</a>
     </div>
-          <div class="menu">
-    <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
-    <label for="burger-checkbox" class="burger"></label>
-    <ul class="menu-list">
-        <li><a href="#" class="menu-item">Домой</a><li>
-        <li><a href="#" class="menu-item">О нас</a><li>
-        <li><a href="#" class="menu-item">Справочник</a><li>
-        <li><a href="#" class="menu-item">Галерея</a><li>
-    </ul>
-      </div>
+    <div class="menu">
+      <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
+      <label for="burger-checkbox" class="burger"></label>
+      <ul class="menu-list">
+        <li><a href="#" class="menu-item">Домой</a>
+        <li>
+        <li><a href="#" class="menu-item">О нас</a>
+        <li>
+        <li><a href="#" class="menu-item">Справочник</a>
+        <li>
+        <li><a href="#" class="menu-item">Галерея</a>
+        <li>
+      </ul>
+    </div>
   </header>
   <main>
-    <img src="0e457739779c331a2695754c6ec1482b.jpg"/>
-    <img src = "143be8d62dcc98f68551c1fa2a497927.jpg"/>
-    <img src = "ab6670850a5940eee98f00264f95783c.jpg"/>
-    <img src = "dda0be19ac60c9f7667ccd03490726be.jpg"/>
+    <section id="bird-cards">
+      <h2>Птицы Подмосковья</h2>
+      <div class="cards-container">
+        <div class="bird-card">
+          <div class="card-content">
+            <h3>Певчие птицы</h3>
+            <p>Погрузитесь в мир разнообразных трелей и мелодий пернатых обитателей подмосковных лесов и парков.</p>
+            <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B5%D0%B2%D1%87%D0%B8%D0%B5_%D0%BF%D1%82%D0%B8%D1%86%D1%8B"
+              target="_blank" class="card-link">Узнать больше</a>
+          </div>
+        </div>
+        <div class="bird-card">
+          <div class="card-content">
+            <h3>Хищные птицы</h3>
+            <p>Откройте для себя величественных пернатых хищников, их повадки и уникальные особенности.</p>
+            <a href="https://ru.wikipedia.org/wiki/%D0%A5%D0%B8%D1%89%D0%BD%D1%8B%D0%B5_%D0%BF%D1%82%D0%B8%D1%86%D1%8B"
+              target="_blank" class="card-link">Узнать больше</a>
+          </div>
+        </div>
+        <div class="bird-card">
+          <div class="card-content">
+            <h3>Перелётные птицы</h3>
+            <p>Исследуйте мир миграций и сезонных путешествий птиц, которые можно наблюдать в Подмосковье.</p>
+            <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BB%D1%91%D1%82%D0%BD%D1%8B%D0%B5_%D0%BF%D1%82%D0%B8%D1%86%D1%8B"
+              target="_blank" class="card-link">Узнать больше</a>
+          </div>
+        </div>
+      </div>
+      <h2>Избранное видео</h2>
+      <div class="video-wrapper">
+        <div class="video-card">
+          <iframe src="https://vkvideo.ru/video_ext.php?oid=-168904547&id=456303513&hd=2&autoplay=1" width="853" height="480" style="background-color: #000" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+          </iframe>
+          <div class="video-caption">
+            <h3>Белая куропатка говорит "AWEBO"</h3>
+            <p>AWEBO AWEBO AWEBO AWEBO</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <img src="0e457739779c331a2695754c6ec1482b.jpg" />
+    <img src="143be8d62dcc98f68551c1fa2a497927.jpg" />
+    <img src="ab6670850a5940eee98f00264f95783c.jpg" />
+    <img src="dda0be19ac60c9f7667ccd03490726be.jpg" />
   </main>
   <!-- Подвал сайта с информацией о разработчике -->
   <footer>
     <h2 id="contacts">📞 Контактная информация</h2>
     <p>&copy; 2025 Маленький найденыш - Помощь птенцам Москвы и Подмосковья</p>
 
-  <!-- Подвал сайта с информацией о разработчике -->
-  <footer>
-    <h2 id="contacts">Контактная информация</h2>
-    <p>&copy; 2025 Маленький найденыш</p>
-    <!-- Информация о разработчике через тег address -->
-    <address>
-      Разработчик: Дзюба Полина<br>
-      <!-- Ссылка на почтовый клиент -->
-      Email: <a href="mailto:burnermail@gmail.com">burnermail@gmail.com</a><br>
-      <!-- Ссылка на номер телефона -->
-      Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
-    </address>
-  </footer>
+    <!-- Подвал сайта с информацией о разработчике -->
+    <footer>
+      <h2 id="contacts">Контактная информация</h2>
+      <p>&copy; 2025 Маленький найденыш</p>
+      <!-- Информация о разработчике через тег address -->
+      <address>
+        Разработчик: Дзюба Полина<br>
+        <!-- Ссылка на почтовый клиент -->
+        Email: <a href="mailto:burnermail@gmail.com">burnermail@gmail.com</a><br>
+        <!-- Ссылка на номер телефона -->
+        Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+      </address>
+    </footer>
 </body>
+
 </html>

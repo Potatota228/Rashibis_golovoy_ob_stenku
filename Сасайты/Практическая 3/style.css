@@ -199,14 +199,15 @@ article {
   left: -64px;
   position: relative;
 }
-.menu {
+.menu-list {
   background: #fff;
   border: 1px solid #c6c6cc;
   border-radius: 8px;
-  height: 222px;
+  height: 500px;
   margin-top: 0px;
   position: relative;
   width: 273px;
+  z-index: 2;
 }
 .container {
   position: absolute;
