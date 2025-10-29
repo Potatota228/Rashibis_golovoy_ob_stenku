@@ -1,0 +1,412 @@
+/* ================================ */
+/* БАЗОВЫЕ СТИЛИ */
+/* ================================ */
+
+body {
+  font-family: "Alumni Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 57;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  background: #f2fde6;
+  color: #06192c;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+/* ================================ */
+/* ТИПОГРАФИКА */
+/* ================================ */
+
+h1, h2, h3 {
+  text-decoration: none;
+  color: #4a6b2f;
+  margin: 0;
+}
+
+p {
+  text-decoration: none;
+  color: #4a6b2f;
+  font-size: 1.1em;
+  margin: 0;
+}
+
+/* Ссылки */
+a {
+  position: static;
+  top: 10px;
+  color: #fdfdfd;
+  font-size: small;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #fdfdfd;
+}
+
+a:visited {
+  color: #fdfdfd;
+}
+
+/* Изображения */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ================================ */
+/* ШАПКА САЙТА */
+/* ================================ */
+
+header {
+  font-family: "Alumni Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 57;
+  font-style: normal;
+  flex-grow: 1;
+  align-self: stretch;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  color: #ffffff;
+  margin: 0.5%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+header p, 
+header h1 {
+  color: #06192c;
+}
+
+/* Левая часть шапки (логотип + название) */
+header .left-elem {
+  display: flex;
+}
+
+header .logo {
+  width: 20%;
+  height: 20%;
+  padding-top: 5%;
+  align-self: center;
+}
+
+header .name {
+  flex-direction: column;
+  display: flex;
+  align-items: last baseline;
+  column-gap: 0px;
+  width: auto;
+}
+
+header .name h1 {
+  align-self: flex-start;
+  font-size: x-large;
+  font-weight: normal;
+  margin-left: -12%;
+  margin-top: 9%;
+}
+
+header .name p {
+  font-size: medium;
+  margin-top: -5%;
+  padding-right: 22%;
+
+}
+
+/* Правая часть шапки (навигация) */
+header .right-elem {
+  display: flex;
+  gap: 20px;
+}
+
+/* Бургер-меню (скрыто по умолчанию, показывается на мобильных) */
+.burger-checkbox, 
+.menu-item, 
+.menu-list, 
+.burger, 
+.menu {
+  display: none;
+}
+
+/* ================================ */
+/* НАВИГАЦИЯ */
+/* ================================ */
+
+nav {
+  color: #fdfdfd;
+  background: #405b22;
+  padding: 20px;
+  padding-top: 10px;
+  border-radius: 10px;
+  margin: 1%;
+}
+
+nav p {
+  color: #fdfdfd;
+}
+
+nav strong {
+  margin: 0;
+  font-size: x-large;
+}
+
+/* ================================ */
+/* ОСНОВНОЙ КОНТЕНТ */
+/* ================================ */
+
+main {
+  border-radius: 10px;
+  margin: 1%;
+  background: #405b22;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Секции и статьи */
+section,
+article {
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+#start {
+  align-self: stretch;
+}
+
+#step1 {
+  width: 50%;
+}
+
+/* ================================ */
+/* ВЫПАДАЮЩЕЕ МЕНЮ (DROPDOWN) */
+/* ================================ */
+
+.dropdown {
+  z-index: 100;
+  position: fixed;
+  right: 5%;
+  bottom: 10%;
+}
+
+.dropbtn {
+  z-index: 100;
+  background-color: #20320c;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: #21320d;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #405b22;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #222c17;
+}
+
+/* ================================ */
+/* КАСТОМНОЕ МЕНЮ (неиспользуемые стили) */
+/* ================================ */
+
+/* Примечание: эти стили похоже не используются в текущем HTML */
+.button {
+  background: #d6d5e2;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 26px;
+  width: 26px;
+  z-index: 1;
+}
+
+.button:after {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #474070;
+  content: ' ';
+  height: 0;
+  left: 8px;
+  position: relative;
+  top: -8px;
+  width: 0;
+}
+
+.button:hover {
+  background: #c6c5d2;
+}
+
+.button:active {
+  background: #b6b5c2;
+}
+
+.places {
+  color: #898596;
+  left: -64px;
+  position: relative;
+}
+
+.container {
+  position: absolute;
+}
+
+.border1 {
+  fill: #fff;
+  fill-opacity: 0;
+  stroke: #44454a;
+  stroke-dasharray: 480 480;
+  stroke-dashoffset: -480px;
+  transition: stroke 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    stroke-dasharray 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    stroke-dashoffset 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    fill-opacity 400ms 40ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.border2 {
+  fill: #fff;
+  fill-opacity: 0;
+  stroke: #44454a;
+  stroke-dasharray: 0 480;
+  stroke-dashoffset: 0;
+  transition: stroke 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    stroke-dasharray 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    stroke-dashoffset 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    fill-opacity 400ms 40ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.shadow {
+  left: -50px;
+  opacity: 0;
+  position: absolute;
+  top: -46px;
+  transition: opacity 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.contents {
+  left: 20px;
+  opacity: 0;
+  position: relative;
+  top: 48px;
+  transition: opacity 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  width: 234px;
+}
+
+.row {
+  align-items: center;
+  border-bottom: 1px solid #cdd0de;
+  cursor: pointer;
+  display: flex;
+  height: 46px;
+  padding: 0 5px;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.row:hover {
+  background: #f8f8f8;
+}
+
+.row:active {
+  background: #f5f5f5;
+}
+
+.expanded .border1 {
+  fill-opacity: 1;
+  stroke: #c6c6cc;
+  stroke-dasharray: 480 480;
+  stroke-dashoffset: 0;
+}
+
+.expanded .border2 {
+  fill-opacity: 1;
+  stroke: #c6c6cc;
+  stroke-dasharray: 480 480;
+  stroke-dashoffset: 0;
+}
+
+.expanded .shadow {
+  opacity: 1;
+}
+
+.expanded .button {
+  transform: rotate(0);
+}
+
+.expanded .contents {
+  opacity: 1;
+  transition: opacity 400ms 100ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* ================================ */
+/* ПОДВАЛ */
+/* ================================ */
+
+footer {
+  background: linear-gradient(135deg, #333, #2a2a2a);
+  color: #fdfdfd;
+  padding: 30px;
+  text-align: center;
+  clear: both;
+  margin-top: 50px;
+  position: relative;
+}
+
+footer a {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #ffed4e;
+  text-decoration: underline;
+}
+
+address {
+  margin-top: 15px;
+  font-style: normal;
+  display: block;
+}
