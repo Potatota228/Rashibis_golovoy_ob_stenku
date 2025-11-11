@@ -1,0 +1,718 @@
+    :root {
+      --primary-green: #405b22;
+      --light-green: #5b911d;
+      --dark-green: #254228;
+      --bg-light: #f2fde6;
+      --text-dark: #4a6b2f;
+      --white: #fdfdfd;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --border-radius: 15px;
+      --transition-speed: 0.3s;
+      --gap-size: clamp(1rem, 2vw, 2rem);
+      --padding-size: clamp(1rem, 3vw, 2rem);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Pangolin", cursive;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 1: Адаптивный макет с Grid Layout
+       ============================================ */
+    .page-container {
+      display: grid;
+      grid-template-areas:
+        "header header header"
+        "nav nav nav"
+        "main main sidebar"
+        "gallery gallery gallery"
+        "form form form"
+        "footer footer footer";
+      grid-template-columns: 1fr 1fr 300px;
+      grid-template-rows: auto auto auto auto auto auto;
+      gap: var(--gap-size);
+      padding: var(--gap-size);
+      max-width: 2560px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      grid-area: header;
+      background: var(--primary-green);
+      color: var(--white);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: clamp(40px, 5vw, 60px);
+      height: clamp(40px, 5vw, 60px);
+      background: var(--dark-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .site-title h1 {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--white);
+    }
+
+    .site-title p {
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      color: var(--white);
+      opacity: 0.9;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: clamp(1rem, 2vw, 2rem);
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .header-nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      transition: all var(--transition-speed);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .header-nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation */
+    nav {
+      grid-area: nav;
+      background: var(--glass-bg);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    nav ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    nav a {
+      display: block;
+      padding: 0.8rem;
+      background: var(--primary-green);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 8px;
+      text-align: center;
+      transition: all var(--transition-speed);
+    }
+
+    nav a:hover {
+      background: var(--light-green);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px var(--shadow-medium);
+    }
+
+    /* Main Content */
+    main {
+      grid-area: main;
+      background: var(--glass-bg);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    main h2 {
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+    }
+
+    main p {
+      margin-bottom: 1rem;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    }
+
+    /* Sidebar */
+    aside {
+      grid-area: sidebar;
+      background: var(--glass-bg);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    aside h3 {
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+    }
+
+    .sidebar-item {
+      padding: 0.8rem;
+      background: var(--bg-light);
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      transition: all var(--transition-speed);
+      cursor: pointer;
+    }
+
+    .sidebar-item:hover {
+      background: var(--primary-green);
+      color: var(--white);
+      transform: translateX(5px);
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 2: Вариант 2 - Мозаичная галерея
+       ============================================ */
+    .gallery-section {
+      grid-area: gallery;
+      background: var(--glass-bg);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    .gallery-section h2 {
+      color: var(--primary-green);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+    }
+
+    .mosaic-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 200px);
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Вставьте сюда URL своих картинок */
+    .gallery-item:nth-child(1) {
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/d/d8/%D0%A1%D0%B8%D0%BD%D0%B8%D1%86%D0%B0_%28Parus_major%2C_fem%29%2C_%D0%91%D0%B8%D1%82%D1%86%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BB%D0%B5%D1%81.jpg");
+    }
+
+    .gallery-item:nth-child(2) {
+      background-image: url("https://i.pinimg.com/736x/14/3b/e8/143be8d62dcc98f68551c1fa2a497927.jpg");
+    }
+
+    .gallery-item:nth-child(3) {
+      background-image: url("https://i.pinimg.com/736x/b0/e4/c7/b0e4c72ee02e7b6fdde801947fc64f54.jpg");
+      background-position: top;
+    }
+
+    .gallery-item:nth-child(4) {
+      background-image: url("https://i.pinimg.com/1200x/03/47/33/0347339adda488b55a23f746c2030d73.jpg");
+      background-position:top center;
+    }
+
+    .gallery-item:nth-child(5) {
+      background-image: url("https://i.pinimg.com/1200x/da/47/de/da47de0ef368797cd9b6b0145d1145e9.jpg");
+      background-position:top center;
+    } 
+
+    .gallery-item:nth-child(6) {
+      background-image: url("https://i.pinimg.com/736x/9e/7d/1b/9e7d1bdc60d48397635d110c94f470b4.jpg");
+      background-position:top center;
+    }
+
+    .gallery-item:nth-child(7) {
+      background-image: url("https://i.pinimg.com/1200x/54/a0/dd/54a0dd62250011eff32eefdf1a65e385.jpg");
+      background-position:top center;
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
+
+    .gallery-item:nth-child(2) {
+      grid-column: 3 / 4;
+      grid-row: 1 / 2;
+    }
+
+    .gallery-item:nth-child(3) {
+      grid-column: 4 / 5;
+      grid-row: 1 / 2;
+    }
+
+    .gallery-item:nth-child(4) {
+      grid-column: 3 / 5;
+      grid-row: 2 / 3;
+    }
+
+    .gallery-item:nth-child(5) {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+    }
+
+    .gallery-item:nth-child(6) {
+      grid-column: 2 / 4;
+      grid-row: 3 / 4;
+    }
+
+    .gallery-item:nth-child(7) {
+      grid-column: 4 / 5;
+      grid-row: 3 / 4;
+    }
+
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      transition: all var(--transition-speed);
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      z-index: 10;
+      box-shadow: 0 10px 30px var(--shadow-medium);
+    }
+
+    .gallery-item:hover::before {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .gallery-item-content {
+      position: relative;
+      z-index: 1;
+      color: var(--white);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .gallery-item h3 {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      margin-bottom: 0.5rem;
+      color: var(--white);
+    }
+
+    .gallery-item p {
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      color: var(--white);
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 3: Форма с Grid Layout
+       ============================================ */
+    .form-section {
+      grid-area: form;
+      background: var(--glass-bg);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    .form-section h2 {
+      color: var(--primary-green);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+    }
+
+    .bird-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      color: var(--primary-green);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      transition: all var(--transition-speed);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: clamp(0.7rem, 1.5vw, 1rem);
+      border: 2px solid #d0d0d0;
+      border-radius: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
+      background: var(--white);
+      transition: all var(--transition-speed);
+    }
+
+    .form-group input:hover,
+    .form-group textarea:hover,
+    .form-group select:hover {
+      border-color: var(--light-green);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px var(--shadow-light);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary-green);
+      background: #f8fff8;
+      box-shadow: 0 0 0 4px rgba(91, 145, 29, 0.2);
+      transform: scale(1.02);
+    }
+
+    .form-group input:focus + label,
+    .form-group textarea:focus + label {
+      color: var(--light-green);
+      transform: translateY(-2px);
+    }
+
+    .submit-button {
+      grid-column: 1 / -1;
+      padding: clamp(0.8rem, 2vw, 1.2rem);
+      background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px var(--shadow-medium);
+    }
+
+    .submit-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .submit-button:active {
+      transform: translateY(-1px);
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 4: Футер с Grid Layout
+       ============================================ */
+    footer {
+      grid-area: footer;
+      background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+      color: var(--white);
+      padding: var(--padding-size);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px var(--shadow-light);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-column {
+      position: relative;
+      padding: 1.5rem;
+      transition: all var(--transition-speed);
+    }
+
+    .footer-column::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--light-green);
+      transition: height var(--transition-speed);
+    }
+
+    .footer-column:hover::before {
+      height: 100%;
+    }
+
+    .footer-column::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--light-green);
+      transition: width var(--transition-speed);
+    }
+
+    .footer-column:hover::after {
+      width: 100%;
+    }
+
+    .footer-column:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-5px);
+    }
+
+    .footer-column h3 {
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--light-green);
+      transition: width var(--transition-speed);
+    }
+
+    .footer-column:hover h3::after {
+      width: 100%;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 0.5rem;
+      padding-left: 1rem;
+      position: relative;
+      transition: all var(--transition-speed);
+    }
+
+    .footer-column li::before {
+      content: '🐦';
+      position: absolute;
+      left: 0;
+      opacity: 0;
+      transition: all var(--transition-speed);
+    }
+
+    .footer-column li:hover {
+      padding-left: 1.5rem;
+      color: var(--light-green);
+    }
+
+    .footer-column li:hover::before {
+      opacity: 1;
+    }
+
+    .footer-column a {
+      color: var(--white);
+      text-decoration: none;
+      transition: all var(--transition-speed);
+    }
+
+    .footer-column a:hover {
+      color: var(--light-green);
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+    }
+
+    /* ============================================
+       АДАПТИВНОСТЬ
+       ============================================ */
+    @media (max-width: 1200px) {
+      .page-container {
+        grid-template-areas:
+          "header header"
+          "nav nav"
+          "main sidebar"
+          "gallery gallery"
+          "form form"
+          "footer footer";
+        grid-template-columns: 1fr 250px;
+      }
+
+      .mosaic-gallery {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 180px);
+      }
+
+      .gallery-item:nth-child(1) {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+      }
+
+      .gallery-item:nth-child(4) {
+        grid-column: 3 / 4;
+        grid-row: 2 / 4;
+      }
+
+      .gallery-item:nth-child(6) {
+        grid-column: 1 / 3;
+        grid-row: 4 / 5;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page-container {
+        grid-template-areas:
+          "header"
+          "nav"
+          "main"
+          "sidebar"
+          "gallery"
+          "form"
+          "footer";
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .bird-form {
+        grid-template-columns: 1fr;
+      }
+
+      .mosaic-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 200px);
+      }
+
+      .gallery-item:nth-child(1) {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+      }
+
+      .gallery-item:nth-child(2) {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+
+      .gallery-item:nth-child(3) {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+      }
+
+      .gallery-item:nth-child(4) {
+        grid-column: 1 / 3;
+        grid-row: 3 / 4;
+      }
+
+      .gallery-item:nth-child(5) {
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+      }
+
+      .gallery-item:nth-child(6) {
+        grid-column: 2 / 3;
+        grid-row: 4 / 5;
+      }
+
+      .gallery-item:nth-child(7) {
+        grid-column: 1 / 3;
+        grid-row: 5 / 6;
+      }
+
+      .mosaic-gallery {
+        grid-template-rows: repeat(5, 180px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .header-nav {
+        justify-content: center;
+      }
+
+      nav ul {
+        grid-template-columns: 1fr;
+      }
+
+      .mosaic-gallery {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(7, 200px);
+      }
+
+      .gallery-item {
+        grid-column: 1 / 2 !important;
+        grid-row: auto !important;
+      }
+    }

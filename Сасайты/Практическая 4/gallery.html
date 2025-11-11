@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивные элементы - Птицы Москвы и Подмосковья</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #405b22;
+      --light-green: #5b911d;
+      --dark-green: #254228;
+      --bg-light: #f2fde6;
+      --text-dark: #4a6b2f;
+      --white: #fdfdfd;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --gradient-1: linear-gradient(135deg, #5b911d, #405b22);
+      --gradient-2: linear-gradient(135deg, #405b22, #254228);
+      --gradient-3: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      --card-size: 300px;
+      --transition-speed: 0.4s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Pangolin", cursive;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: var(--primary-green);
+      margin: 2rem 0 3rem;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    section {
+      margin: 5rem 0;
+      padding: 2rem 0;
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 1: Glassmorphism карточки с анимацией
+       ============================================ */
+    .glass-cards {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 0;
+    }
+
+    .glass-card {
+      position: relative;
+      width: clamp(280px, 30vw, 350px);
+      height: 400px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--shadow-light);
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: var(--gradient-1);
+      border-radius: 50%;
+      top: -50px;
+      right: -50px;
+      z-index: -1;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .glass-card::after {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: var(--gradient-2);
+      border-radius: 50%;
+      bottom: -40px;
+      left: -40px;
+      z-index: -1;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 45px var(--shadow-medium);
+    }
+
+    .glass-card:hover::before {
+      animation: floatSquare1 3s ease-in-out infinite;
+    }
+
+    .glass-card:hover::after {
+      animation: floatSquare2 3s ease-in-out infinite;
+    }
+
+    @keyframes floatSquare1 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-20px, 20px) rotate(90deg); }
+      50% { transform: translate(20px, -20px) rotate(180deg); }
+      75% { transform: translate(-10px, -30px) rotate(270deg); }
+    }
+
+    @keyframes floatSquare2 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(30px, -15px) rotate(-90deg); }
+      50% { transform: translate(-25px, 25px) rotate(-180deg); }
+      75% { transform: translate(15px, 30px) rotate(-270deg); }
+    }
+
+    .glass-card-content {
+      text-align: center;
+      z-index: 1;
+    }
+
+    .glass-card h3 {
+      color: var(--primary-green);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      margin-bottom: 1rem;
+    }
+
+    .glass-card p {
+      color: var(--text-dark);
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 2: Кнопки социальных сетей
+       ============================================ */
+    .social-buttons {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 0;
+    }
+
+    .social-btn {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--primary-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform var(--transition-speed) ease;
+      text-decoration: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .social-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: var(--gradient-3);
+      transition: height 0.5s ease;
+      z-index: 0;
+    }
+
+    .social-btn:hover::before {
+      height: 100%;
+    }
+
+    .social-btn:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .social-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 3: Форма с Glassmorphism
+       ============================================ */
+    .glass-form-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .glass-form-wrapper::before,
+    .glass-form-wrapper::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .glass-form-wrapper::before {
+      width: calc(var(--card-size) * 0.5);
+      height: calc(var(--card-size) * 0.5);
+      background: var(--gradient-1);
+      top: 10%;
+      left: -10%;
+      animation: floatForm1 6s ease-in-out infinite;
+    }
+
+    .glass-form-wrapper::after {
+      width: calc(var(--card-size) * 0.4);
+      height: calc(var(--card-size) * 0.4);
+      background: var(--gradient-2);
+      bottom: 15%;
+      right: -8%;
+      animation: floatForm2 7s ease-in-out infinite;
+    }
+
+    @keyframes floatForm1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(calc(var(--card-size) * 0.2), calc(var(--card-size) * 0.15)) scale(1.1); }
+      66% { transform: translate(calc(var(--card-size) * -0.1), calc(var(--card-size) * 0.25)) scale(0.9); }
+    }
+
+    @keyframes floatForm2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(calc(var(--card-size) * -0.15), calc(var(--card-size) * -0.2)) scale(1.15); }
+      66% { transform: translate(calc(var(--card-size) * 0.1), calc(var(--card-size) * -0.1)) scale(0.85); }
+    }
+
+    .glass-form {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      border: 1px solid var(--glass-border);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      box-shadow: 0 8px 32px var(--shadow-light);
+      z-index: 1;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--primary-green);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: clamp(0.7rem, 2vw, 1rem);
+      border: 2px solid var(--glass-border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      font-family: "Inter", sans-serif;
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--light-green);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 0 3px rgba(91, 145, 29, 0.2);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: clamp(0.8rem, 2vw, 1.2rem);
+      background: var(--gradient-1);
+      color: var(--white);
+      border: none;
+      border-radius: 15px;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow-medium);
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 4: Flexbox карточки с фильтрами
+       ============================================ */
+    .flex-cards {
+      display: flex;
+      gap: clamp(1rem, 3vw, 2rem);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 0;
+    }
+
+    .flex-card {
+      flex: 1 1 clamp(250px, 28vw, 350px);
+      max-width: 380px;
+      height: 450px;
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px var(--shadow-light);
+      transition: transform var(--transition-speed) ease, 
+                  filter var(--transition-speed) ease,
+                  box-shadow var(--transition-speed) ease;
+      cursor: pointer;
+    }
+
+    .flex-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 15px 40px var(--shadow-medium);
+      filter: brightness(1.1);
+    }
+
+    .flex-card-image {
+      width: 100%;
+      height: 60%;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      transition: filter var(--transition-speed) ease;
+    }
+
+    .flex-card:hover .flex-card-image {
+      filter: saturate(1.3) brightness(1.1);
+    }
+
+    .flex-card-content {
+      padding: clamp(1rem, 3vw, 1.5rem);
+      text-align: center;
+    }
+
+    .flex-card h3 {
+      color: var(--primary-green);
+      margin-bottom: 0.8rem;
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    }
+
+    .flex-card p {
+      color: var(--text-dark);
+      line-height: 1.6;
+      font-size: clamp(0.85rem, 1.4vw, 1rem);
+    }
+
+    /* ============================================
+       ЗАДАНИЕ 5: Карточки с эффектом лучей
+       ============================================ */
+    .ray-cards {
+      display: flex;
+      gap: clamp(1rem, 3vw, 2rem);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 0;
+    }
+
+    .ray-card {
+      position: relative;
+      flex: 1 1 clamp(250px, 28vw, 350px);
+      max-width: 380px;
+      height: 400px;
+      background: linear-gradient(135deg, rgba(64, 91, 34, 0.7), rgba(91, 145, 29, 0.7));
+      border-radius: 20px;
+      padding: clamp(1.5rem, 3vw, 2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all var(--transition-speed) ease;
+      filter: brightness(0.7) saturate(0.8);
+    }
+
+    .ray-card::before {
+        content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        #5b911d 45deg,
+        #4ecdc4 90deg,
+        #45b7d1 135deg,
+        #ff6b6b 180deg,
+        #5b911d 225deg,
+        #4ecdc4 270deg,
+        #45b7d1 315deg,
+        transparent 360deg
+      );
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: rotateBorder 4s linear infinite;
+      z-index: -1;
+    }
+
+    .ray-card:hover {
+      filter: brightness(1.2) saturate(1.3);
+      transform: scale(1.05);
+      box-shadow: 0 15px 45px var(--shadow-medium);
+    }
+
+    .ray-card:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes rotateBorder {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .ray-card-content {
+      text-align: center;
+      color: var(--white);
+      z-index: 1;
+    }
+
+    .ray-card h3 {
+      color: var(--white);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .ray-card p {
+      color: var(--white);
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      section {
+        margin: 3rem 0;
+      }
+
+      .glass-cards,
+      .flex-cards,
+      .ray-cards {
+        gap: 1.5rem;
+      }
+
+      .social-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      h2 {
+        margin: 1.5rem 0 2rem;
+      }
+
+      .glass-card,
+      .flex-card,
+      .ray-card {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐦 Интерактивные элементы сайта о птицах Подмосковья</h1>
+
+    <!-- ЗАДАНИЕ 1: Glassmorphism карточки -->
+    <section>
+      <h2>Задание 1: Glassmorphism с анимацией</h2>
+      <div class="glass-cards">
+        <div class="glass-card">
+          <div class="glass-card-content">
+            <h3>🎵 Певчие птицы</h3>
+            <p>Соловьи, дрозды и малиновки наполняют леса Подмосковья своими мелодичными трелями с ранней весны до позднего лета.</p>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="glass-card-content">
+            <h3>🦅 Хищники</h3>
+            <p>Ястребы, совы и канюки охотятся в подмосковных лесах, демонстрируя удивительную ловкость и мастерство.</p>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="glass-card-content">
+            <h3>✈️ Перелётные</h3>
+            <p>Журавли, гуси и ласточки совершают тысячекилометровые путешествия, останавливаясь в Подмосковье на отдых.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЗАДАНИЕ 2: Социальные кнопки -->
+    <section>
+      <h2>Задание 2: Кнопки социальных сетей</h2>
+      <div class="social-buttons">
+        <a href="#" class="social-btn">
+          <span>VK</span>
+        </a>
+        <a href="#" class="social-btn">
+          <span>TG</span>
+        </a>
+        <a href="#" class="social-btn">
+          <span>YT</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ЗАДАНИЕ 3: Форма с Glassmorphism -->
+    <section>
+      <h2>Задание 3: Форма регистрации</h2>
+      <div class="glass-form-wrapper">
+        <form class="glass-form">
+          <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" id="name" placeholder="Введите ваше имя" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="your-email@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Сообщение о находке</label>
+            <textarea id="message" rows="4" placeholder="Расскажите о птенце, которого вы нашли..."></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Отправить сообщение</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ЗАДАНИЕ 4: Flexbox карточки -->
+    <section>
+      <h2>Задание 4: Flexbox карточки с фильтрами</h2>
+      <div class="flex-cards">
+        <div class="flex-card">
+          <div class="flex-card-image">🦜</div>
+          <div class="flex-card-content">
+            <h3>Синица большая</h3>
+            <p>Одна из самых распространённых птиц Подмосковья. Легко узнаваема по жёлтой грудке и чёрной полосе.</p>
+          </div>
+        </div>
+        <div class="flex-card">
+          <div class="flex-card-image">🦆</div>
+          <div class="flex-card-content">
+            <h3>Кряква</h3>
+            <p>Самая обычная утка в Москве и области. Селится на прудах, озёрах и даже в городских парках.</p>
+          </div>
+        </div>
+        <div class="flex-card">
+          <div class="flex-card-image">🐦</div>
+          <div class="flex-card-content">
+            <h3>Воробей полевой</h3>
+            <p>Небольшая подвижная птица, обитающая рядом с человеком. Отличается от домового коричневой шапочкой.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЗАДАНИЕ 5: Карточки с эффектом лучей -->
+    <section>
+      <h2>Задание 5: Карточки с анимированными лучами</h2>
+      <div class="ray-cards">
+        <div class="ray-card">
+          <div class="ray-card-content">
+            <h3>Наблюдение</h3>
+            <p>Лучшее время для наблюдения за птицами — раннее утро и поздний вечер, когда они наиболее активны.</p>
+          </div>
+        </div>
+        <div class="ray-card">
+          <div class="ray-card-content">
+            <h3>Фотография</h3>
+            <p>Для съёмки птиц понадобится терпение, телеобъектив и знание повадок пернатых обитателей леса.</p>
+          </div>
+        </div>
+        <div class="ray-card">
+          <div class="ray-card-content">
+            <h3>Подкормка</h3>
+            <p>Зимой важно помогать птицам: устанавливайте кормушки с семечками, несолёным салом и крупой.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

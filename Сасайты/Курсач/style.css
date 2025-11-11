@@ -11,10 +11,14 @@ body {
   padding: 0;
   background: #f2fde6;
   color: #06192c;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+
+  /* Новый Grid Layout */
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
 }
+
 
 /* ================================ */
 /* ТИПОГРАФИКА */
@@ -37,20 +41,20 @@ p {
 a {
   position: static;
   top: 10px;
-  color: #fdfdfd;
-  font-size: small;
-  font-weight: bold;
+  color: #06192c;
+  font-size: medium;
+  font-weight:normal;
   text-decoration: none;
   margin-top: 5px;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #fdfdfd;
+  color: #06192c;
 }
 
 a:visited {
-  color: #fdfdfd;
+  color: #06192c;
 }
 
 /* Изображения */
@@ -98,8 +102,8 @@ header .left-elem {
 }
 
 header .logo {
-  width: 20%;
-  height: 20%;
+  width: 27%;
+  height: 27%;
   padding-top: 5%;
   align-self: center;
 }
@@ -114,23 +118,45 @@ header .name {
 
 header .name h1 {
   align-self: flex-start;
-  font-size: x-large;
+  font-size:250%;
   font-weight: normal;
-  margin-left: -12%;
-  margin-top: 9%;
+  margin-left: -20%;
+  margin-top: 5%;
 }
 
 header .name p {
-  font-size: medium;
+  font-size: 150%;
   margin-top: -5%;
-  padding-right: 22%;
+  padding-right: 33%;
 
 }
 
 /* Правая часть шапки (навигация) */
 header .right-elem {
   display: flex;
-  gap: 20px;
+  width:50%;
+  gap: 10%;
+  justify-content: end;
+  padding-right: 3%;
+}
+header .right-elem a {
+  font-size: 100%;
+  border: solid;
+  border-radius: 7%;
+  padding:0.5%;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+header .right-elem a:hover {
+  color: #f4f6f8;
+  text-decoration: none;
+  font-weight: bolder;
+  background-image: url(image.png);
+  background-position: center center;
+  background-size: 100%;
+  font-style: bold;
+
+
 }
 
 /* Бургер-меню (скрыто по умолчанию, показывается на мобильных) */
@@ -173,10 +199,11 @@ main {
   margin: 1%;
   background: #405b22;
   padding: 20px;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+
+  /* Grid Layout */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 /* Секции и статьи */

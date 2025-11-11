@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Layout - Птицы Москвы и Подмосковья</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-container">
+    <!-- HEADER -->
+    <header>
+      <div class="logo">🐦</div>
+      <div class="site-title">
+        <h1>Птицы Подмосковья</h1>
+        <p>Наблюдаем, изучаем, помогаем</p>
+      </div>
+      <nav class="header-nav">
+        <a href="#main">Главная</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#form">Контакты</a>
+      </nav>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+      <ul>
+        <li><a href="#birds">Виды птиц</a></li>
+        <li><a href="#help">Помощь птенцам</a></li>
+        <li><a href="#observation">Наблюдение</a></li>
+        <li><a href="#feeding">Подкормка</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main id="main">
+      <h2>Добро пожаловать!</h2>
+      <p>Сайт посвящён изучению и сохранению птиц Москвы и Московской области. Здесь вы найдёте информацию о видах птиц, обитающих в нашем регионе, узнаете, как помочь пернатым в трудную минуту.</p>
+      <p>Каждую весну и лето многие находят на земле беспомощных птенцов. Важно знать, что в большинстве случаев лучшая помощь — это невмешательство. Слётки — это естественный этап развития птиц.</p>
+      <p>Наблюдение за птицами — увлекательное хобби, которое помогает лучше понять природу и внести свой вклад в её сохранение. Присоединяйтесь к нам!</p>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <h3>Быстрые ссылки</h3>
+      <div class="sidebar-item">📱 Экстренные контакты</div>
+      <div class="sidebar-item">🏥 Ветеринарные клиники</div>
+      <div class="sidebar-item">🏛️ Центры реабилитации</div>
+      <div class="sidebar-item">📚 Справочник птиц</div>
+      <div class="sidebar-item">📸 Фотогалерея</div>
+    </aside>
+
+    <!-- GALLERY SECTION (Задание 2) -->
+    <section class="gallery-section" id="gallery">
+      <h2>Мозаичная галерея птиц</h2>
+      <div class="mosaic-gallery">
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Синица большая</h3>
+            <p>Самая распространённая синица</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Воробей</h3>
+            <p>Городской житель</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Ворона</h3>
+            <p>Умная птица</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Дрозд рябинник</h3>
+            <p>Певчая птица</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Снегирь</h3>
+            <p>Зимняя красота</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Сова ушастая</h3>
+            <p>Ночной охотник</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-content">
+            <h3>Дятел</h3>
+            <p>Лесной доктор</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM SECTION (Задание 3) -->
+    <section class="form-section" id="form">
+      <h2>Сообщить о находке птицы</h2>
+      <form class="bird-form">
+        <div class="form-group">
+          <label for="name">Ваше имя</label>
+          <input type="text" id="name" placeholder="Иван Петров" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="ivan@example.com">
+        </div>
+        <div class="form-group">
+          <label for="location">Место находки</label>
+          <input type="text" id="location" placeholder="Район, улица">
+        </div>
+        <div class="form-group">
+          <label for="bird-type">Тип птенца</label>
+          <select id="bird-type">
+            <option>Слёток (оперившийся)</option>
+            <option>Птенец (голый)</option>
+            <option>Взрослая птица</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="help-type">Нужна помощь</label>
+          <select id="help-type">
+            <option>Консультация</option>
+            <option>Транспортировка</option>
+            <option>Экстренная помощь</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label for="description">Описание ситуации</label>
+          <textarea id="description" rows="4" placeholder="Опишите, где и в каких условиях был найден птенец..."></textarea>
+        </div>
+        <button type="submit" class="submit-button">Отправить сообщение</button>
+      </form>
+    </section>
+
+    <!-- FOOTER (Задание 4) -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>О проекте</h3>
+          <ul>
+            <li><a href="#">Наша миссия</a></li>
+            <li><a href="#">Команда</a></li>
+            <li><a href="#">Партнёры</a></li>
+            <li><a href="#">Контакты</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Полезное</h3>
+          <ul>
+            <li><a href="#">Справочник птиц</a></li>
+            <li><a href="#">Помощь птенцам</a></li>
+            <li><a href="#">Кормушки</a></li>
+            <li><a href="#">Наблюдения</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Контакты</h3>
+          <ul>
+            <li>📧 info@birds-moscow.ru</li>
+            <li>📱 +7 (800) 555-35-35</li>
+            <li>📍 Москва, ул. Лесная, 10</li>
+            <li>🕒 Пн-Вс: 9:00-21:00</li>
+          </ul>
+        </div>
+      </div>
+      <div
