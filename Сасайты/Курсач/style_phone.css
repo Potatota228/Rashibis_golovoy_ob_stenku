@@ -5,8 +5,8 @@
 @media screen and (max-width: 800px) {
 
 header .logo {
-  width: 23%;
-  height: 23%;
+  width: 20%;
+  /* height: 23%; */
   padding-top: 5%;
   align-self: center;
 }
@@ -24,23 +24,111 @@ header .name h1 {
   font-size:180%;
   font-weight: normal;
   margin-left: -15%;
-  margin-top: 7%;
+  margin-top: 20%;
 }
 
 header .name p {
-  font-size: 100%;
+  font-size: 130%;
   margin-top: -5%;
-  padding-right: 30%;
+  padding-right: 21%;
+}
 
+.burger-checkbox, .menu-item, .menu-list, .burger, .menu{
+  display:block;
+}
+.burger-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+.burger {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  display: block;
+  border: none;
+  background: transparent;
+  width: 20px;
+  height: 15px;
+}
+.burger::before,
+.burger::after {
+  content: '';
+  left: 0;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 10px;
+  background: #000000;
+}
+.burger::before {
+  top: 0;
+  box-shadow: 0 7px 0 #000000; /* Изменено с #ffffff на #000000 и с 11px на 7px для центрирования */
+  transition: box-shadow .3s .15s, top .3s .15s, transform .3s;
+}
+.burger::after {
+  bottom: 0;
+  transition: bottom .3s .15s, transform .3s;
+}
+.burger-checkbox:checked + .burger::before {
+  top: 7px; /* Изменено с 11px на 7px */
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: box-shadow .15s, top .3s, transform .3s .15s;
+}
+.burger-checkbox:checked + .burger::after {
+  bottom: 6px; /* Изменено с 11px на 6px */
+  transform: rotate(-45deg);
+  transition: bottom .3s, transform .3s .15s;
+}
+.menu-list {
+  z-index: 101;
+  top: 90px;
+  right: -15px;
+  position: absolute;
+  display: grid;
+  gap: 0;
+  padding:12px 0; 
+  margin-top: 1.7%;
+  border-radius: 10px;
+  background: #f6f6f6;
+  height: 50%;
+  list-style-type: none;
+  transform: translateX(100%);
+  transition: .3s;
+  width: 70%;
+  border: solid;
+  color: #000000;
+}
+.menu-item {
+  font-size: 120%;
+  border: solid;
+  border-radius: 7px;
+  padding-top:0.5%;
+  padding-left: 3%;
+  padding-right: 3%;
+  display: block;
+  width: 50%;
+  margin-left: 20%;
+  color: #f6f6f6;
+  text-align: center;
+  text-decoration: none;
+}
+.menu-item:hover {
+  text-decoration: none;
+  font-weight: bolder;
+  background-color:#f6f6f6;
+}
+.burger-checkbox:checked ~ .menu-list {
+  transform: translateX(0);
 }
 
 
-
-  
   /* ================================ */
   /* ШАПКА: скрываем десктопное меню */
   /* ================================ */
-  
+
+
   header .right-elem {
     display: none;
   }

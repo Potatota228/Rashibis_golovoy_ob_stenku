@@ -9,7 +9,7 @@ body {
   font-style: normal;
   margin: 0;
   padding: 0;
-  background: #f2fde6;
+  background: #f6f6f6;
   color: #06192c;
 
   /* Новый Grid Layout */
@@ -20,6 +20,9 @@ body {
 }
 
 
+.burger-checkbox, .menu-item, .menu-list, .burger, .menu{
+  display:none;
+}
 /* ================================ */
 /* ТИПОГРАФИКА */
 /* ================================ */
@@ -77,8 +80,8 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  background: #ffffff;
-  color: #ffffff;
+  background: #f6f6f6;
+  color: #f6f6f6;
   margin: 0.5%;
   padding-left: 20px;
   padding-right: 20px;
@@ -102,9 +105,9 @@ header .left-elem {
 }
 
 header .logo {
-  width: 27%;
-  height: 27%;
-  padding-top: 5%;
+  width: 55px;
+  height:auto;
+  padding-top: 2%;
   align-self: center;
 }
 
@@ -118,16 +121,16 @@ header .name {
 
 header .name h1 {
   align-self: flex-start;
-  font-size:250%;
+  font-size: 250%;
   font-weight: normal;
-  margin-left: -20%;
-  margin-top: 5%;
+  margin-left: -10%;
+  margin-top: 0%;
 }
 
 header .name p {
-  font-size: 150%;
+  font-size: 130%;
   margin-top: -5%;
-  padding-right: 33%;
+  padding-right: 27.5%;
 
 }
 
@@ -148,25 +151,94 @@ header .right-elem a {
   padding-right: 3%;
 }
 header .right-elem a:hover {
-  color: #f4f6f8;
   text-decoration: none;
   font-weight: bolder;
-  background-image: url(image.png);
-  background-position: center center;
-  background-size: 100%;
+  background-color: #eae9e9;
   font-style: bold;
 
 
 }
 
-/* Бургер-меню (скрыто по умолчанию, показывается на мобильных) */
-.burger-checkbox, 
-.menu-item, 
-.menu-list, 
-.burger, 
-.menu {
+.sidebar {
+  z-index: 40;
+  background-color: #f6f6f6;
+  position: fixed;
+  left: -16rem;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 16rem;
+  transform: translateX(calc(var(--sidebar-width) * 1rem));
+  transition: transform 0.25s ease;
+}
+
+.sidebar-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  color: #06192c;
+}
+
+.sidebar-toggler {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 10px;
+  background: #f4f6f8;
+  height: 3rem;
+  width: 3rem;
+  border: 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  cursor: pointer;
+  transition: .15s ease;
+  z-index: 50;
+}
+
+.sidebar-toggler-icon {
+  fill: #06192c;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.sidebar-toggler:hover {
+  background: #f4f6f8;
+}
+
+.sidebar-toggler input {
   display: none;
 }
+
+.sidebar-padding {
+  padding: 1rem;
+  padding-top: 4rem;
+}
+
+.sidebar-content h2 {
+  color: #fdfdfd;
+  margin-bottom: 1rem;
+}
+
+.sidebar-content a {
+  display: block;
+  color: #fdfdfd;
+  padding: 10px 0;
+  font-size: 1.2em;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.sidebar-content a:hover {
+  color: #f2fde6;
+  background: rgba(255,255,255,0.1);
+  padding-left: 10px;
+  text-decoration: none;
+}
+
 
 /* ================================ */
 /* НАВИГАЦИЯ */
@@ -225,215 +297,3 @@ article {
   width: 50%;
 }
 
-/* ================================ */
-/* ВЫПАДАЮЩЕЕ МЕНЮ (DROPDOWN) */
-/* ================================ */
-
-.dropdown {
-  z-index: 100;
-  position: fixed;
-  right: 5%;
-  bottom: 10%;
-}
-
-.dropbtn {
-  z-index: 100;
-  background-color: #20320c;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  border-radius: 30%;
-  cursor: pointer;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  bottom: 100%;
-  background-color: #f9f9f9;
-  min-width: 200px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.dropdown-content a {
-  color: #21320d;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #405b22;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #222c17;
-}
-
-/* ================================ */
-/* КАСТОМНОЕ МЕНЮ (неиспользуемые стили) */
-/* ================================ */
-
-/* Примечание: эти стили похоже не используются в текущем HTML */
-.button {
-  background: #d6d5e2;
-  border-radius: 50%;
-  cursor: pointer;
-  height: 26px;
-  width: 26px;
-  z-index: 1;
-}
-
-.button:after {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid #474070;
-  content: ' ';
-  height: 0;
-  left: 8px;
-  position: relative;
-  top: -8px;
-  width: 0;
-}
-
-.button:hover {
-  background: #c6c5d2;
-}
-
-.button:active {
-  background: #b6b5c2;
-}
-
-.places {
-  color: #898596;
-  left: -64px;
-  position: relative;
-}
-
-.container {
-  position: absolute;
-}
-
-.border1 {
-  fill: #fff;
-  fill-opacity: 0;
-  stroke: #44454a;
-  stroke-dasharray: 480 480;
-  stroke-dashoffset: -480px;
-  transition: stroke 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    stroke-dasharray 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    stroke-dashoffset 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    fill-opacity 400ms 40ms cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.border2 {
-  fill: #fff;
-  fill-opacity: 0;
-  stroke: #44454a;
-  stroke-dasharray: 0 480;
-  stroke-dashoffset: 0;
-  transition: stroke 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    stroke-dasharray 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    stroke-dashoffset 400ms cubic-bezier(0.4, 0.0, 0.2, 1),
-    fill-opacity 400ms 40ms cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.shadow {
-  left: -50px;
-  opacity: 0;
-  position: absolute;
-  top: -46px;
-  transition: opacity 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.contents {
-  left: 20px;
-  opacity: 0;
-  position: relative;
-  top: 48px;
-  transition: opacity 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
-  width: 234px;
-}
-
-.row {
-  align-items: center;
-  border-bottom: 1px solid #cdd0de;
-  cursor: pointer;
-  display: flex;
-  height: 46px;
-  padding: 0 5px;
-  user-select: none;
-  -moz-user-select: none;
-}
-
-.row:hover {
-  background: #f8f8f8;
-}
-
-.row:active {
-  background: #f5f5f5;
-}
-
-.expanded .border1 {
-  fill-opacity: 1;
-  stroke: #c6c6cc;
-  stroke-dasharray: 480 480;
-  stroke-dashoffset: 0;
-}
-
-.expanded .border2 {
-  fill-opacity: 1;
-  stroke: #c6c6cc;
-  stroke-dasharray: 480 480;
-  stroke-dashoffset: 0;
-}
-
-.expanded .shadow {
-  opacity: 1;
-}
-
-.expanded .button {
-  transform: rotate(0);
-}
-
-.expanded .contents {
-  opacity: 1;
-  transition: opacity 400ms 100ms cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-/* ================================ */
-/* ПОДВАЛ */
-/* ================================ */
-
-footer {
-  background: linear-gradient(135deg, #333, #2a2a2a);
-  color: #fdfdfd;
-  padding: 30px;
-  text-align: center;
-  clear: both;
-  margin-top: 50px;
-  position: relative;
-}
-
-footer a {
-  color: #ffd700;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: #ffed4e;
-  text-decoration: underline;
-}
-
-address {
-  margin-top: 15px;
-  font-style: normal;
-  display: block;
-}

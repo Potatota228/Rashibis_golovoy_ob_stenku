@@ -8,20 +8,19 @@
 #include <algorithm>
 #include <iomanip>
 #include <regex>
-#include <Windows.h>
 
 using namespace std;
 using namespace chrono;
 
 // ============================================================
-// СТРУКТУРЫ ДАННЫХ
+// РЎРўР РЈРљРўРЈР Р« Р”РђРќРќР«РҐ
 // ============================================================
 
-// Структура записи книги
+// РЎС‚СЂСѓРєС‚СѓСЂР° Р·Р°РїРёСЃРё РєРЅРёРіРё
 struct Book {
-    long long isbn;        // ISBN - 12-значное число (ключ)
-    char author[50];       // Автор
-    char title[100];       // Название
+    long long isbn;        // ISBN - 12-Р·РЅР°С‡РЅРѕРµ С‡РёСЃР»Рѕ (РєР»СЋС‡)
+    char author[50];       // РђРІС‚РѕСЂ
+    char title[100];       // РќР°Р·РІР°РЅРёРµ
     
     Book() : isbn(0) {
         author[0] = '\0';
@@ -36,17 +35,17 @@ struct Book {
     }
 };
 
-// Структура элемента хеш-таблицы
+// РЎС‚СЂСѓРєС‚СѓСЂР° СЌР»РµРјРµРЅС‚Р° С…РµС€-С‚Р°Р±Р»РёС†С‹
 struct HashElement {
-    long long key;        // Ключ (ISBN книги)
-    int recordNumber;     // Номер записи в файле
-    bool isOccupied;      // Ячейка занята
-    bool isDeleted;       // Ячейка была удалена
+    long long key;        // РљР»СЋС‡ (ISBN РєРЅРёРіРё)
+    int recordNumber;     // РќРѕРјРµСЂ Р·Р°РїРёСЃРё РІ С„Р°Р№Р»Рµ
+    bool isOccupied;      // РЇС‡РµР№РєР° Р·Р°РЅСЏС‚Р°
+    bool isDeleted;       // РЇС‡РµР№РєР° Р±С‹Р»Р° СѓРґР°Р»РµРЅР°
     
     HashElement() : key(0), recordNumber(-1), isOccupied(false), isDeleted(false) {}
 };
 
-// Структура хеш-таблицы
+// РЎС‚СЂСѓРєС‚СѓСЂР° С…РµС€-С‚Р°Р±Р»РёС†С‹
 struct HashTable {
     vector<HashElement> table;
     int size;
@@ -61,7 +60,7 @@ struct HashTable {
     }
 };
 
-// Структура для информации о цене
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РёРЅС„РѕСЂРјР°С†РёРё Рѕ С†РµРЅРµ
 struct PriceInfo {
     string original;
     double value;
@@ -70,7 +69,7 @@ struct PriceInfo {
 };
 
 // ============================================================
-// ХЕШ-ТАБЛИЦА: ФУНКЦИИ
+// РҐР•РЁ-РўРђР‘Р›РР¦Рђ: Р¤РЈРќРљР¦РР
 // ============================================================
 
 int hash1(long long key, int tableSize) {
@@ -100,7 +99,7 @@ void updateLoadFactor(HashTable& ht) {
 bool insertKey(HashTable& ht, long long key, int recordNum, bool showIndexes = false) {
     if (ht.loadFactor >= 0.75) {
         if (showIndexes) {
-            cout << "Требуется рехеширование! Коэффициент заполнения: " << ht.loadFactor << endl;
+            cout << "РўСЂРµР±СѓРµС‚СЃСЏ СЂРµС…РµС€РёСЂРѕРІР°РЅРёРµ! РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РїРѕР»РЅРµРЅРёСЏ: " << ht.loadFactor << endl;
         }
         return false;
     }
@@ -111,14 +110,14 @@ bool insertKey(HashTable& ht, long long key, int recordNum, bool showIndexes = f
     int attempt = 0;
     
     if (showIndexes) {
-        cout << "Вставка ключа " << key << ": hash1=" << h1 << ", hash2=" << h2 << endl;
+        cout << "Р’СЃС‚Р°РІРєР° РєР»СЋС‡Р° " << key << ": hash1=" << h1 << ", hash2=" << h2 << endl;
     }
     
     while (attempt < ht.size) {
         index = (h1 + attempt * h2) % ht.size;
         
         if (showIndexes) {
-            cout << "  Попытка " << attempt << ": индекс " << index;
+            cout << "  РџРѕРїС‹С‚РєР° " << attempt << ": РёРЅРґРµРєСЃ " << index;
         }
         
         if (!ht.table[index].isOccupied || ht.table[index].isDeleted) {
@@ -130,26 +129,26 @@ bool insertKey(HashTable& ht, long long key, int recordNum, bool showIndexes = f
             updateLoadFactor(ht);
             
             if (showIndexes) {
-                cout << " - успешно вставлен" << endl;
+                cout << " - СѓСЃРїРµС€РЅРѕ РІСЃС‚Р°РІР»РµРЅ" << endl;
             }
             return true;
         }
         
         if (ht.table[index].key == key && !ht.table[index].isDeleted) {
             if (showIndexes) {
-                cout << " - ключ уже существует" << endl;
+                cout << " - РєР»СЋС‡ СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚" << endl;
             }
             return false;
         }
         
         if (showIndexes) {
-            cout << " - занято (коллизия)" << endl;
+            cout << " - Р·Р°РЅСЏС‚Рѕ (РєРѕР»Р»РёР·РёСЏ)" << endl;
         }
         
         attempt++;
     }
     
-    cout << "Таблица переполнена!" << endl;
+    cout << "РўР°Р±Р»РёС†Р° РїРµСЂРµРїРѕР»РЅРµРЅР°!" << endl;
     return false;
 }
 
@@ -220,8 +219,8 @@ HashTable rehash(HashTable& oldHt) {
         }
     }
     
-    cout << "Рехеширование: старый размер = " << oldHt.size 
-         << ", новый размер = " << newSize << endl;
+    cout << "Р РµС…РµС€РёСЂРѕРІР°РЅРёРµ: СЃС‚Р°СЂС‹Р№ СЂР°Р·РјРµСЂ = " << oldHt.size 
+         << ", РЅРѕРІС‹Р№ СЂР°Р·РјРµСЂ = " << newSize << endl;
     
     HashTable newHt(newSize);
     
@@ -235,37 +234,37 @@ HashTable rehash(HashTable& oldHt) {
 }
 
 void printHashTable(const HashTable& ht) {
-    cout << "\n=== Хеш-таблица ===" << endl;
-    cout << "Размер: " << ht.size << ", Элементов: " << ht.count 
-         << ", Коэффициент заполнения: " << fixed << setprecision(3) << ht.loadFactor << endl;
+    cout << "\n=== РҐРµС€-С‚Р°Р±Р»РёС†Р° ===" << endl;
+    cout << "Р Р°Р·РјРµСЂ: " << ht.size << ", Р­Р»РµРјРµРЅС‚РѕРІ: " << ht.count 
+         << ", РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РїРѕР»РЅРµРЅРёСЏ: " << fixed << setprecision(3) << ht.loadFactor << endl;
     
     int printed = 0;
     for (int i = 0; i < ht.size && printed < 10; i++) {
         if (ht.table[i].isOccupied && !ht.table[i].isDeleted) {
             cout << "[" << i << "] ISBN: " << ht.table[i].key 
-                 << ", Запись №" << ht.table[i].recordNumber << endl;
+                 << ", Р—Р°РїРёСЃСЊ в„–" << ht.table[i].recordNumber << endl;
             printed++;
         }
     }
     if (ht.count > 10) {
-        cout << "... и еще " << (ht.count - 10) << " элементов" << endl;
+        cout << "... Рё РµС‰Рµ " << (ht.count - 10) << " СЌР»РµРјРµРЅС‚РѕРІ" << endl;
     }
     cout << "==================\n" << endl;
 }
 
 // ============================================================
-// РАБОТА С ФАЙЛАМИ
+// Р РђР‘РћРўРђ РЎ Р¤РђР™Р›РђРњР
 // ============================================================
 
 const string BINARY_FILE = "books.bin";
 
 void printBook(const Book& book) {
     if (book.isbn == 0) {
-        cout << "Запись не найдена\n";
+        cout << "Р—Р°РїРёСЃСЊ РЅРµ РЅР°Р№РґРµРЅР°\n";
     } else {
         cout << "ISBN: " << book.isbn << "\n";
-        cout << "Автор: " << book.author << "\n";
-        cout << "Название: " << book.title << "\n";
+        cout << "РђРІС‚РѕСЂ: " << book.author << "\n";
+        cout << "РќР°Р·РІР°РЅРёРµ: " << book.title << "\n";
     }
 }
 
@@ -347,7 +346,7 @@ void createBinaryFromText(const string& textFileName) {
     ofstream binaryFile(BINARY_FILE, ios::binary);
     
     if (!textFile.is_open() || !binaryFile.is_open()) {
-        cout << "Ошибка открытия файлов" << endl;
+        cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»РѕРІ" << endl;
         return;
     }
     
@@ -379,7 +378,7 @@ void createBinaryFromText(const string& textFileName) {
 }
 
 // ============================================================
-// УПРАВЛЕНИЕ ФАЙЛОМ ЧЕРЕЗ ХЕШ-ТАБЛИЦУ
+// РЈРџР РђР’Р›Р•РќРР• Р¤РђР™Р›РћРњ Р§Р•Р Р•Р— РҐР•РЁ-РўРђР‘Р›РР¦РЈ
 // ============================================================
 
 HashTable buildHashTableFromFile() {
@@ -400,12 +399,12 @@ HashTable buildHashTableFromFile() {
     
     HashTable ht(tableSize);
     
-    cout << "Создание хеш-таблицы из файла..." << endl;
-    cout << "Записей в файле: " << recordCount << ", Размер таблицы: " << tableSize << endl;
+    cout << "РЎРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹ РёР· С„Р°Р№Р»Р°..." << endl;
+    cout << "Р—Р°РїРёСЃРµР№ РІ С„Р°Р№Р»Рµ: " << recordCount << ", Р Р°Р·РјРµСЂ С‚Р°Р±Р»РёС†С‹: " << tableSize << endl;
     
     ifstream file(BINARY_FILE, ios::binary);
     if (!file.is_open()) {
-        cout << "Ошибка открытия файла" << endl;
+        cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°" << endl;
         return ht;
     }
     
@@ -421,14 +420,14 @@ HashTable buildHashTableFromFile() {
     
     file.close();
     
-    cout << "Хеш-таблица создана. Элементов: " << ht.count << endl;
+    cout << "РҐРµС€-С‚Р°Р±Р»РёС†Р° СЃРѕР·РґР°РЅР°. Р­Р»РµРјРµРЅС‚РѕРІ: " << ht.count << endl;
     
     return ht;
 }
 
 bool addBookWithHash(HashTable& ht, const Book& book) {
     if (searchKey(ht, book.isbn) != -1) {
-        cout << "Книга с ISBN " << book.isbn << " уже существует!" << endl;
+        cout << "РљРЅРёРіР° СЃ ISBN " << book.isbn << " СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!" << endl;
         return false;
     }
     
@@ -439,16 +438,16 @@ bool addBookWithHash(HashTable& ht, const Book& book) {
     }
     
     if (ht.loadFactor >= 0.75) {
-        cout << "Выполняется рехеширование..." << endl;
+        cout << "Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ СЂРµС…РµС€РёСЂРѕРІР°РЅРёРµ..." << endl;
         ht = rehash(ht);
     }
     
     if (!insertKey(ht, book.isbn, recordNum)) {
-        cout << "Ошибка добавления в хеш-таблицу" << endl;
+        cout << "РћС€РёР±РєР° РґРѕР±Р°РІР»РµРЅРёСЏ РІ С…РµС€-С‚Р°Р±Р»РёС†Сѓ" << endl;
         return false;
     }
     
-    cout << "Книга добавлена. ISBN: " << book.isbn << ", Запись №" << recordNum << endl;
+    cout << "РљРЅРёРіР° РґРѕР±Р°РІР»РµРЅР°. ISBN: " << book.isbn << ", Р—Р°РїРёСЃСЊ в„–" << recordNum << endl;
     return true;
 }
 
@@ -472,16 +471,16 @@ bool findBookByISBN(HashTable& ht, long long isbn, Book& book) {
 
 bool deleteBookByISBN(HashTable& ht, long long isbn) {
     if (!deleteKey(ht, isbn)) {
-        cout << "Книга с ISBN " << isbn << " не найдена в хеш-таблице" << endl;
+        cout << "РљРЅРёРіР° СЃ ISBN " << isbn << " РЅРµ РЅР°Р№РґРµРЅР° РІ С…РµС€-С‚Р°Р±Р»РёС†Рµ" << endl;
         return false;
     }
     
     if (!deleteRecordByKey(isbn)) {
-        cout << "Ошибка удаления из файла" << endl;
+        cout << "РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ РёР· С„Р°Р№Р»Р°" << endl;
         return false;
     }
     
-    cout << "Книга с ISBN " << isbn << " успешно удалена" << endl;
+    cout << "РљРЅРёРіР° СЃ ISBN " << isbn << " СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР°" << endl;
     return true;
 }
 
@@ -504,12 +503,12 @@ double measureLinearSearch(long long isbn) {
 }
 
 void compareSearchPerformance(HashTable& ht) {
-    cout << "\n========== СРАВНЕНИЕ ПРОИЗВОДИТЕЛЬНОСТИ ==========" << endl;
+    cout << "\n========== РЎР РђР’РќР•РќРР• РџР РћРР—Р’РћР”РРўР•Р›Р¬РќРћРЎРўР ==========" << endl;
     
     int recordCount = getRecordCount();
     
     if (recordCount == 0) {
-        cout << "Файл пуст!" << endl;
+        cout << "Р¤Р°Р№Р» РїСѓСЃС‚!" << endl;
         return;
     }
     
@@ -519,50 +518,50 @@ void compareSearchPerformance(HashTable& ht) {
     readRecordByNumber(recordCount / 2, middleBook);
     readRecordByNumber(recordCount - 1, lastBook);
     
-    cout << "\nКоличество записей в файле: " << recordCount << endl;
-    cout << "\nТестирование поиска:" << endl;
+    cout << "\nРљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїРёСЃРµР№ РІ С„Р°Р№Р»Рµ: " << recordCount << endl;
+    cout << "\nРўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РїРѕРёСЃРєР°:" << endl;
     cout << "------------------------------------------------" << endl;
     
-    cout << "\n1. ПЕРВАЯ ЗАПИСЬ (ISBN: " << firstBook.isbn << ")" << endl;
+    cout << "\n1. РџР•Р Р’РђРЇ Р—РђРџРРЎР¬ (ISBN: " << firstBook.isbn << ")" << endl;
     double hashTime1 = measureHashSearch(ht, firstBook.isbn);
     double linearTime1 = measureLinearSearch(firstBook.isbn);
-    cout << "   Хеш-таблица:    " << fixed << setprecision(2) << hashTime1 << " мкс" << endl;
-    cout << "   Линейный поиск: " << linearTime1 << " мкс" << endl;
-    cout << "   Ускорение:      " << (linearTime1 / hashTime1) << "x" << endl;
+    cout << "   РҐРµС€-С‚Р°Р±Р»РёС†Р°:    " << fixed << setprecision(2) << hashTime1 << " РјРєСЃ" << endl;
+    cout << "   Р›РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє: " << linearTime1 << " РјРєСЃ" << endl;
+    cout << "   РЈСЃРєРѕСЂРµРЅРёРµ:      " << (linearTime1 / hashTime1) << "x" << endl;
     
-    cout << "\n2. СРЕДНЯЯ ЗАПИСЬ (ISBN: " << middleBook.isbn << ")" << endl;
+    cout << "\n2. РЎР Р•Р”РќРЇРЇ Р—РђРџРРЎР¬ (ISBN: " << middleBook.isbn << ")" << endl;
     double hashTime2 = measureHashSearch(ht, middleBook.isbn);
     double linearTime2 = measureLinearSearch(middleBook.isbn);
-    cout << "   Хеш-таблица:    " << hashTime2 << " мкс" << endl;
-    cout << "   Линейный поиск: " << linearTime2 << " мкс" << endl;
-    cout << "   Ускорение:      " << (linearTime2 / hashTime2) << "x" << endl;
+    cout << "   РҐРµС€-С‚Р°Р±Р»РёС†Р°:    " << hashTime2 << " РјРєСЃ" << endl;
+    cout << "   Р›РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє: " << linearTime2 << " РјРєСЃ" << endl;
+    cout << "   РЈСЃРєРѕСЂРµРЅРёРµ:      " << (linearTime2 / hashTime2) << "x" << endl;
     
-    cout << "\n3. ПОСЛЕДНЯЯ ЗАПИСЬ (ISBN: " << lastBook.isbn << ")" << endl;
+    cout << "\n3. РџРћРЎР›Р•Р”РќРЇРЇ Р—РђРџРРЎР¬ (ISBN: " << lastBook.isbn << ")" << endl;
     double hashTime3 = measureHashSearch(ht, lastBook.isbn);
     double linearTime3 = measureLinearSearch(lastBook.isbn);
-    cout << "   Хеш-таблица:    " << hashTime3 << " мкс" << endl;
-    cout << "   Линейный поиск: " << linearTime3 << " мкс" << endl;
-    cout << "   Ускорение:      " << (linearTime3 / hashTime3) << "x" << endl;
+    cout << "   РҐРµС€-С‚Р°Р±Р»РёС†Р°:    " << hashTime3 << " РјРєСЃ" << endl;
+    cout << "   Р›РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє: " << linearTime3 << " РјРєСЃ" << endl;
+    cout << "   РЈСЃРєРѕСЂРµРЅРёРµ:      " << (linearTime3 / hashTime3) << "x" << endl;
     
     cout << "\n------------------------------------------------" << endl;
-    cout << "ВЫВОД: Время доступа через хеш-таблицу примерно" << endl;
-    cout << "одинаково для всех записей (O(1))," << endl;
-    cout << "в то время как линейный поиск зависит от позиции (O(n))." << endl;
+    cout << "Р’Р«Р’РћР”: Р’СЂРµРјСЏ РґРѕСЃС‚СѓРїР° С‡РµСЂРµР· С…РµС€-С‚Р°Р±Р»РёС†Сѓ РїСЂРёРјРµСЂРЅРѕ" << endl;
+    cout << "РѕРґРёРЅР°РєРѕРІРѕ РґР»СЏ РІСЃРµС… Р·Р°РїРёСЃРµР№ (O(1))," << endl;
+    cout << "РІ С‚Рѕ РІСЂРµРјСЏ РєР°Рє Р»РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє Р·Р°РІРёСЃРёС‚ РѕС‚ РїРѕР·РёС†РёРё (O(n))." << endl;
     cout << "==================================================\n" << endl;
 }
 
 void createLargeTestFile(int numRecords) {
-    cout << "Создание тестового файла с " << numRecords << " записями..." << endl;
+    cout << "РЎРѕР·РґР°РЅРёРµ С‚РµСЃС‚РѕРІРѕРіРѕ С„Р°Р№Р»Р° СЃ " << numRecords << " Р·Р°РїРёСЃСЏРјРё..." << endl;
     
     ofstream testFile("books_test.txt");
     
-    string authors[] = {"Толстой Л.Н.", "Достоевский Ф.М.", "Пушкин А.С.", 
-                       "Булгаков М.А.", "Чехов А.П.", "Тургенев И.С.",
-                       "Гоголь Н.В.", "Лермонтов М.Ю.", "Шолохов М.А.", "Набоков В.В."};
+    string authors[] = {"РўРѕР»СЃС‚РѕР№ Р›.Рќ.", "Р”РѕСЃС‚РѕРµРІСЃРєРёР№ Р¤.Рњ.", "РџСѓС€РєРёРЅ Рђ.РЎ.", 
+                       "Р‘СѓР»РіР°РєРѕРІ Рњ.Рђ.", "Р§РµС…РѕРІ Рђ.Рџ.", "РўСѓСЂРіРµРЅРµРІ Р.РЎ.",
+                       "Р“РѕРіРѕР»СЊ Рќ.Р’.", "Р›РµСЂРјРѕРЅС‚РѕРІ Рњ.Р®.", "РЁРѕР»РѕС…РѕРІ Рњ.Рђ.", "РќР°Р±РѕРєРѕРІ Р’.Р’."};
     
-    string titles[] = {"Война и мир", "Преступление и наказание", "Евгений Онегин",
-                      "Мастер и Маргарита", "Вишневый сад", "Отцы и дети",
-                      "Мертвые души", "Герой нашего времени", "Тихий Дон", "Лолита"};
+    string titles[] = {"Р’РѕР№РЅР° Рё РјРёСЂ", "РџСЂРµСЃС‚СѓРїР»РµРЅРёРµ Рё РЅР°РєР°Р·Р°РЅРёРµ", "Р•РІРіРµРЅРёР№ РћРЅРµРіРёРЅ",
+                      "РњР°СЃС‚РµСЂ Рё РњР°СЂРіР°СЂРёС‚Р°", "Р’РёС€РЅРµРІС‹Р№ СЃР°Рґ", "РћС‚С†С‹ Рё РґРµС‚Рё",
+                      "РњРµСЂС‚РІС‹Рµ РґСѓС€Рё", "Р“РµСЂРѕР№ РЅР°С€РµРіРѕ РІСЂРµРјРµРЅРё", "РўРёС…РёР№ Р”РѕРЅ", "Р›РѕР»РёС‚Р°"};
     
     srand(time(0));
     
@@ -576,11 +575,40 @@ void createLargeTestFile(int numRecords) {
     }
     
     testFile.close();
-    cout << "Файл создан." << endl;
+    cout << "Р¤Р°Р№Р» СЃРѕР·РґР°РЅ." << endl;
+}
+
+void listAllBooks() {
+    ifstream file(BINARY_FILE, ios::binary);
+    if (!file.is_open()) {
+        cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°" << endl;
+        return;
+    }
+    
+    Book book;
+    int count = 0;
+    
+    cout << "\n=== Р’СЃРµ РєРЅРёРіРё РІ С„Р°Р№Р»Рµ ===" << endl;
+    
+    while (file.read(reinterpret_cast<char*>(&book), sizeof(Book))) {
+        if (book.isbn != 0) {
+            cout << "\n[" << count << "] ";
+            printBook(book);
+            count++;
+        }
+    }
+    
+    if (count == 0) {
+        cout << "Р¤Р°Р№Р» РїСѓСЃС‚" << endl;
+    } else {
+        cout << "\nР’СЃРµРіРѕ РєРЅРёРі: " << count << endl;
+    }
+    
+    file.close();
 }
 
 // ============================================================
-// АЛГОРИТМЫ ПОИСКА В ТЕКСТЕ (КМП)
+// РђР›Р“РћР РРўРњР« РџРћРРЎРљРђ Р’ РўР•РљРЎРўР• (РљРњРџ)
 // ============================================================
 
 vector<int> computePrefixFunction(const string& pattern) {
@@ -614,7 +642,7 @@ int KMPSearch(const string& text, const string& pattern, bool showProcess = fals
     vector<int> pi = computePrefixFunction(pattern);
     
     if (showProcess) {
-        cout << "\nПрефикс-функция для образца \"" << pattern << "\":" << endl;
+        cout << "\nРџСЂРµС„РёРєСЃ-С„СѓРЅРєС†РёСЏ РґР»СЏ РѕР±СЂР°Р·С†Р° \"" << pattern << "\":" << endl;
         for (int i = 0; i < m; i++) {
             cout << "pi[" << i << "] = " << pi[i] << " ";
         }
@@ -638,16 +666,16 @@ int KMPSearch(const string& text, const string& pattern, bool showProcess = fals
         
         if (j == m) {
             if (showProcess) {
-                cout << "Найдено вхождение на позиции: " << (i - m + 1) << endl;
-                cout << "Количество сравнений: " << comparisons << endl;
+                cout << "РќР°Р№РґРµРЅРѕ РІС…РѕР¶РґРµРЅРёРµ РЅР° РїРѕР·РёС†РёРё: " << (i - m + 1) << endl;
+                cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°РІРЅРµРЅРёР№: " << comparisons << endl;
             }
             return i - m + 1;
         }
     }
     
     if (showProcess) {
-        cout << "Образец не найден" << endl;
-        cout << "Количество сравнений: " << comparisons << endl;
+        cout << "РћР±СЂР°Р·РµС† РЅРµ РЅР°Р№РґРµРЅ" << endl;
+        cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°РІРЅРµРЅРёР№: " << comparisons << endl;
     }
     
     return -1;
@@ -657,9 +685,9 @@ int findMaxPrefixInString(const string& a, const string& b, bool showProcess = f
     if (a.empty()) return 0;
     
     if (showProcess) {
-        cout << "\n========== ПОИСК МАКСИМАЛЬНОГО ПРЕФИКСА ==========" << endl;
-        cout << "Строка a: \"" << a << "\"" << endl;
-        cout << "Строка b: \"" << b << "\"" << endl;
+        cout << "\n========== РџРћРРЎРљ РњРђРљРЎРРњРђР›Р¬РќРћР“Рћ РџР Р•Р¤РРљРЎРђ ==========" << endl;
+        cout << "РЎС‚СЂРѕРєР° a: \"" << a << "\"" << endl;
+        cout << "РЎС‚СЂРѕРєР° b: \"" << b << "\"" << endl;
         cout << "===================================================\n" << endl;
     }
     
@@ -669,33 +697,33 @@ int findMaxPrefixInString(const string& a, const string& b, bool showProcess = f
         string prefix = a.substr(0, len);
         
         if (showProcess) {
-            cout << "Проверяем префикс длины " << len << ": \"" << prefix << "\"" << endl;
+            cout << "РџСЂРѕРІРµСЂСЏРµРј РїСЂРµС„РёРєСЃ РґР»РёРЅС‹ " << len << ": \"" << prefix << "\"" << endl;
         }
         
         int pos = KMPSearch(b, prefix, false);
         
         if (pos != -1) {
             if (showProcess) {
-                cout << "? Найден на позиции " << pos << " в строке b" << endl;
-                cout << "\nМаксимальная длина префикса: " << len << endl;
+                cout << "вњ“ РќР°Р№РґРµРЅ РЅР° РїРѕР·РёС†РёРё " << pos << " РІ СЃС‚СЂРѕРєРµ b" << endl;
+                cout << "\nРњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РїСЂРµС„РёРєСЃР°: " << len << endl;
             }
             return len;
         } else {
             if (showProcess) {
-                cout << "? Не найден в строке b" << endl;
+                cout << "вњ— РќРµ РЅР°Р№РґРµРЅ РІ СЃС‚СЂРѕРєРµ b" << endl;
             }
         }
     }
     
     if (showProcess) {
-        cout << "\nНи один префикс не найден (результат: 0)" << endl;
+        cout << "\nРќРё РѕРґРёРЅ РїСЂРµС„РёРєСЃ РЅРµ РЅР°Р№РґРµРЅ (СЂРµР·СѓР»СЊС‚Р°С‚: 0)" << endl;
     }
     
     return 0;
 }
 
 // ============================================================
-// РЕГУЛЯРНЫЕ ВЫРАЖЕНИЯ ДЛЯ ПОИСКА ЦЕН
+// Р Р•Р“РЈР›РЇР РќР«Р• Р’Р«Р РђР–Р•РќРРЇ Р”Р›РЇ РџРћРРЎРљРђ Р¦Р•Рќ
 // ============================================================
 
 double parsePrice(string priceStr) {
@@ -727,15 +755,15 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
     vector<PriceInfo> prices;
     
     if (showProcess) {
-        cout << "\n========== ПОИСК ЦЕН В ТЕКСТЕ ==========" << endl;
+        cout << "\n========== РџРћРРЎРљ Р¦Р•Рќ Р’ РўР•РљРЎРўР• ==========" << endl;
         if (!productName.empty()) {
-            cout << "Поиск цен для товара: \"" << productName << "\"" << endl;
+            cout << "РџРѕРёСЃРє С†РµРЅ РґР»СЏ С‚РѕРІР°СЂР°: \"" << productName << "\"" << endl;
         }
         cout << "=========================================\n" << endl;
     }
     
-    regex pricePattern1(R"(([$€???])\s*([0-9]{1,3}(?:[,.\s][0-9]{3})*(?:[,.][0-9]{1,2})?))");
-    regex pricePattern2(R"(([0-9]{1,3}(?:[,.\s][0-9]{3})*(?:[,.][0-9]{1,2})?)\s*([$€???]|руб\.?|USD|EUR|usd|eur|евро|долл\.?|долларов?))");
+    regex pricePattern1(R"(([$в‚¬в‚Ѕ])\s*([0-9]{1,3}(?:[,.\s][0-9]{3})*(?:[,.][0-9]{1,2})?))");
+    regex pricePattern2(R"(([0-9]{1,3}(?:[,.\s][0-9]{3})*(?:[,.][0-9]{1,2})?)\s*([$в‚¬в‚Ѕ]|СЂСѓР±\.?|USD|EUR|usd|eur|РµРІСЂРѕ|РґРѕР»Р»\.?|РґРѕР»Р»Р°СЂРѕРІ?))");
     regex pricePattern3(R"((USD|EUR|RUB|usd|eur|rub)\s*([0-9]{1,3}(?:[,.\s][0-9]{3})*(?:[,.][0-9]{1,2})?))");
     
     string searchText = text;
@@ -750,12 +778,12 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
             basePosition = start;
             
             if (showProcess) {
-                cout << "Найдено упоминание товара. Контекст:" << endl;
+                cout << "РќР°Р№РґРµРЅРѕ СѓРїРѕРјРёРЅР°РЅРёРµ С‚РѕРІР°СЂР°. РљРѕРЅС‚РµРєСЃС‚:" << endl;
                 cout << "\"" << searchText << "\"" << endl << endl;
             }
         } else {
             if (showProcess) {
-                cout << "Товар \"" << productName << "\" не найден в тексте" << endl;
+                cout << "РўРѕРІР°СЂ \"" << productName << "\" РЅРµ РЅР°Р№РґРµРЅ РІ С‚РµРєСЃС‚Рµ" << endl;
             }
             return prices;
         }
@@ -775,7 +803,7 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
             prices.push_back(price);
             
             if (showProcess) {
-                cout << "Найдена цена: " << price.original 
+                cout << "РќР°Р№РґРµРЅР° С†РµРЅР°: " << price.original 
                      << " - " << fixed << setprecision(2) << price.value 
                      << " " << price.currency << endl;
             }
@@ -807,7 +835,7 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
                 prices.push_back(price);
                 
                 if (showProcess) {
-                    cout << "Найдена цена: " << price.original 
+                    cout << "РќР°Р№РґРµРЅР° С†РµРЅР°: " << price.original 
                          << " - " << fixed << setprecision(2) << price.value 
                          << " " << price.currency << endl;
                 }
@@ -840,7 +868,7 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
                 prices.push_back(price);
                 
                 if (showProcess) {
-                    cout << "Найдена цена: " << price.original 
+                    cout << "РќР°Р№РґРµРЅР° С†РµРЅР°: " << price.original 
                          << " - " << fixed << setprecision(2) << price.value 
                          << " " << price.currency << endl;
                 }
@@ -852,7 +880,7 @@ vector<PriceInfo> findPricesInText(const string& text, const string& productName
     }
     
     if (showProcess) {
-        cout << "\nВсего найдено цен: " << prices.size() << endl;
+        cout << "\nР’СЃРµРіРѕ РЅР°Р№РґРµРЅРѕ С†РµРЅ: " << prices.size() << endl;
     }
     
     return prices;
@@ -872,8 +900,8 @@ string generateLargeText(int size) {
 }
 
 void measureKMPPerformance() {
-    cout << "\n========== ОЦЕНКА ПРОИЗВОДИТЕЛЬНОСТИ КМП ==========" << endl;
-    cout << "| Размер текста | Время (мкс) | T(n)/n | Сложность |" << endl;
+    cout << "\n========== РћР¦Р•РќРљРђ РџР РћРР—Р’РћР”РРўР•Р›Р¬РќРћРЎРўР РљРњРџ ==========" << endl;
+    cout << "| Р Р°Р·РјРµСЂ С‚РµРєСЃС‚Р° | Р’СЂРµРјСЏ (РјРєСЃ) | T(n)/n | РЎР»РѕР¶РЅРѕСЃС‚СЊ |" << endl;
     cout << "|---------------|-------------|--------|-----------|" << endl;
     
     int sizes[] = {100000, 200000, 300000, 400000, 500000};
@@ -895,223 +923,378 @@ void measureKMPPerformance() {
              << " | O(n+m)    |" << endl;
     }
     
-    cout << "\nТеоретическая сложность: O(n + m)" << endl;
-    cout << "Практическая сложность: линейная зависимость" << endl;
+    cout << "\nРўРµРѕСЂРµС‚РёС‡РµСЃРєР°СЏ СЃР»РѕР¶РЅРѕСЃС‚СЊ: O(n + m)" << endl;
+    cout << "РџСЂР°РєС‚РёС‡РµСЃРєР°СЏ СЃР»РѕР¶РЅРѕСЃС‚СЊ: Р»РёРЅРµР№РЅР°СЏ Р·Р°РІРёСЃРёРјРѕСЃС‚СЊ" << endl;
 }
 
 // ============================================================
-// ТЕСТИРОВАНИЕ
+// РРќРўР•Р РђРљРўРР’РќРћР• РњР•РќР® Р”Р›РЇ Р РђР‘РћРўР« РЎ Р¤РђР™Р›РћРњ
 // ============================================================
 
-void testStringSearch() {
-    cout << "\n??????????????????????????????????????????????????????????" << endl;
-      cout << "?     ТЕСТИРОВАНИЕ АЛГОРИТМОВ ПОИСКА В ТЕКСТЕ            ?" << endl;
-      cout << "?              Вариант 8 - КМП и Регулярки               ?" << endl;
-      cout << "??????????????????????????????????????????????????????????\n" << endl;
-    
-    cout << "\n???????????????????????????????????????????????????????" << endl;
-      cout << "?  ЗАДАЧА 1: Поиск максимального префикса строки      ?" << endl;
-      cout << "???????????????????????????????????????????????????????" << endl;
-    
-    cout << "\n--- Тест 1.1: Полный префикс входит в строку ---" << endl;
-    string a1 = "abcdef";
-    string b1 = "123abcdef456";
-    int result1 = findMaxPrefixInString(a1, b1, true);
-    cout << "Результат: " << result1 << " (ожидается: 6)" << endl;
-    
-    cout << "\n--- Тест 1.2: Частичный префикс ---" << endl;
-    string a2 = "abcdef";
-    string b2 = "123abc456";
-    int result2 = findMaxPrefixInString(a2, b2, true);
-    cout << "Результат: " << result2 << " (ожидается: 3)" << endl;
-    
-    cout << "\n--- Тест 1.3: Префикс не найден ---" << endl;
-    string a3 = "xyz";
-    string b3 = "abcdef";
-    int result3 = findMaxPrefixInString(a3, b3, true);
-    cout << "Результат: " << result3 << " (ожидается: 0)" << endl;
-    
-    cout << "\n--- Тест 1.4: Реальный текст ---" << endl;
-    string a5 = "программа";
-    string b5 = "В этом тексте есть слово программирование и еще программа полностью";
-    findMaxPrefixInString(a5, b5, true);
-    
-    cout << "\n\n???????????????????????????????????????????????????????" << endl;
-        cout << "?  ЗАДАЧА 2: Поиск цен на товары в тексте             ?" << endl;
-        cout << "???????????????????????????????????????????????????????" << endl;
-    
-    cout << "\n--- Тест 2.1: Различные форматы цен ---" << endl;
-    string text1 = "Товары: молоко $2.50, хлеб 45 руб., сыр €12,99, "
-                   "масло 250.00 руб, чай ?199, кофе USD 15.99";
-    findPricesInText(text1, "", true);
-    
-    cout << "\n--- Тест 2.2: Цены с разделителями тысяч ---" << endl;
-    string text2 = "Ноутбук стоит $1,299.99, телефон - 45 900 руб., "
-                   "планшет EUR 899,50";
-    findPricesInText(text2, "", true);
-    
-    cout << "\n--- Тест 2.3: Поиск цены конкретного товара ---" << endl;
-    string text3 = "В магазине: ноутбук HP за $1,299.99, "
-                   "ноутбук Dell по цене $899, "
-                   "ноутбук Asus стоит 65000 руб.";
-    findPricesInText(text3, "ноутбук Dell", true);
-    
-    cout << "\n\n???????????????????????????????????????????????????????" << endl;
-        cout << "?  ОЦЕНКА ПРОИЗВОДИТЕЛЬНОСТИ АЛГОРИТМА КМП            ?" << endl;
-        cout << "???????????????????????????????????????????????????????" << endl;
-    
-    measureKMPPerformance();
-    
-    cout << "\n\n???????????????????????????????????????????????????????" << endl;
-        cout << "?  ДЕТАЛЬНЫЙ АНАЛИЗ РАБОТЫ АЛГОРИТМА КМП              ?" << endl;
-        cout << "???????????????????????????????????????????????????????" << endl;
-    
-    cout << "\n--- Успешный поиск ---" << endl;
-    string text5 = "abcabcabdabc";
-    string pattern1 = "abcabd";
-    cout << "Текст: \"" << text5 << "\"" << endl;
-    cout << "Образец: \"" << pattern1 << "\"" << endl;
-    KMPSearch(text5, pattern1, true);
-    
-    cout << "\n--- Неуспешный поиск ---" << endl;
-    string pattern2 = "xyz";
-    cout << "Текст: \"" << text5 << "\"" << endl;
-    cout << "Образец: \"" << pattern2 << "\"" << endl;
-    KMPSearch(text5, pattern2, true);
-    
-    cout << "\n??????????????????????????????????????????????????????????" << endl;
-      cout << "?          \nТЕСТИРОВАНИЕ УСПЕШНО ЗАВЕРШЕНО                ?" << endl;
-      cout << "??????????????????????????????????????????????????????????\n" << endl;
-}
-
-void testFileHash() {
-    cout << "\n????????????????????????????????????????????????????????" << endl;
-      cout << "?   КОМПЛЕКСНОЕ ТЕСТИРОВАНИЕ РАБОТЫ С ХЕШ-ТАБЛИЦЕЙ     ?" << endl;
-      cout << "????????????????????????????????????????????????????????\n" << endl;
-    
-    cout << "\n--- ЭТАП 1: Подготовка небольшого файла ---" << endl;
+void interactiveFileMenu() {
+    cout << "\n--- РџРѕРґРіРѕС‚РѕРІРєР° С‚РµСЃС‚РѕРІРѕРіРѕ С„Р°Р№Р»Р° ---" << endl;
     
     ofstream testFile("books_test.txt");
-    testFile << "978000000001,Толстой Л.Н.,Война и мир,1869\n";
-    testFile << "978000000012,Достоевский Ф.М.,Преступление и наказание,1866\n";
-    testFile << "978000000023,Пушкин А.С.,Евгений Онегин,1833\n";
-    testFile << "978000000034,Булгаков М.А.,Мастер и Маргарита,1967\n";
-    testFile << "978000000045,Чехов А.П.,Вишневый сад,1904\n";
-    testFile << "978000000056,Тургенев И.С.,Отцы и дети,1862\n";
-    testFile << "978000000067,Гоголь Н.В.,Мертвые души,1842\n";
-    testFile << "978000000078,Лермонтов М.Ю.,Герой нашего времени,1840\n";
+    testFile << "978000000001,РўРѕР»СЃС‚РѕР№ Р›.Рќ.,Р’РѕР№РЅР° Рё РјРёСЂ,1869\n";
+    testFile << "978000000012,Р”РѕСЃС‚РѕРµРІСЃРєРёР№ Р¤.Рњ.,РџСЂРµСЃС‚СѓРїР»РµРЅРёРµ Рё РЅР°РєР°Р·Р°РЅРёРµ,1866\n";
+    testFile << "978000000023,РџСѓС€РєРёРЅ Рђ.РЎ.,Р•РІРіРµРЅРёР№ РћРЅРµРіРёРЅ,1833\n";
+    testFile << "978000000034,Р‘СѓР»РіР°РєРѕРІ Рњ.Рђ.,РњР°СЃС‚РµСЂ Рё РњР°СЂРіР°СЂРёС‚Р°,1967\n";
+    testFile << "978000000045,Р§РµС…РѕРІ Рђ.Рџ.,Р’РёС€РЅРµРІС‹Р№ СЃР°Рґ,1904\n";
+    testFile << "978000000056,РўСѓСЂРіРµРЅРµРІ Р.РЎ.,РћС‚С†С‹ Рё РґРµС‚Рё,1862\n";
+    testFile << "978000000067,Р“РѕРіРѕР»СЊ Рќ.Р’.,РњРµСЂС‚РІС‹Рµ РґСѓС€Рё,1842\n";
+    testFile << "978000000078,Р›РµСЂРјРѕРЅС‚РѕРІ Рњ.Р®.,Р“РµСЂРѕР№ РЅР°С€РµРіРѕ РІСЂРµРјРµРЅРё,1840\n";
     testFile.close();
     
     createBinaryFromText("books_test.txt");
     
-    cout << "\n--- ЭТАП 2: Создание хеш-таблицы из файла ---" << endl;
+    cout << "\nРЎРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹ РёР· С„Р°Р№Р»Р°..." << endl;
     HashTable ht = buildHashTableFromFile();
     printHashTable(ht);
     
-    cout << "\n--- ЭТАП 3: Поиск книги по ISBN ---" << endl;
+    bool running = true;
+    
+    while (running) {
+        cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+        cout << "в•‘   РРќРўР•Р РђРљРўРР’РќРђРЇ Р РђР‘РћРўРђ РЎ РҐР•Р­-РўРђР‘Р›РР¦Р•Р™          в•‘" << endl;
+        cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+        cout << "\n1. РџРѕРєР°Р·Р°С‚СЊ РІСЃРµ РєРЅРёРіРё" << endl;
+        cout << "2. РџРѕРєР°Р·Р°С‚СЊ С…РµС€-С‚Р°Р±Р»РёС†Сѓ" << endl;
+        cout << "3. РќР°Р№С‚Рё РєРЅРёРіСѓ РїРѕ ISBN" << endl;
+        cout << "4. Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ РєРЅРёРіСѓ" << endl;
+        cout << "5. РЈРґР°Р»РёС‚СЊ РєРЅРёРіСѓ РїРѕ ISBN" << endl;
+        cout << "6. РЎСЂР°РІРЅРёС‚СЊ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРѕРёСЃРєР°" << endl;
+        cout << "7. РЎРѕР·РґР°С‚СЊ Р±РѕР»СЊС€РѕР№ С‚РµСЃС‚РѕРІС‹Р№ С„Р°Р№Р»" << endl;
+        cout << "0. Р’РµСЂРЅСѓС‚СЊСЃСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+        cout << "\nР’Р°С€ РІС‹Р±РѕСЂ: ";
+        
+        int choice;
+        cin >> choice;
+        cin.ignore();
+        
+        switch (choice) {
+            case 1: {
+                listAllBooks();
+                break;
+            }
+            
+            case 2: {
+                printHashTable(ht);
+                break;
+            }
+            
+            case 3: {
+                cout << "\nР’РІРµРґРёС‚Рµ ISBN РґР»СЏ РїРѕРёСЃРєР°: ";
+                long long isbn;
+                cin >> isbn;
+                cin.ignore();
+                
+                Book book;
+                cout << "\nРџРѕРёСЃРє С‡РµСЂРµР· С…РµС€-С‚Р°Р±Р»РёС†Сѓ..." << endl;
+                if (findBookByISBN(ht, isbn, book)) {
+                    cout << "\nвњ“ РљРЅРёРіР° РЅР°Р№РґРµРЅР°:" << endl;
+                    printBook(book);
+                } else {
+                    cout << "\nвњ— РљРЅРёРіР° РЅРµ РЅР°Р№РґРµРЅР°" << endl;
+                }
+                break;
+            }
+            
+            case 4: {
+                cout << "\n--- Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕР№ РєРЅРёРіРё ---" << endl;
+                cout << "Р’РІРµРґРёС‚Рµ ISBN (12 С†РёС„СЂ): ";
+                long long isbn;
+                cin >> isbn;
+                cin.ignore();
+                
+                cout << "Р’РІРµРґРёС‚Рµ Р°РІС‚РѕСЂР°: ";
+                string author;
+                getline(cin, author);
+                
+                cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ: ";
+                string title;
+                getline(cin, title);
+                
+                Book newBook(isbn, author, title);
+                if (addBookWithHash(ht, newBook)) {
+                    cout << "\nвњ“ РљРЅРёРіР° СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅР°!" << endl;
+                    printHashTable(ht);
+                } else {
+                    cout << "\nвњ— РћС€РёР±РєР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РєРЅРёРіРё" << endl;
+                }
+                break;
+            }
+            
+            case 5: {
+                cout << "\nР’РІРµРґРёС‚Рµ ISBN РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: ";
+                long long isbn;
+                cin >> isbn;
+                cin.ignore();
+                
+                if (deleteBookByISBN(ht, isbn)) {
+                    cout << "\nвњ“ РљРЅРёРіР° СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР°!" << endl;
+                    printHashTable(ht);
+                } else {
+                    cout << "\nвњ— РћС€РёР±РєР° РїСЂРё СѓРґР°Р»РµРЅРёРё РєРЅРёРіРё" << endl;
+                }
+                break;
+            }
+            
+            case 6: {
+                compareSearchPerformance(ht);
+                break;
+            }
+            
+            case 7: {
+                cout << "\nР’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїРёСЃРµР№ РґР»СЏ РіРµРЅРµСЂР°С†РёРё: ";
+                int count;
+                cin >> count;
+                cin.ignore();
+                
+                createLargeTestFile(count);
+                createBinaryFromText("books_test.txt");
+                
+                cout << "\nРџРµСЂРµСЃРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹..." << endl;
+                ht = buildHashTableFromFile();
+                printHashTable(ht);
+                break;
+            }
+            
+            case 0: {
+                running = false;
+                break;
+            }
+            
+            default: {
+                cout << "\nвњ— РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!" << endl;
+                break;
+            }
+        }
+        
+        if (running) {
+            cout << "\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...";
+            cin.get();
+        }
+    }
+}
+
+// ============================================================
+// РљРћРњРџР›Р•РљРЎРќРћР• РўР•РЎРўРР РћР’РђРќРР•
+// ============================================================
+
+void comprehensiveFileHashTest() {
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘   РљРћРњРџР›Р•РљРЎРќРћР• РўР•РЎРўРР РћР’РђРќРР• Р РђР‘РћРўР« РЎ РҐР•РЁ-РўРђР‘Р›РР¦Р•Р™ в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ\n" << endl;
+    
+    cout << "\n--- Р­РўРђРџ 1: РџРѕРґРіРѕС‚РѕРІРєР° РЅРµР±РѕР»СЊС€РѕРіРѕ С„Р°Р№Р»Р° ---" << endl;
+    
+    ofstream testFile("books_test.txt");
+    testFile << "978000000001,РўРѕР»СЃС‚РѕР№ Р›.Рќ.,Р’РѕР№РЅР° Рё РјРёСЂ,1869\n";
+    testFile << "978000000012,Р”РѕСЃС‚РѕРµРІСЃРєРёР№ Р¤.Рњ.,РџСЂРµСЃС‚СѓРїР»РµРЅРёРµ Рё РЅР°РєР°Р·Р°РЅРёРµ,1866\n";
+    testFile << "978000000023,РџСѓС€РєРёРЅ Рђ.РЎ.,Р•РІРіРµРЅРёР№ РћРЅРµРіРёРЅ,1833\n";
+    testFile << "978000000034,Р‘СѓР»РіР°РєРѕРІ Рњ.Рђ.,РњР°СЃС‚РµСЂ Рё РњР°СЂРіР°СЂРёС‚Р°,1967\n";
+    testFile << "978000000045,Р§РµС…РѕРІ Рђ.Рџ.,Р’РёС€РЅРµРІС‹Р№ СЃР°Рґ,1904\n";
+    testFile << "978000000056,РўСѓСЂРіРµРЅРµРІ Р.РЎ.,РћС‚С†С‹ Рё РґРµС‚Рё,1862\n";
+    testFile << "978000000067,Р“РѕРіРѕР»СЊ Рќ.Р’.,РњРµСЂС‚РІС‹Рµ РґСѓС€Рё,1842\n";
+    testFile << "978000000078,Р›РµСЂРјРѕРЅС‚РѕРІ Рњ.Р®.,Р“РµСЂРѕР№ РЅР°С€РµРіРѕ РІСЂРµРјРµРЅРё,1840\n";
+    testFile.close();
+    
+    createBinaryFromText("books_test.txt");
+    
+    cout << "\n--- Р­РўРђРџ 2: РЎРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹ РёР· С„Р°Р№Р»Р° ---" << endl;
+    HashTable ht = buildHashTableFromFile();
+    printHashTable(ht);
+    
+    cout << "\n--- Р­РўРђРџ 3: РџРѕРёСЃРє РєРЅРёРіРё РїРѕ ISBN ---" << endl;
     Book foundBook;
     long long searchISBN = 978000000034;
     
-    cout << "Поиск ISBN: " << searchISBN << endl;
+    cout << "РџРѕРёСЃРє ISBN: " << searchISBN << endl;
     if (findBookByISBN(ht, searchISBN, foundBook)) {
-        cout << "\nКнига найдена:" << endl;
+        cout << "\nРљРЅРёРіР° РЅР°Р№РґРµРЅР°:" << endl;
         printBook(foundBook);
     }
     
-    cout << "\n--- ЭТАП 4: Добавление новой книги ---" << endl;
-    Book newBook(978000000089, "Шолохов М.А.", "Тихий Дон");
+    cout << "\n--- Р­РўРђРџ 4: Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕР№ РєРЅРёРіРё ---" << endl;
+    Book newBook(978000000089, "РЁРѕР»РѕС…РѕРІ Рњ.Рђ.", "РўРёС…РёР№ Р”РѕРЅ");
     addBookWithHash(ht, newBook);
     printHashTable(ht);
     
-    cout << "\n--- ЭТАП 5: Добавление книг (с коллизиями) ---" << endl;
-    Book book1(978000000090, "Набоков В.В.", "Лолита");
-    Book book2(978000000101, "Солженицын А.И.", "Один день Ивана Денисовича");
+    cout << "\n--- Р­РўРђРџ 5: Р”РѕР±Р°РІР»РµРЅРёРµ РєРЅРёРі (СЃ РєРѕР»Р»РёР·РёСЏРјРё) ---" << endl;
+    Book book1(978000000090, "РќР°Р±РѕРєРѕРІ Р’.Р’.", "Р›РѕР»РёС‚Р°");
+    Book book2(978000000101, "РЎРѕР»Р¶РµРЅРёС†С‹РЅ Рђ.Р.", "РћРґРёРЅ РґРµРЅСЊ РРІР°РЅР° Р”РµРЅРёСЃРѕРІРёС‡Р°");
     addBookWithHash(ht, book1);
     addBookWithHash(ht, book2);
     
-    cout << "\n--- ЭТАП 6: Попытка добавить дубликат ---" << endl;
-    Book duplicate(978000000001, "Дубликат", "Тест");
+    cout << "\n--- Р­РўРђРџ 6: РџРѕРїС‹С‚РєР° РґРѕР±Р°РІРёС‚СЊ РґСѓР±Р»РёРєР°С‚ ---" << endl;
+    Book duplicate(978000000001, "Р”СѓР±Р»РёРєР°С‚", "РўРµСЃС‚");
     addBookWithHash(ht, duplicate);
     
-    cout << "\n--- ЭТАП 7: Удаление книги ---" << endl;
+    cout << "\n--- Р­РўРђРџ 7: РЈРґР°Р»РµРЅРёРµ РєРЅРёРіРё ---" << endl;
     deleteBookByISBN(ht, 978000000012);
     printHashTable(ht);
     
-    cout << "\n--- ЭТАП 8: Попытка найти удаленную книгу ---" << endl;
+    cout << "\n--- Р­РўРђРџ 8: РџРѕРїС‹С‚РєР° РЅР°Р№С‚Рё СѓРґР°Р»РµРЅРЅСѓСЋ РєРЅРёРіСѓ ---" << endl;
     if (!findBookByISBN(ht, 978000000012, foundBook)) {
-        cout << "Книга корректно удалена из хеш-таблицы" << endl;
+        cout << "РљРЅРёРіР° РєРѕСЂСЂРµРєС‚РЅРѕ СѓРґР°Р»РµРЅР° РёР· С…РµС€-С‚Р°Р±Р»РёС†С‹" << endl;
     }
     
-    cout << "\n--- ЭТАП 9: Заполнение таблицы до рехеширования ---" << endl;
-    cout << "Текущий коэффициент заполнения: " << ht.loadFactor << endl;
+    cout << "\n--- Р­РўРђРџ 9: Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ РґРѕ СЂРµС…РµС€РёСЂРѕРІР°РЅРёСЏ ---" << endl;
+    cout << "РўРµРєСѓС‰РёР№ РєРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РїРѕР»РЅРµРЅРёСЏ: " << ht.loadFactor << endl;
     
     int counter = 200;
     while (ht.loadFactor < 0.75 && counter < 300) {
-        Book tempBook(978000000000LL + counter, "Автор", "Название");
+        Book tempBook(978000000000LL + counter, "РђРІС‚РѕСЂ", "РќР°Р·РІР°РЅРёРµ");
         if (!addBookWithHash(ht, tempBook)) {
             break;
         }
         counter++;
     }
     
-    cout << "После заполнения:" << endl;
-    cout << "Размер таблицы: " << ht.size << endl;
-    cout << "Элементов: " << ht.count << endl;
-    cout << "Коэффициент заполнения: " << ht.loadFactor << endl;
+    cout << "РџРѕСЃР»Рµ Р·Р°РїРѕР»РЅРµРЅРёСЏ:" << endl;
+    cout << "Р Р°Р·РјРµСЂ С‚Р°Р±Р»РёС†С‹: " << ht.size << endl;
+    cout << "Р­Р»РµРјРµРЅС‚РѕРІ: " << ht.count << endl;
+    cout << "РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РїРѕР»РЅРµРЅРёСЏ: " << ht.loadFactor << endl;
     
-    cout << "\nДобавление книги, вызывающей рехеширование..." << endl;
-    Book triggerBook(978000000300, "Триггер", "Рехеширование");
+    cout << "\nР”РѕР±Р°РІР»РµРЅРёРµ РєРЅРёРіРё, РІС‹Р·С‹РІР°СЋС‰РµР№ СЂРµС…РµС€РёСЂРѕРІР°РЅРёРµ..." << endl;
+    Book triggerBook(978000000300, "РўСЂРёРіРіРµСЂ", "Р РµС…РµС€РёСЂРѕРІР°РЅРёРµ");
     addBookWithHash(ht, triggerBook);
     
-    cout << "\nПосле рехеширования:" << endl;
-    cout << "Размер таблицы: " << ht.size << endl;
-    cout << "Элементов: " << ht.count << endl;
-    cout << "Коэффициент заполнения: " << ht.loadFactor << endl;
+    cout << "\nРџРѕСЃР»Рµ СЂРµС…РµС€РёСЂРѕРІР°РЅРёСЏ:" << endl;
+    cout << "Р Р°Р·РјРµСЂ С‚Р°Р±Р»РёС†С‹: " << ht.size << endl;
+    cout << "Р­Р»РµРјРµРЅС‚РѕРІ: " << ht.count << endl;
+    cout << "РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РїРѕР»РЅРµРЅРёСЏ: " << ht.loadFactor << endl;
     
-    cout << "\n--- ЭТАП 10: Тест с большим файлом (500+ записей) ---" << endl;
+    cout << "\n--- Р­РўРђРџ 10: РўРµСЃС‚ СЃ Р±РѕР»СЊС€РёРј С„Р°Р№Р»РѕРј (500+ Р·Р°РїРёСЃРµР№) ---" << endl;
     createLargeTestFile(500);
     createBinaryFromText("books_test.txt");
     
     HashTable largeHt = buildHashTableFromFile();
     
-    cout << "\n--- ЭТАП 11: Сравнение производительности ---" << endl;
+    cout << "\n--- Р­РўРђРџ 11: РЎСЂР°РІРЅРµРЅРёРµ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё ---" << endl;
     compareSearchPerformance(largeHt);
     
-    cout << "\n????????????????????????????????????????????????????????" << endl;
-      cout << "?       КОМПЛЕКСНОЕ ТЕСТИРОВАНИЕ ЗАВЕРШЕНО             ?" << endl;
-      cout << "????????????????????????????????????????????????????????\n" << endl;
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘       РљРћРњРџР›Р•РљРЎРќРћР• РўР•РЎРўРР РћР’РђРќРР• Р—РђР’Р•Р РЁР•РќРћ         в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ\n" << endl;
 }
 
 // ============================================================
-// ГЛАВНОЕ МЕНЮ И MAIN
+// РўР•РЎРўРР РћР’РђРќРР• РџРћРРЎРљРђ Р’ РўР•РљРЎРўР•
+// ============================================================
+
+void testStringSearch() {
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘     РўР•РЎРўРР РћР’РђРќРР• РђР›Р“РћР РРўРњРћР’ РџРћРРЎРљРђ Р’ РўР•РљРЎРўР•      в•‘" << endl;
+    cout << "в•‘              Р’Р°СЂРёР°РЅС‚ 8 - РљРњРџ Рё Р РµРіСѓР»СЏСЂРєРё         в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ\n" << endl;
+    
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘  Р—РђР”РђР§Рђ 1: РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РїСЂРµС„РёРєСЃР° СЃС‚СЂРѕРєРё  в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+    
+    cout << "\n--- РўРµСЃС‚ 1.1: РџРѕР»РЅС‹Р№ РїСЂРµС„РёРєСЃ РІС…РѕРґРёС‚ РІ СЃС‚СЂРѕРєСѓ ---" << endl;
+    string a1 = "abcdef";
+    string b1 = "123abcdef456";
+    int result1 = findMaxPrefixInString(a1, b1, true);
+    cout << "Р РµР·СѓР»СЊС‚Р°С‚: " << result1 << " (РѕР¶РёРґР°РµС‚СЃСЏ: 6)" << endl;
+    
+    cout << "\n--- РўРµСЃС‚ 1.2: Р§Р°СЃС‚РёС‡РЅС‹Р№ РїСЂРµС„РёРєСЃ ---" << endl;
+    string a2 = "abcdef";
+    string b2 = "123abc456";
+    int result2 = findMaxPrefixInString(a2, b2, true);
+    cout << "Р РµР·СѓР»СЊС‚Р°С‚: " << result2 << " (РѕР¶РёРґР°РµС‚СЃСЏ: 3)" << endl;
+    
+    cout << "\n--- РўРµСЃС‚ 1.3: РџСЂРµС„РёРєСЃ РЅРµ РЅР°Р№РґРµРЅ ---" << endl;
+    string a3 = "xyz";
+    string b3 = "abcdef";
+    int result3 = findMaxPrefixInString(a3, b3, true);
+    cout << "Р РµР·СѓР»СЊС‚Р°С‚: " << result3 << " (РѕР¶РёРґР°РµС‚СЃСЏ: 0)" << endl;
+    
+    cout << "\n--- РўРµСЃС‚ 1.4: Р РµР°Р»СЊРЅС‹Р№ С‚РµРєСЃС‚ ---" << endl;
+    string a5 = "РїСЂРѕРіСЂР°РјРјР°";
+    string b5 = "Р’ СЌС‚РѕРј С‚РµРєСЃС‚Рµ РµСЃС‚СЊ СЃР»РѕРІРѕ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ Рё РµС‰Рµ РїСЂРѕРіСЂР°РјРјР° РїРѕР»РЅРѕСЃС‚СЊСЋ";
+    findMaxPrefixInString(a5, b5, true);
+    
+    cout << "\n\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘  Р—РђР”РђР§Рђ 2: РџРѕРёСЃРє С†РµРЅ РЅР° С‚РѕРІР°СЂС‹ РІ С‚РµРєСЃС‚Рµ         в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+    
+    cout << "\n--- РўРµСЃС‚ 2.1: Р Р°Р·Р»РёС‡РЅС‹Рµ С„РѕСЂРјР°С‚С‹ С†РµРЅ ---" << endl;
+    string text1 = "РўРѕРІР°СЂС‹: РјРѕР»РѕРєРѕ $2.50, С…Р»РµР± 45 СЂСѓР±., СЃС‹СЂ в‚¬12,99, "
+                   "РјР°СЃР»Рѕ 250.00 СЂСѓР±, С‡Р°Р№ в‚Ѕ199, РєРѕС„Рµ USD 15.99";
+    findPricesInText(text1, "", true);
+    
+    cout << "\n--- РўРµСЃС‚ 2.2: Р¦РµРЅС‹ СЃ СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё С‚С‹СЃСЏС‡ ---" << endl;
+    string text2 = "РќРѕСѓС‚Р±СѓРє СЃС‚РѕРёС‚ $1,299.99, С‚РµР»РµС„РѕРЅ - 45 900 СЂСѓР±., "
+                   "РїР»Р°РЅС€РµС‚ EUR 899,50";
+    findPricesInText(text2, "", true);
+    
+    cout << "\n--- РўРµСЃС‚ 2.3: РџРѕРёСЃРє С†РµРЅС‹ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ С‚РѕРІР°СЂР° ---" << endl;
+    string text3 = "Р’ РјР°РіР°Р·РёРЅРµ: РЅРѕСѓС‚Р±СѓРє HP Р·Р° $1,299.99, "
+                   "РЅРѕСѓС‚Р±СѓРє Dell РїРѕ С†РµРЅРµ $899, "
+                   "РЅРѕСѓС‚Р±СѓРє Asus СЃС‚РѕРёС‚ 65,000 СЂСѓР±.";
+    findPricesInText(text3, "РЅРѕСѓС‚Р±СѓРє Asus", true);
+    
+    cout << "\n\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘  РћР¦Р•РќРљРђ РџР РћРР—Р’РћР”РРўР•Р›Р¬РќРћРЎРўР РђР›Р“РћР РРўРњРђ РљРњРџ        в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+    
+    measureKMPPerformance();
+    
+    cout << "\n\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘  Р”Р•РўРђР›Р¬РќР«Р™ РђРќРђР›РР— Р РђР‘РћРўР« РђР›Р“РћР РРўРњРђ РљРњРџ          в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+    
+    cout << "\n--- РЈСЃРїРµС€РЅС‹Р№ РїРѕРёСЃРє ---" << endl;
+    string text5 = "abcabcabdabc";
+    string pattern1 = "abcabd";
+    cout << "РўРµРєСЃС‚: \"" << text5 << "\"" << endl;
+    cout << "РћР±СЂР°Р·РµС†: \"" << pattern1 << "\"" << endl;
+    KMPSearch(text5, pattern1, true);
+    
+    cout << "\n--- РќРµСѓСЃРїРµС€РЅС‹Р№ РїРѕРёСЃРє ---" << endl;
+    string pattern2 = "xyz";
+    cout << "РўРµРєСЃС‚: \"" << text5 << "\"" << endl;
+    cout << "РћР±СЂР°Р·РµС†: \"" << pattern2 << "\"" << endl;
+    KMPSearch(text5, pattern2, true);
+    
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘          РўР•РЎРўРР РћР’РђРќРР• РЈРЎРџР•РЁРќРћ Р—РђР’Р•Р РЁР•РќРћ          в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ\n" << endl;
+}
+
+// ============================================================
+// Р“Р›РђР’РќРћР• РњР•РќР® Р MAIN
 // ============================================================
 
 void showMenu() {
-    cout << "\n????????????????????????????????????????????????????????" << endl;
-      cout << "?        ПРАКТИЧЕСКИЕ РАБОТЫ - ВАРИАНТ 8               ?" << endl;
-      cout << "????????????????????????????????????????????????????????" << endl;
-    cout << "\nВыберите задачу для тестирования:\n" << endl;
+    cout << "\nв•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—" << endl;
+    cout << "в•‘        РџР РђРљРўРР§Р•РЎРљРР• Р РђР‘РћРўР« - Р’РђР РРђРќРў 8           в•‘" << endl;
+    cout << "в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ" << endl;
+    cout << "\nР’С‹Р±РµСЂРёС‚Рµ Р·Р°РґР°С‡Сѓ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ:\n" << endl;
 
-    cout << "\n1. Практическая работа 6.1 - Хеш-таблицы" << endl;
-    cout << "   • Управление книгами через хеш-таблицу" << endl;
-    cout << "   • Двойное хеширование" << endl;
-    cout << "   • Прямой доступ к файлу" << endl;
+    cout << "1. РџР  6.1 - РРЅС‚РµСЂР°РєС‚РёРІРЅР°СЏ СЂР°Р±РѕС‚Р° СЃ С…РµС€-С‚Р°Р±Р»РёС†РµР№" << endl;
+    cout << "   вЂў Р”РѕР±Р°РІР»РµРЅРёРµ/СѓРґР°Р»РµРЅРёРµ РєРЅРёРі" << endl;
+    cout << "   вЂў РџРѕРёСЃРє РїРѕ ISBN" << endl;
+    cout << "   вЂў РџСЂРѕСЃРјРѕС‚СЂ С‚Р°Р±Р»РёС†С‹" << endl;
     
-    cout << "\n2. Практическая работа 6.2 - Поиск в тексте" << endl;
-    cout << "   • Алгоритм Кнута-Мориса-Пратта" << endl;
-    cout << "   • Поиск максимального префикса" << endl;
-    cout << "   • Поиск цен регулярными выражениями" << endl;
+    cout << "\n2. РџР  6.1 - РљРѕРјРїР»РµРєСЃРЅРѕРµ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ" << endl;
+    cout << "   вЂў Р’СЃРµ РѕРїРµСЂР°С†РёРё СЃ С…РµС€-С‚Р°Р±Р»РёС†РµР№" << endl;
+    cout << "   вЂў Р РµС…РµС€РёСЂРѕРІР°РЅРёРµ" << endl;
+    cout << "   вЂў РЎСЂР°РІРЅРµРЅРёРµ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё" << endl;
     
+    cout << "\n3. РџР  6.2 - РџРѕРёСЃРє РІ С‚РµРєСЃС‚Рµ" << endl;
+    cout << "   вЂў РђР»РіРѕСЂРёС‚Рј РљРЅСѓС‚Р°-РњРѕСЂРёСЃР°-РџСЂР°С‚С‚Р°" << endl;
+    cout << "   вЂў РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РїСЂРµС„РёРєСЃР°" << endl;
+    cout << "   вЂў РџРѕРёСЃРє С†РµРЅ СЂРµРіСѓР»СЏСЂРЅС‹РјРё РІС‹СЂР°Р¶РµРЅРёСЏРјРё" << endl;
     
-    cout << "\n0. Выход" << endl;
+    cout << "\n0. Р’С‹С…РѕРґ" << endl;
     
-    cout << "\nВаш выбор: ";
+    cout << "\nР’Р°С€ РІС‹Р±РѕСЂ: ";
 }
 
 int main() {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    
     int choice;
     bool running = true;
     
@@ -1122,25 +1305,31 @@ int main() {
         
         switch (choice) {
             case 1:
-                testFileHash();
-                cout << "\nНажмите Enter для продолжения...";
+                interactiveFileMenu();
+                cout << "\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...";
                 cin.get();
                 break;
                 
             case 2:
+                comprehensiveFileHashTest();
+                cout << "\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...";
+                cin.get();
+                break;
+                
+            case 3:
                 testStringSearch();
-                cout << "\nНажмите Enter для продолжения...";
+                cout << "\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...";
                 cin.get();
                 break;
                 
             case 0:
                 running = false;
-                cout << "\nЗавершение работы программы..." << endl;
+                cout << "\nР—Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹..." << endl;
                 break;
                 
             default:
-                cout << "\nНеверный выбор! Попробуйте снова." << endl;
-                cout << "Нажмите Enter для продолжения...";
+                cout << "\nвњ— РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ! РџРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°." << endl;
+                cout << "РќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...";
                 cin.get();
                 break;
         }
