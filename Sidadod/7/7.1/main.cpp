@@ -55,10 +55,10 @@ private:
     std::string sumOfLeaves(Node* node) {
         // Если узел пустой
         if (node == NULL) {
-            return 0;
+            return "";
         }
         
-        // Если узел - лист, возвращаем его значение (ASCII-код)
+        // Если узел - лист, возвращаем его значение
         if (isLeaf(node)) {
             return std::string(1, node->data);
         }
@@ -82,19 +82,34 @@ private:
         return max(leftHeight, rightHeight) + 1;
     }
 
-    // Вспомогательная функция для вывода дерева
-void printTree(Node* node, int space) {
+    // Улучшенная визуализация дерева с ветками
+    void printTree(Node* node, string prefix, bool isLeft) {
         if (node == NULL) return;
+
+        cout << prefix;
         
-        space += 5;
-        printTree(node->right, space);
+        // Рисуем ветку
+        cout << (isLeft ? "├── " : "└── ");
         
-        cout << endl;
-        for (int i = 5; i < space; i++)
-            cout << " ";
+        // Выводим значение узла
         cout << node->data << endl;
         
-        printTree(node->left, space);
+        // Подготавливаем префикс для детей
+        string childPrefix = prefix + (isLeft ? "│   " : "    ");
+        
+        // Если есть оба ребенка
+        if (node->left != NULL && node->right != NULL) {
+            printTree(node->left, childPrefix, true);
+            printTree(node->right, childPrefix, false);
+        }
+        // Если есть только левый ребенок
+        else if (node->left != NULL) {
+            printTree(node->left, childPrefix, false);
+        }
+        // Если есть только правый ребенок
+        else if (node->right != NULL) {
+            printTree(node->right, childPrefix, false);
+        }
     }
 
 public:
@@ -103,13 +118,13 @@ public:
         root = NULL;
     }
 
-    // Вставка элемента (публичный метод)
+    // Вставка элемента 
     void insert(char value) {
         root = insertNode(root, value);
         cout << "Элемент '" << value << "' добавлен в дерево." << endl;
     }
 
-    // Симметричный обход (публичный метод)
+    // Симметричный обход 
     void inorder() {
         cout << "Симметричный обход дерева: ";
         if (root == NULL) {
@@ -120,7 +135,7 @@ public:
         cout << endl;
     }
 
-    // Найти сумму значений листьев (публичный метод)
+    // Найти сумму значений листьев 
     void findSumOfLeaves() {
         if (root == NULL) {
             cout << "Дерево пусто!" << endl;
@@ -131,7 +146,7 @@ public:
         cout << "Сумма листьев (строка): " << sum << endl;
     }
 
-    // Найти высоту дерева (публичный метод)
+    // Найти высоту дерева 
     void findHeight() {
         if (root == NULL) {
             cout << "Дерево пусто! Высота = 0" << endl;
@@ -142,14 +157,26 @@ public:
         cout << "Высота дерева: " << height << endl;
     }
 
-    // Визуализация дерева
+    // Визуализация дерева с ветками
     void display() {
         if (root == NULL) {
             cout << "Дерево пусто!" << endl;
             return;
         }
-        cout << "\nВизуализация дерева (повернуто на 90°):" << endl;
-        printTree(root, 10);
+        cout << "\nВизуализация дерева:" << endl;
+        cout << root->data << endl;
+        
+        string prefix = "";
+        if (root->left != NULL && root->right != NULL) {
+            printTree(root->left, prefix, true);
+            printTree(root->right, prefix, false);
+        }
+        else if (root->left != NULL) {
+            printTree(root->left, prefix, false);
+        }
+        else if (root->right != NULL) {
+            printTree(root->right, prefix, false);
+        }
         cout << endl;
     }
 

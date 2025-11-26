@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Как помочь птенцу? - Птицы Москвы</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,100..900;1,100..900&family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: "Alumni Sans", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 57;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #06192c;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      text-decoration: none;
+      color: #4a6b2f;
+      margin: 0 0 15px 0;
+    }
+
+    p {
+      color: #06192c;
+      font-size: 1.2em;
+      line-height: 1.6;
+      margin: 0 0 15px 0;
+    }
+
+    a {
+      color: #06192c;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ШАПКА */
+    header {
+      background: #ffffff;
+      margin: 0.5%;
+      padding: 20px;
+      padding-bottom: 10px;
+      display: flex;
+      border-radius: 10px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header p, header h1 {
+      color: #06192c;
+    }
+
+    header .left-elem {
+      display: flex;
+    }
+
+    header .logo {
+      width: 55px;
+      height: auto;
+      padding-top: 2%;
+      align-self: center;
+    }
+
+    header .name {
+      display: flex;
+      flex-direction: column;
+      align-items: last baseline;
+    }
+
+    header .name h1 {
+      font-size: 250%;
+      font-weight: normal;
+      margin-left: -10%;
+    }
+
+    header .name p {
+      font-size: 130%;
+      margin-top: -5%;
+      padding-right: 27.5%;
+    }
+
+    header .right-elem {
+      display: flex;
+      width: 50%;
+      gap: 10%;
+      justify-content: end;
+      padding-right: 3%;
+    }
+
+    header .right-elem a {
+      font-size: 100%;
+      border: solid;
+      border-radius: 7%;
+      padding: 0.5%;
+      padding-left: 3%;
+      padding-right: 3%;
+    }
+
+    header .right-elem a:hover {
+      text-decoration: none;
+      font-weight: bolder;
+      background-color: #eae9e9;
+    }
+
+    /* ОСНОВНОЙ КОНТЕНТ */
+    main {
+      margin: 1%;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 20px;
+    }
+
+    /* БОКОВАЯ НАВИГАЦИЯ */
+    nav {
+      background: #405b22;
+      padding: 20px;
+      border-radius: 10px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    nav strong {
+      color: #fdfdfd;
+      font-size: 1.5em;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    nav a {
+      display: block;
+      color: #fdfdfd;
+      padding: 10px 0;
+      font-size: 1.2em;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    nav a:hover {
+      color: #f2fde6;
+      padding-left: 10px;
+      text-decoration: none;
+    }
+
+    /* КОНТЕНТ СТАТЬИ */
+    article {
+      background: #fdfdfd;
+      border-radius: 10px;
+      padding: 40px;
+    }
+
+    article h1 {
+      font-size: 3em;
+      color: #4a6b2f;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #405b22;
+      padding-bottom: 15px;
+    }
+
+    article h2 {
+      font-size: 2em;
+      color: #4a6b2f;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    article h3 {
+      font-size: 1.5em;
+      color: #4a6b2f;
+      margin-top: 20px;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 1em;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .warning-box {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .warning-box h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .warning-box p {
+      color: #856404;
+      margin-bottom: 0;
+    }
+
+    .info-box {
+      background: #d1ecf1;
+      border-left: 4px solid #0c5460;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .info-box h3 {
+      color: #0c5460;
+      margin-top: 0;
+    }
+
+    .info-box p {
+      color: #0c5460;
+      margin-bottom: 0;
+    }
+
+    .steps-list {
+      counter-reset: step-counter;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      margin-bottom: 30px;
+      padding-left: 60px;
+      position: relative;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #405b22;
+      color: #fdfdfd;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    /* ПОДВАЛ */
+    footer {
+      background: #405b22;
+      color: #fdfdfd;
+      padding: 30px;
+      text-align: center;
+      margin: 1%;
+      border-radius: 10px;
+    }
+
+    footer h2 {
+      color: #fdfdfd;
+      margin-bottom: 15px;
+    }
+
+    footer p {
+      color: #fdfdfd;
+      margin: 10px 0;
+    }
+
+    footer a {
+      color: #f2fde6;
+    }
+
+    footer a:hover {
+      color: #fdfdfd;
+    }
+
+    /* МОБИЛЬНЫЕ СТИЛИ */
+    @media screen and (max-width: 800px) {
+      header .logo {
+        width: 20%;
+        padding-top: 5%;
+      }
+
+      header .name h1 {
+        font-size: 180%;
+        margin-left: -15%;
+        margin-top: 20%;
+      }
+
+      header .name p {
+        font-size: 130%;
+        padding-right: 21%;
+      }
+
+      header .right-elem {
+        display: none;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+      }
+
+      article {
+        padding: 20px;
+      }
+
+      article h1 {
+        font-size: 2em;
+      }
+
+      .steps-list li {
+        padding-left: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ШАПКА -->
+  <header>
+    <div class="left-elem">
+      <div class="logo">
+        <img src="Mask group.jpeg" alt="Логотип сайта" />
+      </div>
+      <div class="name">
+        <h1>Птицы Москвы</h1>
+        <p>и подМосковья</p>
+      </div>
+    </div>
+    <div class="right-elem">
+      <a href="birds_main_page.html">Домой</a>
+      <a href="birds_article_page.html">Статьи</a>
+      <a href="birds_classification.html">Справочник</a>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main>
+    <!-- НАВИГАЦИЯ -->
+    <nav>
+      <strong>📑 Содержание</strong>
+      <a href="#intro">Введение</a>
+      <a href="#identification">Определение птенца</a>
+      <a href="#first-aid">Первая помощь</a>
+      <a href="#feeding">Кормление</a>
+      <a href="#contacts">Куда обратиться</a>
+    </nav>
+
+    <!-- СТАТЬЯ -->
+    <article>
+      <h1>Как помочь найденному птенцу?</h1>
+      
+      <div class="article-meta">
+        📅 Опубликовано: 15 марта 2025 | ✍️ Автор: Орнитолог А.В. Петрова
+      </div>
+
+      <section id="intro">
+        <h2>Введение</h2>
+        <p>Весной и летом многие люди находят на земле птенцов. Первое желание — помочь беспомощному созданию. Но прежде чем брать птенца в руки, важно понять, действительно ли он нуждается в помощи.</p>
+        
+        <div class="warning-box">
+          <h3>⚠️ Важно знать!</h3>
+          <p>Не все птенцы на земле — это птенцы в беде. Многие виды птиц покидают гнездо до того, как научатся летать, и родители продолжают их кормить на земле.</p>
+        </div>
+      </section>
+
+      <section id="identification">
+        <h2>Определение состояния птенца</h2>
+        <p>Существует два основных типа птенцов, которых вы можете встретить:</p>
+        
+        <h3>Слёток (Fledgling)</h3>
+        <p>Это подросший птенец, который уже покрыт перьями, хотя хвост может быть ещё коротким. Слётки умеют прыгать, перепархивать, активно реагируют на окружающее. Родители находятся поблизости и кормят их.</p>
+        
+        <h3>Птенец (Nestling)</h3>
+        <p>Это маленький птенец с редким пухом или голой кожей, глаза могут быть закрыты. Такие птенцы не могут самостоятельно передвигаться и нуждаются в постоянном тепле.</p>
+        
+        <div class="info-box">
+          <h3>ℹ️ Что делать со слётком?</h3>
+          <p>Если птенец-слёток активен, не ранен и находится в безопасном месте — оставьте его в покое! Родители рядом. Просто отойдите на безопасное расстояние.</p>
+        </div>
+      </section>
+
+      <section id="first-aid">
+        <h2>Первая помощь</h2>
+        <p>Если вы уверены, что птенец нуждается в помощи (ранен, переохлаждён, долгое время без родителей), следуйте этим шагам:</p>
+        
+        <ul class="steps-list">
+          <li>
+            <strong>Согрейте птенца</strong>
+            <p>Поместите его в картонную коробку с мягкой тканью. Положите рядом бутылку с тёплой (не горячей!) водой, обернутую полотенцем.</p>
+          </li>
+          <li>
+            <strong>Обеспечьте тишину и покой</strong>
+            <p>Закройте коробку крышкой с отверстиями для воздуха. Птенцы очень чувствительны к стрессу — не шумите, не включайте яркий свет.</p>
+          </li>
+          <li>
+            <strong>Не кормите и не поите сразу</strong>
+            <p>Переохлаждённый или травмированный птенец не может переваривать пищу. Дайте ему согреться в течение 1-2 часов.</p>
+          </li>
+          <li>
+            <strong>Свяжитесь со специалистами</strong>
+            <p>Позвоните в ближайший реабилитационный центр для птиц или к орнитологу. Они дадут дальнейшие инструкции.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="feeding">
+        <h2>Кормление птенца</h2>
+        <p>Если вы не можете сразу передать птенца специалистам, вам придётся его кормить. Рацион зависит от вида птицы:</p>
+        
+        <h3>Насекомоядные птицы (воробьи, синицы, соловьи)</h3>
+        <p>Кормите мучными червями, сверчками, личинками. Можно давать варёное яйцо, нежирный творог. Кормить каждые 15-30 минут с рассвета до заката.</p>
+        
+        <h3>Зерноядные птицы (голуби, щеглы)</h3>
+        <p>Размоченные зёрна, каши без соли и сахара. Голубят кормят специальной смесью через шприц.</p>
+        
+        <div class="warning-box">
+          <h3>⚠️ Чего нельзя давать:</h3>
+          <p>Хлеб, молоко, жареную пищу, солёное, сладкое, специи. Это может привести к гибели птенца!</p>
+        </div>
+      </section>
+
+      <section id="contacts">
+        <h2>Куда обратиться за помощью</h2>
+        <p>В Москве и Подмосковье работают организации, которые принимают раненых и осиротевших птиц:</p>
+        
+        <ul>
+          <li><strong>Центр реабилитации птиц «Сирин»</strong> — тел. +7 (495) 123-45-67</li>
+          <li><strong>Приют для диких животных «Ромашка»</strong> — тел. +7 (495) 765-43-21</li>
+          <li><strong>Горячая линия помощи птицам</strong> — тел. +7 (800) 555-35-35</li>
+        </ul>
+        
+        <p>Помните: лучшая помощь — это своевременное обращение к профессионалам. Не пытайтесь вырастить дикую птицу самостоятельно без соответствующих знаний и опыта.</p>
+      </section>
+    </article>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer>
+    <h2>📞 Контактная информация</h2>
+    <p>&copy; 2025 Маленький найденыш - Помощь птенцам Москвы и Подмосковья</p>
+    <address>
+      Разработчик: Дзюба Полина<br>
+      Email: <a href="mailto:burnermail@gmail.com">burnermail@gmail.com</a><br>
+      Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+    </address>
+  </footer>
+</body>
+</html>
