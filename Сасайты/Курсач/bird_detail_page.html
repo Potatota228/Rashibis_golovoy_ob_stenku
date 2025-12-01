@@ -17,7 +17,7 @@
       font-weight: 57;
       margin: 0;
       padding: 0;
-      background: #ffffff;
+      background: #fdfdfd;
       color: #06192c;
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -25,7 +25,7 @@
     }
 
     h1, h2, h3 {
-      color: #4a6b2f;
+      color: #465c75;
       margin: 0 0 15px 0;
     }
 
@@ -52,7 +52,9 @@
 
     /* ШАПКА */
     header {
-      background: #ffffff;
+      font-family: "Alumni Sans", sans-serif;
+      background: #fdfdfd;
+      color: #fdfdfd;
       margin: 0.5%;
       padding: 20px;
       padding-bottom: 10px;
@@ -68,13 +70,18 @@
 
     header .left-elem {
       display: flex;
+      width: auto;
+    }
+    .burger, .burger-checkbox, .menu, .menu-item, .menu-list{
+      display:none;
     }
 
     header .logo {
-      width: 55px;
+      width: 25px;
       height: auto;
       padding-top: 2%;
       align-self: center;
+      padding-right: 10px;
     }
 
     header .name {
@@ -86,13 +93,13 @@
     header .name h1 {
       font-size: 250%;
       font-weight: normal;
-      margin-left: -10%;
     }
 
     header .name p {
       font-size: 130%;
       margin-top: -5%;
-      padding-right: 27.5%;
+      /* padding-right: 27.5%; */
+      padding-left: 58px;
     }
 
     header .right-elem {
@@ -115,8 +122,9 @@
     header .right-elem a:hover {
       text-decoration: none;
       font-weight: bolder;
-      background-color: #eae9e9;
+      background-color: #fdfdfd;
     }
+
 
     /* ОСНОВНОЙ КОНТЕНТ */
     main {
@@ -132,11 +140,11 @@
       gap: 40px;
       margin-bottom: 40px;
       padding-bottom: 30px;
-      border-bottom: 3px solid #405b22;
+      border-bottom: 3px solid #465c75;
     }
 
     .bird-image-container {
-      background: #e0e0e0;
+      background: #fdfdfd;
       border-radius: 10px;
       height: 400px;
       display: flex;
@@ -147,7 +155,7 @@
 
     .bird-title-info h1 {
       font-size: 3.5em;
-      color: #4a6b2f;
+      color: #465c75;
       margin-bottom: 10px;
     }
 
@@ -159,10 +167,10 @@
     }
 
     .classification {
-      background: #f0f7ea;
+      background: #fdfdfd;
       padding: 20px;
       border-radius: 8px;
-      border-left: 4px solid #405b22;
+      border-left: 4px solid #465c75;
     }
 
     .classification h3 {
@@ -178,7 +186,7 @@
     }
 
     .classification-item strong {
-      color: #4a6b2f;
+      color: #465c75;
     }
 
     .characteristics {
@@ -189,7 +197,7 @@
     }
 
     .char-card {
-      background: #f0f7ea;
+      background: #fdfdfd;
       padding: 20px;
       border-radius: 8px;
       text-align: center;
@@ -216,14 +224,14 @@
 
     .content-section h2 {
       font-size: 2.5em;
-      color: #4a6b2f;
+      color: #465c75;
       margin-bottom: 20px;
       padding-bottom: 10px;
-      border-bottom: 2px solid #405b22;
+      border-bottom: 2px solid #465c75;
     }
 
     .info-box {
-      background: #fff3cd;
+      background: #fdfdfd;
       border-left: 4px solid #ffc107;
       padding: 20px;
       margin: 20px 0;
@@ -249,7 +257,7 @@
     }
 
     .gallery-item {
-      background: #e0e0e0;
+      background: #fdfdfd;
       border-radius: 8px;
       height: 200px;
       display: flex;
@@ -261,7 +269,7 @@
     .back-link {
       display: inline-block;
       padding: 12px 24px;
-      background: #405b22;
+      background: #465c75;
       color: #fdfdfd;
       border-radius: 5px;
       text-decoration: none;
@@ -270,13 +278,13 @@
     }
 
     .back-link:hover {
-      background: #4a6b2f;
+      background: #465c75;
       text-decoration: none;
     }
 
     /* ПОДВАЛ */
     footer {
-      background: #405b22;
+      background: #465c75;
       color: #fdfdfd;
       padding: 30px;
       text-align: center;
@@ -295,7 +303,7 @@
     }
 
     footer a {
-      color: #f2fde6;
+      color: #fdfdfd;
     }
 
     footer a:hover {
@@ -304,51 +312,129 @@
 
     /* МОБИЛЬНЫЕ СТИЛИ */
     @media screen and (max-width: 800px) {
-      header .logo {
-        width: 20%;
-        padding-top: 5%;
+       header .logo {
+        width: 10%;
       }
-
-      header .name h1 {
-        font-size: 180%;
-        margin-left: -15%;
-        margin-top: 20%;
-      }
-
-      header .name p {
-        font-size: 130%;
-        padding-right: 21%;
-      }
+      
 
       header .right-elem {
         display: none;
       }
 
-      main {
-        padding: 20px;
+      .hero-section h1 {
+        font-size: 1.7em;
       }
 
-      .bird-header {
-        grid-template-columns: 1fr;
-        gap: 20px;
+      .hero-section img {
+        width: 300px;
       }
 
-      .bird-title-info h1 {
-        font-size: 2.5em;
+      .hero-section p {
+        font-size: 1em;
+        width: 70%;
       }
 
-      .bird-image-container {
-        height: 250px;
-        font-size: 6em;
-      }
-
-      .characteristics {
+      .articles-grid,
+      .birds-grid {
         grid-template-columns: 1fr;
       }
+      .hero-section{
+        width: 70vw;
+    }
+      .burger-checkbox, .menu-item, .menu-list, .burger, .menu{
+  display:block;
+}
+.burger-checkbox {
+  position: absolute;
+  right: 10px;
+  visibility: hidden;
+}
+.burger {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  border: none;
+  background: transparent;
+  width: 40px;
+  height: 26px;
+}
+.burger::before,
+.burger::after {
+  content: '';
+  left: 0;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 10px;
+  background: #06192c;
+}
+.burger::before {
+  top: 0;
+  box-shadow: 0 11px 0 #06192c;
+  transition: box-shadow .3s .15s, top .3s .15s, transform .3s;
+}
+.burger::after {
+  bottom: 0;
+  transition: bottom .3s .15s, transform .3s;
+}
+.burger-checkbox:checked + .burger::before {
+  top: 11px;
+  transform: rotate(45deg);
+  box-shadow: 0 6px 0 #06192c00;
+  transition: box-shadow .15s, top .3s, transform .3s .15s;
+}
+.burger-checkbox:checked + .burger::after {
+  bottom: 11px;
+  transform: rotate(-45deg);
+  transition: bottom .3s, transform .3s .15s;
+}
+.menu-list {
+  z-index: 999;
+  top: 100px;
+  right: -10px;
+  position: absolute;
+  display: grid;
+  gap: 0;
+  padding:12px 0;
+  margin-top: 1.7%;
+  border-radius: 10px;
+  background: #33485f;
+    height: 30.3%;
 
-      .classification-item {
-        grid-template-columns: 1fr;
-      }
+  list-style-type: none;
+  transform: translateX(100%);
+  transition: .7s;
+  width: 70vw;
+  height: 90vw;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: stretch;
+  display: none;
+  
+}
+.menu-item {
+  margin: 40px;
+  display: block;
+  padding: 10px;
+  color: #06192c;
+  background-color: #fdfdfd;
+  border-radius: 60px;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+
+}
+.menu-item:hover {
+  background: rgba(255,255,255,.2)
+}
+.burger-checkbox:checked ~ .menu-list {
+  display:flex;
+  transform: translateX(0);
+}
     }
   </style>
 </head>
@@ -358,7 +444,7 @@
   <header>
     <div class="left-elem">
       <div class="logo">
-        <img src="" alt="Логотип сайта" />
+        <img src="image.png" alt="Логотип сайта" />
       </div>
       <div class="name">
         <h1>Птицы Москвы</h1>
