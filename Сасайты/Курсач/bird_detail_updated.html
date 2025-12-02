@@ -3,27 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Воробей домовый - Птицы Москвы</title>
+  <title></title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,100..900;1,100..900&family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   
+  <link rel="stylesheet" href="../common_styles.css">
+  
   <style>
-    body {
-      font-family: "Alumni Sans", sans-serif;
-      font-optical-sizing: auto;
-      font-weight: 57;
-      margin: 0;
-      padding: 0;
-      background: #fdfdfd;
-      color: #06192c;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      min-height: 100vh;
-    }
-
     h1, h2, h3 {
       color: #465c75;
       margin: 0 0 15px 0;
@@ -35,96 +24,6 @@
       line-height: 1.6;
       margin: 0 0 15px 0;
     }
-
-    a {
-      color: #06192c;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* ШАПКА */
-    header {
-      font-family: "Alumni Sans", sans-serif;
-      background: #fdfdfd;
-      color: #fdfdfd;
-      margin: 0.5%;
-      padding: 20px;
-      padding-bottom: 10px;
-      display: flex;
-      border-radius: 10px;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header p, header h1 {
-      color: #06192c;
-    }
-
-    header .left-elem {
-      display: flex;
-      width: auto;
-    }
-    .burger, .burger-checkbox, .menu, .menu-item, .menu-list{
-      display:none;
-    }
-
-    header .logo {
-      width: 25px;
-      height: auto;
-      padding-top: 2%;
-      align-self: center;
-      padding-right: 10px;
-    }
-
-    header .name {
-      display: flex;
-      flex-direction: column;
-      align-items: last baseline;
-    }
-
-    header .name h1 {
-      font-size: 250%;
-      font-weight: normal;
-    }
-
-    header .name p {
-      font-size: 130%;
-      margin-top: -5%;
-      /* padding-right: 27.5%; */
-      padding-left: 58px;
-    }
-
-    header .right-elem {
-      display: flex;
-      width: 50%;
-      gap: 10%;
-      justify-content: end;
-      padding-right: 3%;
-    }
-
-    header .right-elem a {
-      font-size: 100%;
-      border: solid;
-      border-radius: 7%;
-      padding: 0.5%;
-      padding-left: 3%;
-      padding-right: 3%;
-    }
-
-    header .right-elem a:hover {
-      text-decoration: none;
-      font-weight: bolder;
-      background-color: #fdfdfd;
-    }
-
 
     /* ОСНОВНОЙ КОНТЕНТ */
     main {
@@ -282,45 +181,8 @@
       text-decoration: none;
     }
 
-    /* ПОДВАЛ */
-    footer {
-      background: #465c75;
-      color: #fdfdfd;
-      padding: 30px;
-      text-align: center;
-      margin: 1%;
-      border-radius: 10px;
-    }
-
-    footer h2 {
-      color: #fdfdfd;
-      margin-bottom: 15px;
-    }
-
-    footer p {
-      color: #fdfdfd;
-      margin: 10px 0;
-    }
-
-    footer a {
-      color: #fdfdfd;
-    }
-
-    footer a:hover {
-      color: #fdfdfd;
-    }
-
     /* МОБИЛЬНЫЕ СТИЛИ */
     @media screen and (max-width: 800px) {
-       header .logo {
-        width: 10%;
-      }
-      
-
-      header .right-elem {
-        display: none;
-      }
-
       .hero-section h1 {
         font-size: 1.7em;
       }
@@ -338,103 +200,14 @@
       .birds-grid {
         grid-template-columns: 1fr;
       }
-      .hero-section{
+
+      .hero-section {
         width: 70vw;
-    }
-      .burger-checkbox, .menu-item, .menu-list, .burger, .menu{
-  display:block;
-}
-.burger-checkbox {
-  position: absolute;
-  right: 10px;
-  visibility: hidden;
-}
-.burger {
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  display: block;
-  position: relative;
-  border: none;
-  background: transparent;
-  width: 40px;
-  height: 26px;
-}
-.burger::before,
-.burger::after {
-  content: '';
-  left: 0;
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 4px;
-  border-radius: 10px;
-  background: #06192c;
-}
-.burger::before {
-  top: 0;
-  box-shadow: 0 11px 0 #06192c;
-  transition: box-shadow .3s .15s, top .3s .15s, transform .3s;
-}
-.burger::after {
-  bottom: 0;
-  transition: bottom .3s .15s, transform .3s;
-}
-.burger-checkbox:checked + .burger::before {
-  top: 11px;
-  transform: rotate(45deg);
-  box-shadow: 0 6px 0 #06192c00;
-  transition: box-shadow .15s, top .3s, transform .3s .15s;
-}
-.burger-checkbox:checked + .burger::after {
-  bottom: 11px;
-  transform: rotate(-45deg);
-  transition: bottom .3s, transform .3s .15s;
-}
-.menu-list {
-  z-index: 999;
-  top: 100px;
-  right: -10px;
-  position: absolute;
-  display: grid;
-  gap: 0;
-  padding:12px 0;
-  margin-top: 1.7%;
-  border-radius: 10px;
-  background: #33485f;
-    height: 30.3%;
+      }
 
-  list-style-type: none;
-  transform: translateX(100%);
-  transition: .7s;
-  width: 70vw;
-  height: 90vw;
-  display: flex;
-  flex-direction: column;
-  justify-content:center;
-  align-items: stretch;
-  display: none;
-  
-}
-.menu-item {
-  margin: 40px;
-  display: block;
-  padding: 10px;
-  color: #06192c;
-  background-color: #fdfdfd;
-  border-radius: 60px;
-  font-size: 20px;
-  text-align: center;
-  text-decoration: none;
-
-}
-.menu-item:hover {
-  background: rgba(255,255,255,.2)
-}
-.burger-checkbox:checked ~ .menu-list {
-  display:flex;
-  transform: translateX(0);
-}
+      .bird-header {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -444,18 +217,26 @@
   <header>
     <div class="left-elem">
       <div class="logo">
-        <img src="image.png" alt="Логотип сайта" />
+        <img src="../imgs/logo.png" alt="Логотип сайта" />
       </div>
       <div class="name">
         <h1>Птицы Москвы</h1>
-        <p>и подМосковья</p>
+        <p>и подмосковья</p>
       </div>
     </div>
     <div class="right-elem">
-      <a href="index.html">Домой</a>
-      <a href="index.html#articles">Статьи</a>
-      <a href="classification.html">Справочник</a>
-      <a href="gallery.html">Галерея</a>
+      <a href="birds_main_updated.html">Домой</a>
+      <a href="birds_article_page.html">Статьи</a>
+      <a href="classification_updated.html">Справочник</a>
+    </div>
+    <div class="menu">
+      <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
+      <label for="burger-checkbox" class="burger"></label>
+      <ul class="menu-list">
+        <li><a href="birds_main_updated.html" class="menu-item">Домой</a></li>
+        <li><a href="birds_article_page.html" class="menu-item">Статьи</a></li>
+        <li><a href="classification_updated.html" class="menu-item">Справочник</a></li>
+      </ul>
     </div>
   </header>
 
@@ -464,7 +245,7 @@
     <!-- ЗАГОЛОВОК С ИЗОБРАЖЕНИЕМ -->
     <div class="bird-header">
       <div class="bird-image-container">
-        🐦
+        🦜
       </div>
       
       <div class="bird-title-info">
@@ -549,7 +330,7 @@
         <p>Воробьи могут совершать набеги на сельскохозяйственные поля и наносить ущерб урожаю, но в то же время они уничтожают огромное количество вредных насекомых, принося пользу сельскому хозяйству.</p>
       </div>
     </section>
-
+ 
     <!-- РАЗМНОЖЕНИЕ -->
     <section class="content-section">
       <h2>🥚 Размножение</h2>
@@ -574,14 +355,14 @@
     <section class="content-section">
       <h2>📸 Фотогалерея</h2>
       <div class="gallery-grid">
-        <div class="gallery-item">🐦</div>
+        <div class="gallery-item">🦜</div>
         <div class="gallery-item">🐣</div>
         <div class="gallery-item">🪺</div>
         <div class="gallery-item">🦜</div>
       </div>
     </section>
 
-    <a href="index.html" class="back-link">← Вернуться к списку птиц</a>
+    <a href="birds_main_updated.html" class="back-link">← Вернуться к списку птиц</a>
   </main>
 
   <!-- ПОДВАЛ -->
