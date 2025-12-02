@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практическая работа №9 - Птицы Подмосковья</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #405b22;
+      --light-green: #5b911d;
+      --dark-green: #254228;
+      --bg-light: #f2fde6;
+      --text-dark: #4a6b2f;
+      --white: #fdfdfd;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Pangolin", cursive;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-green);
+      margin: 2rem 0 3rem;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .task-section {
+      background: var(--glass-bg);
+      padding: 2rem;
+      border-radius: 20px;
+      margin-bottom: 3rem;
+      box-shadow: 0 8px 32px var(--shadow-light);
+    }
+
+    .task-section h2 {
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    .task-section p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Задание 1: Капча */
+    .captcha-container {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .captcha-display {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: 15px;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 0.5rem;
+      margin: 1rem 0;
+      border: 2px solid var(--primary-green);
+    }
+
+    .captcha-input {
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: 2px solid var(--light-green);
+      border-radius: 10px;
+      margin: 1rem 0;
+      width: 100%;
+      max-width: 300px;
+      font-family: "Inter", sans-serif;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      background: var(--primary-green);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--light-green);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow-medium);
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+      font-weight: bold;
+    }
+
+    .error {
+      background: #ffe6e6;
+      color: #d32f2f;
+    }
+
+    .success {
+      background: #e6ffe6;
+      color: #2e7d32;
+    }
+
+    /* Задание 3: Кнопка "Нравится" */
+    .like-button {
+      padding: 1.5rem 3rem;
+      font-size: 1.5rem;
+      background: var(--white);
+      color: var(--primary-green);
+      border: 3px solid var(--primary-green);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .like-button.liked {
+      background: var(--primary-green);
+      color: var(--white);
+    }
+
+    /* Задание 4: Рисование за курсором */
+    .drawing-area {
+      position: relative;
+      height: 400px;
+      background: var(--white);
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .drawing-particle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 2s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+
+    .controls {
+      margin: 1rem 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐦 Практическая работа №9 - JavaScript Основы</h1>
+
+    <!-- Задание 1: Капча -->
+    <section class="task-section">
+      <h2>Задание 1: Проверка капчи</h2>
+      <p>Система проверки с двумя уровнями: буквенная капча и числовая капча</p>
+      
+      <div class="captcha-container">
+        <div id="captchaDisplay" class="captcha-display"></div>
+        <input type="text" id="captchaInput" class="captcha-input" placeholder="Введите капчу">
+        <div id="captchaMessage"></div>
+        <button id="captchaRefresh" class="btn">🔄 Обновить капчу</button>
+        <button id="submitBtn" class="btn" disabled>Отправить форму</button>
+      </div>
+    </section>
+
+    <!-- Задание 2: Логин -->
+    <section class="task-section">
+      <h2>Задание 2: Проверка логина и пароля</h2>
+      <p>Попробуйте войти (логин: "Админ", пароль: "Я главный")</p>
+      
+      <div class="captcha-container">
+        <button id="loginBtn" class="btn">🔐 Войти в систему</button>
+        <div id="loginMessage"></div>
+      </div>
+    </section>
+
+    <!-- Задание 3: Кнопка "Нравится" -->
+    <section class="task-section">
+      <h2>Задание 3: Кнопка "Нравится"</h2>
+      <p>Нажмите на кнопку, чтобы изменить её состояние</p>
+      
+      <div class="captcha-container">
+        <button id="likeBtn" class="like-button">❤️ Нравится</button>
+      </div>
+    </section>
+
+    <!-- Задание 4: Рисование -->
+    <section class="task-section">
+      <h2>Задание 4: Рисование за курсором</h2>
+      <p>Включите режим рисования и двигайте мышью по области</p>
+      
+      <div class="controls">
+        <button id="drawToggle" class="btn">🎨 Включить рисование</button>
+        <button id="clearCanvas" class="btn">🗑️ Очистить</button>
+      </div>
+      <div id="drawingArea" class="drawing-area"></div>
+    </section>
+  </div>
+
+  <script>
+    'use strict';
+
+    // ========== ЗАДАНИЕ 1: КАПЧА ==========
+    let currentCaptcha = '';
+    let captchaType = 'letters'; // 'letters' или 'numbers'
+    let captchaAttempts = 0;
+
+    function generateLetterCaptcha() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      let captcha = '';
+      for (let i = 0; i < 6; i++) {
+        captcha += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return captcha;
+    }
+
+    function generateNumberCaptcha() {
+      const num1 = Math.floor(Math.random() * 20) + 1;
+      const num2 = Math.floor(Math.random() * 20) + 1;
+      currentCaptcha = (num1 + num2).toString();
+      return `${num1} + ${num2} = ?`;
+    }
+
+    function updateCaptcha() {
+      const display = document.getElementById('captchaDisplay');
+      if (captchaType === 'letters') {
+        currentCaptcha = generateLetterCaptcha();
+        display.textContent = currentCaptcha;
+      } else {
+        display.textContent = generateNumberCaptcha();
+      }
+      document.getElementById('captchaInput').value = '';
+      document.getElementById('captchaMessage').innerHTML = '';
+    }
+
+    function isEmpty(str) {
+      return !str || str.trim() === '';
+    }
+
+    function checkCaptcha() {
+      const input = document.getElementById('captchaInput').value;
+      const messageDiv = document.getElementById('captchaMessage');
+      
+      if (isEmpty(input)) {
+        messageDiv.innerHTML = '<div class="message error">⚠️ Поле не может быть пустым!</div>';
+        return;
+      }
+
+      if (input === currentCaptcha) {
+        messageDiv.innerHTML = '<div class="message success">✅ Капча верна! Форма активирована.</div>';
+        document.getElementById('submitBtn').disabled = false;
+        captchaAttempts = 0;
+      } else {
+        captchaAttempts++;
+        if (captchaAttempts >= 2 && captchaType === 'letters') {
+          captchaType = 'numbers';
+          messageDiv.innerHTML = '<div class="message error">❌ Неверно! Попробуйте числовую капчу.</div>';
+          setTimeout(updateCaptcha, 1500);
+        } else {
+          messageDiv.innerHTML = '<div class="message error">❌ Неверно! Попробуйте ещё раз.</div>';
+          updateCaptcha();
+        }
+      }
+    }
+
+    document.getElementById('captchaRefresh').addEventListener('click', updateCaptcha);
+    document.getElementById('captchaInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkCaptcha();
+    });
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      alert('Форма успешно отправлена! 🎉');
+    });
+
+    updateCaptcha();
+
+    // ========== ЗАДАНИЕ 2: ЛОГИН ==========
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const messageDiv = document.getElementById('loginMessage');
+      
+      const login = prompt('Кто там?');
+      
+      if (login === null) {
+        messageDiv.innerHTML = '<div class="message">Отменено</div>';
+        return;
+      }
+      
+      if (isEmpty(login)) {
+        messageDiv.innerHTML = '<div class="message error">Логин не может быть пустым!</div>';
+        return;
+      }
+      
+      if (login !== 'Админ') {
+        messageDiv.innerHTML = '<div class="message error">Я вас не знаю</div>';
+        return;
+      }
+      
+      const password = prompt('Пароль?');
+      
+      if (password === null) {
+        messageDiv.innerHTML = '<div class="message">Отменено</div>';
+        return;
+      }
+      
+      if (isEmpty(password)) {
+        messageDiv.innerHTML = '<div class="message error">Пароль не может быть пустым!</div>';
+        return;
+      }
+      
+      if (password === 'Я главный') {
+        messageDiv.innerHTML = '<div class="message success">✅ Здравствуйте, Админ!</div>';
+      } else {
+        messageDiv.innerHTML = '<div class="message error">❌ Неверный пароль</div>';
+      }
+    });
+
+    // ========== ЗАДАНИЕ 3: КНОПКА "НРАВИТСЯ" ==========
+    const likeBtn = document.getElementById('likeBtn');
+    likeBtn.addEventListener('click', () => {
+      likeBtn.classList.toggle('liked');
+      if (likeBtn.classList.contains('liked')) {
+        likeBtn.textContent = '💚 Понравилось';
+      } else {
+        likeBtn.textContent = '❤️ Нравится';
+      }
+    });
+
+    // ========== ЗАДАНИЕ 4: РИСОВАНИЕ ==========
+    let isDrawing = false;
+    const drawingArea = document.getElementById('drawingArea');
+    const drawToggle = document.getElementById('drawToggle');
+    const clearCanvas = document.getElementById('clearCanvas');
+
+    const colors = ['#405b22', '#5b911d', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24'];
+
+    drawToggle.addEventListener('click', () => {
+      isDrawing = !isDrawing;
+      drawToggle.textContent = isDrawing ? '⏸️ Остановить рисование' : '🎨 Включить рисование';
+      drawToggle.style.background = isDrawing ? '#d32f2f' : '';
+    });
+
+    clearCanvas.addEventListener('click', () => {
+      drawingArea.innerHTML = '';
+    });
+
+    drawingArea.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      
+      const rect = drawingArea.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const particle = document.createElement('div');
+      particle.className = 'drawing-particle';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      drawingArea.appendChild(particle);
+      
+      setTimeout(() => particle.remove(), 2000);
+    });
+  </script>
+</body>
+</html>

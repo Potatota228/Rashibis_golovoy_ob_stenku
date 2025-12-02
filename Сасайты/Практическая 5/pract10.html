@@ -1,0 +1,149 @@
+
+<!-- FILE: practice10.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практика 10 - Корзина и Accumulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary-green:#405b22;--light-green:#5b911d;--bg-light:#f2fde6;--text-dark:#4a6b2f;--white:#fdfdfd;--glass-bg:rgba(255,255,255,0.9)}
+    *{box-sizing:border-box}
+    body{font-family:Pangolin, cursive;background:var(--bg-light);color:var(--text-dark);padding:2rem}
+    .container{max-width:1000px;margin:0 auto}
+    h1{text-align:center;color:var(--primary-green)}
+    .card{background:var(--glass-bg);padding:1.5rem;border-radius:18px;margin-bottom:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{padding:0.6rem 1rem;background:var(--primary-green);color:var(--white);border:none;border-radius:10px;cursor:pointer}
+    input[type="text"], input[type="number"]{padding:0.6rem;border-radius:8px;border:2px solid var(--light-green);font-family:Inter, sans-serif}
+    .cart{margin-top:1rem}
+    .product{display:flex;justify-content:space-between;padding:0.6rem;border-bottom:1px dashed rgba(0,0,0,0.05)}
+    .muted{color:#6b8b47;font-size:0.9rem}
+    .note{font-size:0.9rem;color:#4a6b2f;margin-top:0.4rem}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Практика 10 — Корзина и Accumulator</h1>
+
+    <section class="card">
+      <h2>1) «Корзина» — базовый функционал</h2>
+      <div class="controls">
+        <input id="itemName" type="text" placeholder="Название товара" />
+        <input id="itemPrice" type="number" placeholder="Цена" />
+        <button id="addItem" class="btn">Добавить в корзину</button>
+        <button id="showCart" class="btn">Показать корзину</button>
+        <button id="clearCart" class="btn">Очистить корзину</button>
+      </div>
+      <div id="cartList" class="cart"></div>
+      <div class="note">Поддерживается подсчёт количества и итоговой стоимости (см. Практика 11 для расширения).</div>
+    </section>
+
+    <section class="card">
+      <h2>2) Accumulator (функция-конструктор)</h2>
+      <p class="muted">Accumulator хранит текущее значение в <code>value</code>. Метод <code>read()</code> спрашивает число и прибавляет его к value.</p>
+      <div class="controls">
+        <input id="accStart" type="number" placeholder="Начальное значение" />
+        <button id="createAcc" class="btn">Создать Accumulator</button>
+        <button id="accRead" class="btn" disabled>read()</button>
+        <button id="accShow" class="btn" disabled>Показать value</button>
+      </div>
+      <div id="accOutput" style="margin-top:0.8rem"></div>
+    </section>
+
+    <section class="card">
+      <h2>3) Функция truncate(str, maxlength)</h2>
+      <div class="controls">
+        <input id="truncStr" type="text" placeholder="Текст для усечения" style="flex:1" />
+        <input id="truncLen" type="number" placeholder="maxlength" />
+        <button id="truncBtn" class="btn">Усечь</button>
+      </div>
+      <div id="truncResult" style="margin-top:0.8rem"></div>
+    </section>
+  </div>
+
+  <script>
+    'use strict';
+    // ======= КОРЗИНА =======
+    const cart = [];
+    function renderCart(){
+      const list = document.getElementById('cartList');
+      list.innerHTML = '';
+      if(cart.length === 0){ list.innerHTML = '<div class="muted">Корзина пуста</div>'; return; }
+      cart.forEach((p, idx) => {
+        const el = document.createElement('div'); el.className = 'product';
+        el.innerHTML = `<div><strong>${escapeHtml(p.name)}</strong><div class="muted">Цена: ${p.price} × Кол-во: ${p.qty}</div></div>
+                        <div><button data-idx="${idx}" class="btn" style="background:#d32f2f">Удалить</button></div>`;
+        list.appendChild(el);
+      });
+      const total = cart.reduce((s,i)=> s + i.price * i.qty, 0);
+      const summary = document.createElement('div'); summary.style.marginTop='8px'; summary.innerHTML = `<strong>Итого: ${total}</strong>`;
+      list.appendChild(summary);
+    }
+
+    function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    document.getElementById('addItem').addEventListener('click', ()=>{
+      const name = document.getElementById('itemName').value.trim();
+      const price = Number(document.getElementById('itemPrice').value);
+      if(!name || !price){ alert('Введите название и положительную цену'); return; }
+      const found = cart.find(x=> x.name === name);
+      if(found){ found.qty += 1; } else { cart.push({name, price, qty:1}); }
+      renderCart();
+    });
+
+    document.getElementById('showCart').addEventListener('click', renderCart);
+    document.getElementById('clearCart').addEventListener('click', ()=>{ cart.length = 0; renderCart(); });
+
+    document.getElementById('cartList').addEventListener('click', (e)=>{
+      if(e.target.matches('button[data-idx]')){
+        const idx = +e.target.dataset.idx; cart.splice(idx,1); renderCart();
+      }
+    });
+
+    renderCart();
+
+    // ======= Accumulator =======
+    function Accumulator(startingValue){
+      this.value = Number(startingValue) || 0;
+    }
+    Accumulator.prototype.read = function(){
+      const v = prompt('Введите число для прибавления к value', '0');
+      if(v === null) return; // отмена
+      const n = Number(v);
+      if(isNaN(n)){ alert('Нужно ввести число'); return; }
+      this.value += n;
+    }
+
+    let acc = null;
+    document.getElementById('createAcc').addEventListener('click', ()=>{
+      const start = Number(document.getElementById('accStart').value) || 0;
+      acc = new Accumulator(start);
+      document.getElementById('accRead').disabled = false;
+      document.getElementById('accShow').disabled = false;
+      document.getElementById('accOutput').textContent = `Создан Accumulator с начальным значением ${acc.value}`;
+    });
+    document.getElementById('accRead').addEventListener('click', ()=>{ if(!acc) return; acc.read(); document.getElementById('accOutput').textContent = `value = ${acc.value}`; });
+    document.getElementById('accShow').addEventListener('click', ()=>{ if(!acc) return; alert('Текущее value: ' + acc.value); });
+
+    // ======= truncate =======
+    function truncate(str, maxlength){
+      str = String(str);
+      maxlength = Number(maxlength);
+      if(isNaN(maxlength) || maxlength < 0) return str;
+      if(str.length <= maxlength) return str;
+      return str.slice(0, maxlength - 1) + '…';
+    }
+
+    document.getElementById('truncBtn').addEventListener('click', ()=>{
+      const s = document.getElementById('truncStr').value;
+      const m = Number(document.getElementById('truncLen').value);
+      const res = truncate(s, m);
+      document.getElementById('truncResult').textContent = res;
+    });
+
+  </script>
+</body>
+</html>
+

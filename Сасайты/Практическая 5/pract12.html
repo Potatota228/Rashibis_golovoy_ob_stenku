@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практика 12 — Уведомления, декоратор, список</title>
+  <style>
+    body{font-family:Pangolin,cursive;background:#f2fde6;color:#254228;padding:2rem}
+    .container{max-width:900px;margin:0 auto}
+    h1{text-align:center;color:#405b22}
+    .card{background:#ffffffcc;padding:1.3rem;border-radius:16px;margin-bottom:1.5rem;box-shadow:0 8px 26px rgba(0,0,0,0.06)}
+    .btn{padding:.6rem 1rem;background:#405b22;color:#fff;border:none;border-radius:10px;cursor:pointer}
+    #notifBtn{position:relative}
+    #notifCounter{position:absolute;top:-8px;right:-8px;background:#e63946;color:#fff;border-radius:50%;padding:2px 6px;font-size:.8rem}
+    ul{margin-top:.6rem}
+    .notification{
+      position:fixed;right:20px;top:20px;
+      background:#405b22;color:#fff;padding:1rem 1.2rem;
+      border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.12);
+      opacity:0;transition:.3s;z-index:9999;
+    }
+    .notification.show{opacity:1;top:40px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Практика 12 — Уведомления, декоратор и создание списка</h1>
+
+    <section class="card">
+      <h2>1] Новые уведомления каждые 3 секунды</h2>
+      <button id="notifBtn" class="btn">Уведомления <span id="notifCounter">0</span></button>
+      <p style="margin-top:.6rem;color:#4a6b2f">Нажмите кнопку — счётчик заморозится на 10 секунд.</p>
+    </section>
+
+    <section class="card">
+      <h2>3] Создание списка</h2>
+      <button id="makeList" class="btn">Создать список</button>
+      <ul id="list"></ul>
+    </section>
+  </div>
+
+  <script>
+  'use strict';
+  let newCount = 0;
+  const counterEl = document.getElementById('notifCounter');
+
+  setInterval(() => {
+    newCount++;
+    counterEl.textContent = newCount;
+  }, 3000);
+
+  function delayDecorator(fn, ms){
+    let locked = false;
+    return function(...args){
+      if(locked) return;
+      locked = true;
+      fn.apply(this, args);
+      setTimeout(() => locked = false, ms);
+    };
+  }
+
+  const notifBtn = document.getElementById('notifBtn');
+  notifBtn.addEventListener('click', delayDecorator(() => {
+    newCount = 0;
+    counterEl.textContent = 0;
+  }, 10000));
+
+  function escapeHtml(str){
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  document.getElementById('makeList').addEventListener('click', ()=>{
+    const ul = document.getElementById('list');
+    ul.innerHTML = '';
+    while(true){
+      let item = prompt("Введите пункт списка (Esc или пустая строка — выход):", "");
+      if(item === null || item.trim() === "") break;
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    }
+  });
+
+  function showNotification({text = "Уведомление"} = {}){
+    const div = document.createElement('div');
+    div.className = "notification";
+    div.innerHTML = escapeHtml(text);
+    document.body.appendChild(div);
+    setTimeout(()=> div.classList.add('show'), 20);
+    setTimeout(()=>{
+      div.classList.remove('show');
+      setTimeout(()=> div.remove(), 300);
+    }, 1500);
+  }
+
+  setTimeout(()=> showNotification({text:"Страница загружена!"}), 800);
+  </script>
+</body>
+</html>
