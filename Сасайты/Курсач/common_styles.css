@@ -64,6 +64,14 @@ header p, header h1 {
 header .left-elem {
   display: flex;
   width: auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+header .logo-link {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  
 }
 
 .burger, .burger-checkbox, .menu, .menu-item, .menu-list {
