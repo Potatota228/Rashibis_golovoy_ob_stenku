@@ -126,7 +126,6 @@
       if(act === 'dec'){ arrayRef[idx].qty = Math.max(0, (arrayRef[idx].qty || 0) - 1); }
       if(act === 'del'){ arrayRef.splice(idx,1); if(filteredView){ /* need to remove from original products by id */ const removedId = arrayRef[idx] && arrayRef[idx].id; /* best-effort: rebuild products*/ products = products.filter(p=> arrayRef.findIndex(x=> x.id===p.id)!==-1); }
       }
-      // If filter active, we must reflect changes to original products
       if(filteredView){ // sync by id
         const map = new Map(products.map(p=>[p.id,p]));
         filteredView.forEach(f=>{ const orig = map.get(f.id); if(orig){ orig.qty = f.qty; orig.price = f.price; }});

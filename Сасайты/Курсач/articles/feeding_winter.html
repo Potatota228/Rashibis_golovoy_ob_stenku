@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Как помочь птенцу? - Птицы Москвы</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,100..900;1,100..900&family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   
+  <link rel="stylesheet" href="../common_styles.css">
+  
+  <style>
+    h1, h2, h3 {
+      text-decoration: none;
+      color: #465c75;
+      margin: 0 0 15px 0;
+    }
+
+    p {
+      color: #06192c;
+      font-size: 1.2em;
+      
+      margin: 0 0 15px 0;
+    }
+
+    /* ОСНОВНОЙ КОНТЕНТ */
+    main {
+      margin: 1%;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 20px;
+    }
+
+    /* БОКОВАЯ НАВИГАЦИЯ */
+    nav {
+      background: #465c75;
+      padding: 20px;
+      border-radius: 10px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    nav strong {
+      color: #fdfdfd;
+      font-size: 1.5em;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    nav a {
+      display: block;
+      color: #fdfdfd;
+      padding: 10px 0;
+      font-size: 1.2em;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    nav a:hover {
+      color: #fdfdfd;
+      padding-left: 10px;
+      text-decoration: none;
+    }
+
+    /* КОНТЕНТ СТАТЬИ */
+    article {
+      background: #fdfdfd;
+      border-radius: 10px;
+      padding: 40px;
+    }
+
+    article h1 {
+      font-size: 3em;
+      color: #465c75;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #465c75;
+      padding-bottom: 15px;
+    }
+
+    article h2 {
+      font-size: 2em;
+      color: #465c75;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    article h3 {
+      font-size: 1.5em;
+      color: #465c75;
+      margin-top: 20px;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 1em;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .warning-box {
+      background: #fdfdfd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .warning-box h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .warning-box p {
+      color: #856404;
+      margin-bottom: 0;
+    }
+
+    .info-box {
+      background: #fdfdfd;
+      border-left: 4px solid #0c5460;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .info-box h3 {
+      color: #0c5460;
+      margin-top: 0;
+    }
+
+    .info-box p {
+      color: #0c5460;
+      margin-bottom: 0;
+    }
+
+    .steps-list {
+      counter-reset: step-counter;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      margin-bottom: 30px;
+      padding-left: 60px;
+      position: relative;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #465c75;
+      color: #fdfdfd;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    /* МОБИЛЬНЫЕ СТИЛИ */
+    @media screen and (max-width: 800px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+      }
+
+      article {
+        padding: 20px;
+      }
+
+      article h1 {
+        font-size: 2em;
+      }
+
+      .steps-list li {
+        padding-left: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ШАПКА -->
+  <header>
+    <div class="left-elem">
+      <div class="logo">
+        <img src="../imgs/logo.png" alt="Логотип сайта" />
+      </div>
+      <div class="name">
+        <h1>Птицы Москвы</h1>
+        <p>и подмосковья</p>
+      </div>
+    </div>
+    <div class="right-elem">
+      <a href="birds_main_updated.html">Домой</a>
+      <a href="articles.html">Статьи</a>
+      <a href="classification_updated.html">Справочник</a>
+    </div>
+    <div class="menu">
+      <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
+      <label for="burger-checkbox" class="burger"></label>
+      <ul class="menu-list">
+        <li><a href="birds_main_updated.html" class="menu-item">Домой</a></li>
+        <li><a href="articles.html" class="menu-item">Статьи</a></li>
+        <li><a href="classification_updated.html" class="menu-item">Справочник</a></li>
+      </ul>
+    </div>
+  </header>
+
+ <main>
+    <nav>
+      <strong>📑 Содержание</strong>
+      <a href="#intro">Зачем подкармливать зимой</a>
+      <a href="#what">Что можно давать</a>
+      <a href="#forbidden">Что категорически нельзя</a>
+      <a href="#feeders">Как правильно устроить кормушку</a>
+      <a href="#regime">Режим подкормки</a>
+    </nav>
+
+    <article>
+      <h1>Кормление птиц зимой</h1>
+      
+      <div class="article-meta">
+        Опубликовано: 1 декабря 2025 | Автор: Орнитолог А.В. Петрова
+      </div>
+
+      <section id="intro">
+        <h2>Нужна ли подкормка в городе?</h2>
+        <p>В сильные морозы и гололедицу даже городские птицы могут погибнуть от голода. Регулярная подкормка спасает тысячи синиц, воробьёв и голубей каждую зиму.</p>
+      </section>
+
+      <section id="what">
+        <h2>Разрешённые корма</h2>
+        <ul>
+          <li>Семена подсолнечника (сырые, несолёные) — универсальный корм</li>
+          <li>Овёс, просо, пшеница</li>
+          <li>Несолёное сало, говяжий жир</li>
+          <li>Яблоки, рябина, калина</li>
+          <li>Сушёные насекомые, мучной червь</li>
+          <li>Тёртая морковь, капуста</li>
+        </ul>
+      </section>
+
+      <section id="forbidden">
+        <h2>Запрещённые продукты</h2>
+        <div class="warning-box">
+          <h3>⚠️ Никогда не давайте:</h3>
+          <ul>
+            <li>Чёрный хлеб (вызывает брожение и гибель)</li>
+            <li>Солёное сало, чипсы, сухарики</li>
+            <li>Пшено (горькое и токсичное без оболочки)</li>
+            <li>Молочные продукты</li>
+            <li>Жареные семечки</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="feeders">
+        <h2>Типы кормушек и размещение</h2>
+        <ul>
+          <li>Подвесные на высоте 1,5–2 м — от кошек и воронов</li>
+          <li>С крышей — защита от снега</li>
+          <li>Бункерные — корм не разлетается</li>
+          <li>Не ставьте на землю — риск болезней</li>
+        </ul>
+      </section>
+
+      <section id="regime">
+        <h2>Правильный режим</h2>
+        <p>Подсыпайте корм 1–2 раза в день, лучше утром и в сумерки. Как только началась оттепель — сокращайте подкормку, чтобы птицы искали естественный корм.</p>
+      </section>
+    </article>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer>
+    <h2>📞 Контактная информация</h2>
+    <p>&copy; 2025 Маленький найденыш - Помощь птенцам Москвы и Подмосковья</p>
+    <address>
+      Разработчик: Дзюба Полина<br>
+      Email: <a href="mailto:burnermail@gmail.com">burnermail@gmail.com</a><br>
+      Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+    </address>
+  </footer>
+</body>
+</html>
