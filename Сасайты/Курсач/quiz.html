@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест: Какая ты птица Подмосковья? - Птицы Москвы</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,100..900;1,100..900&family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="common_styles.css">
+  
+  <style>
+    /* ОСНОВНОЙ КОНТЕНТ */
+    main {
+      margin: 1%;
+      padding: 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .quiz-intro {
+      background: #465c75;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      margin: 150px 20px 300px 20px;
+    }
+
+    .quiz-intro h1 {
+      color: #fdfdfd;
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .quiz-intro p {
+      color: #fdfdfd;
+      font-size: 1.3em;
+      margin: 10px 0;
+    }
+
+    .start-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: #fdfdfd;
+      color: #465c75;
+      border-radius: 8px;
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .start-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    /* ВОПРОСЫ */
+    .quiz-container {
+      display: none;
+    }
+
+    .quiz-container.active {
+      display: block;
+    }
+
+    .progress-bar {
+      background: #fdfdfd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 0px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .progress-text {
+      color: #465c75;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .progress-bar-fill {
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      background: #465c75;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .question-card {
+      background: #fdfdfd;
+      border-radius: 10px;
+      padding: 40px;
+      margin: 0px 20px 30px 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .question-card h2 {
+      color: #465c75;
+      font-size: 2em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .option {
+      background: #fdfdfd;
+      border: 3px solid #465c75;
+      border-radius: 10px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.2em;
+      color: #06192c;
+    }
+
+    .option:hover {
+      background: #465c75;
+      color: #fdfdfd;
+      transform: translateX(10px);
+    }
+
+    .option.selected {
+      background: #465c75;
+      color: #fdfdfd;
+      border-color: #33485f;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .nav-button {
+      padding: 12px 30px;
+      background: #465c75;
+      color: #fdfdfd;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Alumni Sans", sans-serif;
+    }
+
+    .nav-button:hover:not(:disabled) {
+      background: #33485f;
+      transform: translateY(-2px);
+    }
+
+    .nav-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* РЕЗУЛЬТАТЫ */
+    .results-container {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .results-container.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      background: #465c75;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: px;
+    }
+
+    .result-card h2 {
+      color: #fdfdfd;
+      font-size: 2.5em;
+      margin-bottom: 50px;
+    }
+
+    .result-image {
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      background: #fdfdfd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 8em;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .result-bird-name {
+      color: #fdfdfd;
+      font-size: 2.5em;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .result-description {
+      background: #fdfdfd;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    .result-description h3 {
+      color: #465c75;
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
+    .result-description p {
+      color: #06192c;
+      font-size: 1.3em;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .result-traits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .trait {
+      background: #465c75;
+      color: #fdfdfd;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .result-button {
+      padding: 15px 30px;
+      background: #fdfdfd;
+      color: #465c75;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Alumni Sans", sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .result-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .result-image img{
+        max-width: 200%;
+        width: 150%;
+        height: auto;
+        object-fit: cover;
+      }
+
+    /* МОБИЛЬНЫЕ СТИЛИ */
+    @media screen and (max-width: 800px) {
+      .quiz-intro {
+      margin: 50px 20px 150px 20px;
+      }
+      .quiz-intro h1 {
+        font-size: 2em;
+      }
+
+      .quiz-intro p {
+        font-size: 1.1em;
+      }
+
+      .question-card {
+        padding: 20px;
+      }
+      .nav-button{
+        margin-bottom: 40px;
+      }
+
+      .question-card h2 {
+        font-size: 1.5em;
+      }
+
+      .option {
+        padding: 15px;
+        font-size: 1.1em;
+      }
+
+      .result-bird-name {
+        font-size: 2em;
+      }
+
+      .result-actions {
+        flex-direction: column;
+      }
+
+      .result-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ШАПКА -->
+  <header>
+    <div class="left-elem">
+  <a href="birds_main_updated.html" class="logo-link">
+    <div class="logo">
+      <img src="imgs/logo.png" alt="Логотип сайта" />
+    </div>
+    <div class="name">
+      <h1>Птицы Москвы</h1>
+      <p>и подмосковья</p>
+    </div>
+  </a>
+</div>
+    <div class="right-elem">
+      <a href="birds_main_updated.html">Домой</a>
+      <a href="articles.html">Статьи</a>
+      <a href="classification_updated.html">Справочник</a>
+    </div>
+    <div class="menu">
+      <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
+      <label for="burger-checkbox" class="burger"></label>
+      <ul class="menu-list">
+        <li><a href="birds_main_updated.html" class="menu-item">Домой</a></li>
+        <li><a href="articles.html" class="menu-item">Статьи</a></li>
+        <li><a href="classification_updated.html" class="menu-item">Справочник</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main>
+    <!-- ВВЕДЕНИЕ -->
+    <div class="quiz-intro" id="intro">
+      <h1>Какая ты птица Подмосковья?</h1>
+      <p>Пройди тест и узнай, какая птица соответствует твоему характеру!</p>
+      <p style="font-size: 1.1em;">Ответь на 8 вопросов, и мы определим твою птицу-двойника</p>
+      <button class="start-button" onclick="startQuiz()">Начать тест!</button>
+    </div>
+
+    <!-- ТЕСТ -->
+    <div class="quiz-container" id="quiz">
+      <!-- Прогресс бар -->
+      <div class="progress-bar">
+        <div class="progress-text">Вопрос <span id="current-question">1</span> из <span id="total-questions">8</span></div>
+        <div class="progress-bar-fill">
+          <div class="progress-bar-inner" id="progress"></div>
+        </div>
+      </div>
+
+      <!-- Вопросы -->
+      <div class="question-card" id="question-container">
+        <h2 id="question-text"></h2>
+        <div class="options" id="options-container"></div>
+      </div>
+
+      <!-- Навигация -->
+      <div class="navigation-buttons">
+        <button class="nav-button" id="prev-button" onclick="previousQuestion()" disabled>← Назад</button>
+        <button class="nav-button" id="next-button" onclick="nextQuestion()" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <!-- РЕЗУЛЬТАТЫ -->
+    <div class="results-container" id="results">
+      <div class="result-card">
+        <h2>🎉 Твоя птица —</h2>
+        <div class="result-image">
+        <img id="result-image" src="" alt="bird result">
+        </div>
+        <div class="result-bird-name" id="result-name"></div>
+      </div>
+
+      <div class="result-description">
+        <h3>Описание</h3>
+        <p id="result-description"></p>
+        
+        <h3>Твои черты характера:</h3>
+        <div class="result-traits" id="result-traits"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="result-button" onclick="restartQuiz()">🔄 Пройти ещё раз</button>
+        <a href="bird_detail_page.html" class="result-button">📖 Узнать больше о птице</a>
+        <a href="birds_main_updated.html" class="result-button">На главную</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer>
+    <h2>📞 Контактная информация</h2>
+    <p>&copy; Птицы Москвы и Подмосковья  2025</p>
+    <address>
+      Разработчик: Дзюба Полина<br>
+      Email: <a href="mailto:burnermail@gmail.com">burnermail@gmail.com</a><br>
+      Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a>
+    </address>
+  </footer>
+
+  <script>
+    // ДАННЫЕ ТЕСТА
+    const quizData = [
+      {
+        question: "Ты умеешь есть вверх ногами?",
+        options: [
+          { text: "Умею", bird: "sparrow" },
+          { text: "Нет", bird: "nightingale" },
+          { text: "Только под водой", bird: "duck" },
+          { text: "Что?", bird: "owl" }
+        ]
+      },
+      {
+        question: "На тебя катится огромный розовый шар, размером с 12-этажное здание. Твои действия?",
+        options: [
+          { text: "Начну кричать", bird: "duck" },
+          { text: "Спрячусь в ближайших кустах", bird: "sparrow" },
+          { text: "Убегу", bird: "nightingale" },
+          { text: "Попытаюсь напугать шар, чтобы он покатился в другую сторону", bird: "owl" }
+        ]
+      },
+      {
+        question: "Любимое время суток?",
+        options: [
+          { text: "Утро", bird: "tit" },
+          { text: "День", bird: "sparrow" },
+          { text: "Вечер", bird: "nightingale" },
+          { text: "Ночь", bird: "owl" }
+        ]
+      },
+      {
+        question: "Твой стиль работы:",
+        options: [
+          { text: "Люблю командную работу", bird: "sparrow" },
+          { text: "Эффективен(на) в одиночку", bird: "owl" },
+          { text: "Тревожно-избегающий", bird: "duck" },
+          { text: "Методично и внимательно", bird: "tit" }
+        ]
+      },
+      {
+        question: "Что тебя больше всего привлекает в путешествиях?",
+        options: [
+          { text: "Новые впечатления и эмоции", bird: "duck" },
+          { text: "Знакомство с культурой", bird: "tit" },
+          { text: "Уединённые места", bird: "nightingale" },
+          { text: "То что они рано или поздно заканчиваются", bird: "owl" }
+        ]
+      },
+      {
+        question: "Какую роль ты обычно играешь в компании?",
+        options: [
+          { text: "Ансамбль", bird: "sparrow" },
+          { text: "Движущая сила", bird: "tit" },
+          { text: "Недопонятый поэт", bird: "nightingale" },
+          { text: "Заложник экстравертов", bird: "owl" }
+        ]
+      },
+      {
+        question: "Как ты принимаешь решения?",
+        options: [
+          { text: "По принципу 'Горит сарай - гори и хата'", bird: "duck" },
+          { text: "Заставляю других решать за меня", bird: "sparrow" },
+          { text: "Слушаю своё сердце", bird: "nightingale" },
+          { text: "Неохотно", bird: "owl" }
+        ]
+      },
+      {
+        question: "Если был(а) предметом?",
+        options: [
+          { text: "Чашка, из которой все пьют по очереди", bird: "sparrow" },
+          { text: "Перо, оставленное на подоконнике", bird: "nightingale" },
+          { text: "Скользкая резиновая уточка", bird: "duck" },
+          { text: "Чучело кота", bird: "owl" },
+          { text: "Лазерная указка", bird: "tit" }
+        ] 
+      }
+    ];
+
+    // РЕЗУЛЬТАТЫ
+    const results = {
+      sparrow: {
+        name: "Воробей домовый",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/House_Sparrow_m_2892.jpg/2560px-House_Sparrow_m_2892.jpg",
+        description: "Все посмотрите на этого экстраверта. Как же он(а) любит быть среди себе подобных. Просто мечтает влится в стаю и прыгать по веткам, звонко чирикая в унисон с сотней таких же голосов.",
+        traits: ["Общительность", "Находчивость", "Социальная адаптивность"],
+        link: "birbs/vorobey_domovoy.html"
+      },
+      nightingale: {
+        name: "Соловей обыкновенный",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/%D0%9E%D0%B1%D1%8B%D0%BA%D0%BD%D0%BE%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D1%81%D0%BE%D0%BB%D0%BE%D0%B2%D0%B5%D0%B9%2C_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.tiff/lossy-page1-2560px-%D0%9E%D0%B1%D1%8B%D0%BA%D0%BD%D0%BE%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D1%81%D0%BE%D0%BB%D0%BE%D0%B2%D0%B5%D0%B9%2C_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D1%81%D0%BA%D0%B0%D1%8F_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C.tiff.jpg",
+        description: "Недопонятный поэт, и этим все сказано.",
+        traits: ["Творчество", "Чувствительность", "Романтизация"],
+        link: "birbs/solovey.html"
+      },
+      duck: {
+        name: "Мандаринка",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Aix_galericulata_%28couple%29.jpg/2560px-Aix_galericulata_%28couple%29.jpg",
+        description: "Утки мандаринки конечно красивые и необычные, но это все еще утки. И еще они из Китая",
+        traits: ["Адаптивность", "Дружелюбие", "Подвижность"],
+        link: "birbs/mandarinka.html"
+      },
+      owl: {
+        name: "Длиннохвостая неясыть",
+        image: "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/366857941/1200",
+        description: "Сова. Они не мудрые, это вредные коты с крыльями",
+        traits: ["Мудрость", "Шучу, не мудрость", "Пугливость", "Сноливость"],
+        link: "birbs/neyasyt.html"
+      },
+      tit: {
+        name: "Большая синица",
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d8/%D0%A1%D0%B8%D0%BD%D0%B8%D1%86%D0%B0_%28Parus_major%2C_fem%29%2C_%D0%91%D0%B8%D1%82%D1%86%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BB%D0%B5%D1%81.jpg",
+        description: "Подвижные и необычно умные птицы. Едят вверх ногами.",
+        traits: ["Актробатика", "Активность", "Яркость"],
+        link: "birbs/sinitsa.html"
+      }
+    };
+
+    // ПЕРЕМЕННЫЕ
+    let currentQuestion = 0;
+    let answers = [];
+
+    // ФУНКЦИИ
+    function startQuiz() {
+      document.getElementById('intro').style.display = 'none';
+      document.getElementById('quiz').classList.add('active');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const question = quizData[currentQuestion];
+      document.getElementById('question-text').textContent = question.question;
+      
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      
+      question.options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        if (answers[currentQuestion] === index) {
+          optionDiv.classList.add('selected');
+        }
+        optionDiv.textContent = option.text;
+        optionDiv.onclick = () => selectOption(index);
+        optionsContainer.appendChild(optionDiv);
+      });
+      
+      updateProgress();
+      updateButtons();
+    }
+
+    function selectOption(index) {
+      answers[currentQuestion] = index;
+      
+      // Визуальное выделение
+      const options = document.querySelectorAll('.option');
+      options.forEach(opt => opt.classList.remove('selected'));
+      options[index].classList.add('selected');
+      
+      document.getElementById('next-button').disabled = false;
+    }
+
+    function updateProgress() {
+      const progress = ((currentQuestion + 1) / quizData.length) * 100;
+      document.getElementById('progress').style.width = progress + '%';
+      document.getElementById('current-question').textContent = currentQuestion + 1;
+      document.getElementById('total-questions').textContent = quizData.length;
+    }
+
+    function updateButtons() {
+      document.getElementById('prev-button').disabled = currentQuestion === 0;
+      
+      const nextButton = document.getElementById('next-button');
+      if (currentQuestion === quizData.length - 1) {
+        nextButton.textContent = 'Узнать результат!';
+      } else {
+        nextButton.textContent = 'Далее →';
+      }
+      
+      nextButton.disabled = answers[currentQuestion] === undefined;
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    }
+
+    function showResults() {
+      // Подсчёт результатов
+      const birdScores = {};
+      
+      answers.forEach((answerIndex, questionIndex) => {
+        const bird = quizData[questionIndex].options[answerIndex].bird;
+        birdScores[bird] = (birdScores[bird] || 0) + 1;
+      });
+      
+      // Находим птицу с максимальным баллом
+      let maxScore = 0;
+      let resultBird = 'sparrow';
+      
+      for (const [bird, score] of Object.entries(birdScores)) {
+        if (score > maxScore) {
+          maxScore = score;
+          resultBird = bird;
+        }
+      }
+      
+      // Отображаем результат
+      const result = results[resultBird];
+      document.getElementById('result-image').src = result.image;
+      document.getElementById('result-name').textContent = result.name;
+      document.getElementById('result-description').textContent = result.description;
+      document.querySelector('.result-actions a[href="bird_detail_page.html"]').setAttribute("href", result.link);
+
+      
+      const traitsContainer = document.getElementById('result-traits');
+      traitsContainer.innerHTML = '';
+      result.traits.forEach(trait => {
+        const traitDiv = document.createElement('div');
+        traitDiv.className = 'trait';
+        traitDiv.textContent = '✨ ' + trait;
+        traitsContainer.appendChild(traitDiv);
+      });
+      
+      // Переключаем экраны
+      document.getElementById('quiz').classList.remove('active');
+      document.getElementById('results').classList.add('active');
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      answers = [];
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('intro').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
